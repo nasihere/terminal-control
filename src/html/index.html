@@ -2,14 +2,15 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>WebSockets - Simple chat</title>
+    <title>Microservices Port Remote</title>
     <!--watch-http-server ./src/html!-->
     <style>
-        * { font-family:tahoma; font-size:12px; padding:0px; margin:0px; }
+        * { font-family:monospace; font-size:16px; padding:0px; margin:0px; }
+        body {background-color: #efefef!important}
         p { line-height:18px; }
-        div { width:500px; margin-left:auto; margin-right:auto;}
-        #content {background:#ddd; border-radius:5px; overflow-y: scroll;
-            border:1px solid #CCC; margin-top:10px; height: 160px; }
+        div { width:1200px; margin-left:auto; margin-right:auto;}
+        #content {background:#2F4F4F; border-radius:8px; overflow-y: scroll;
+            border:1px solid #CCC; margin-top:10px; height: 660px; color:#AADD00; padding: 12px }
         #input { border-radius:2px; border:1px solid #ccc;
             margin-top:10px; padding:5px; width:400px;  }
         #status { width:88px; display:block; float:left; margin-top:15px; }
@@ -26,21 +27,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-<div id="content"><p><span style="color:blue">ROSELCDV0001Z3D</span> @ 14:48: Server running on port 3080
-</p><p><span style="color:blue">ROSELCDV0001Z3D</span> @ 14:48: MONGO CONNECTED
-</p><p><span style="color:blue">ROSELCDV0001Z3D</span> @ 14:48: 
-&gt; user-microservice@1.0.0 start /Users/sayedn/projects/ceh/id-ceh-microservice-user
-&gt; node build/app.js
-
-</p><p><span style="color:false">User Microserice</span> @ 14:48: cd /Users/sayedn/projects/ceh/id-ceh-microservice-user;export NODE_ENV=LOCAL; export NODE_PORT=3080; export debug=info;npm run start;*#*User Microserice</p><p><span style="color:blue">ROSELCDV0001Z3D</span> @ 14:48: MongoDB Connection Closed Successfully!
-</p><p><span style="color:false">User Microserice</span> @ 14:48: lsof -t -i tcp:3080 | xargs kill;*#*User Microserice</p><p><span style="color:blue">ROSELCDV0001Z3D</span> @ 14:48: Server running on port 3080
-</p><p><span style="color:blue">ROSELCDV0001Z3D</span> @ 14:48: MONGO CONNECTED
-</p><p><span style="color:blue">ROSELCDV0001Z3D</span> @ 14:48: 
-&gt; user-microservice@1.0.0 start /Users/sayedn/projects/ceh/id-ceh-microservice-user
-&gt; node build/app.js
-
-</p><p><span style="color:false">User Microserice</span> @ 14:48: cd /Users/sayedn/projects/ceh/id-ceh-microservice-user;export NODE_ENV=LOCAL; export NODE_PORT=3080; export debug=info;npm run start;*#*User Microserice</p>
-
+<div id="content">
 </div>
 <div class="hide">
     <span id="status">Connecting...</span>
@@ -69,7 +56,7 @@
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="/webSocker.js"></script>
+<script src="/webServer.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="/js/root.js"></script>

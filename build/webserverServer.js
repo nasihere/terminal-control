@@ -38,7 +38,7 @@ function execCmd(str, connection) {
     
 }
 // Array with some colors
-var colors = [ 'red', 'green', 'blue', 'magenta', 'purple', 'plum', 'orange' ];
+var colors = [ 'red', 'green', 'white', 'magenta', 'purple', 'plum', 'orange' ];
 // ... in random order
 colors.sort(function(a,b) { return Math.random() > 0.5; } );
 

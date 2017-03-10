@@ -29,16 +29,16 @@ function htmlEntities(str) {
                       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 function execCmd(str, connection) {
-    if (str.indexOf('ping://') !== -1) {
-        pingPort(str.substring(7), connection);
+    if (str.indexOf('pingport://') !== -1) {
+        pingPort(str.substring(11).split('*#*')[0], connection);
     }
     else {
-        appCmd(str, connection);
+        appCmd(str.split('*#*')[0], connection);
     }
     
 }
 // Array with some colors
-var colors = [ 'red', 'green', 'blue', 'magenta', 'purple', 'plum', 'orange' ];
+var colors = [ 'red', 'green', 'white', 'magenta', 'purple', 'plum', 'orange' ];
 // ... in random order
 colors.sort(function(a,b) { return Math.random() > 0.5; } );
 
@@ -87,8 +87,8 @@ wsServer.on('request', function(request) {
                 var copyMsg = htmlEntities(message.utf8Data);
                 userName = copyMsg.split('*#*')[1];
                 
-                console.log((new Date()) + ' Received Message from '
-                            + userName + ': ' + message.utf8Data);
+                // console.log((new Date()) + ' Received Message from '
+                            // + userName + ': ' + message.utf8Data);
                 execCmd(message.utf8Data, connection);
                 // we want to keep history of all sent messages
                 var obj = {

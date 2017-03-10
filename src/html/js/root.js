@@ -55,12 +55,13 @@ new Vue({
 
 function checkPortSignal(config, type){
     if (type === 'start') {   
-        var interval = setInterval(function() {
-                $("#"+config.Port).attr('class', 'w_circle');
-                var msg = "pingport://"+config.Port;
-                connection.send(msg + "*#*" + config.name);
-                
-            }, 2000);
+        const execPing = function() {
+            $("#"+config.Port).attr('class', 'w_circle');
+            var msg = "pingport://"+config.Port;
+            setTimeout(function(){connection.send(msg + "*#*" + config.name)},2000);
+            
+        }();
+           var interval = setInterval(execPing, 30000);
         
         portTimer.push(config.Port);
         
@@ -69,6 +70,7 @@ function checkPortSignal(config, type){
     else {
         $("#"+config.Port).attr('class', 'r_circle');
         clearInterval(portTimer[config.Port].interval);
+        delete portTimer[config.Port];
     }
     
     
