@@ -1,7 +1,7 @@
 // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
 "use strict";
-var  appCmd = require('./lib/app-command').default.appCmd;
-var  pingPort = require('./lib/app-command').default.pingPort;
+var  appCmd = require('./lib/app-command').appCmd;
+var  pingPort = require('./lib/app-command').pingPort;
 
 // Optional. You will see this name in eg. 'ps' or 'top' command
 process.title = 'node-chat';
@@ -84,11 +84,13 @@ wsServer.on('request', function(request) {
 
     // user sent some message
     connection.on('message', function(message) {
+        console.log(message)
                 var copyMsg = htmlEntities(message.utf8Data);
                 userName = copyMsg.split('*#*')[1];
                 
                 // console.log((new Date()) + ' Received Message from '
                             // + userName + ': ' + message.utf8Data);
+
                 execCmd(message.utf8Data, connection);
                 // we want to keep history of all sent messages
                 var obj = {
