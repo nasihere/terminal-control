@@ -1,14 +1,14 @@
 var NODECONFIG = [
-	{
+/*	{
 		"key": 4,
 		"name":"4WheelLove",
 		"Port": "3080",
 		"env":"set NODE_ENV=LOCAL; set NODE_PORT=3080; set debug=info;",
 		"command":"npm run start;",
-		"pwd":"C:\Users\Noah\WebstormProjects\4wheellove",
+		"cd":"../4wheellove",
 		"stop":"lsof -t -i tcp:3080 | xargs kill;"
-	},
-       /* {
+	},*/
+        {
             "key": 1,
             "name":"User Microservice", 
             "Port": "3080", 
@@ -34,7 +34,7 @@ var NODECONFIG = [
             "command":"npm run start;", 
             "pwd":"/Users/sayedn/projects/ceh/id-ceh-microservice-tops", 
             "stop":"lsof -t -i tcp:4000 | xargs kill;"
-        }*/
+        }
    
     ];
 var portTimer = [];
@@ -45,7 +45,7 @@ new Vue({
     paginatedItems: NODECONFIG,
     startService: function(config){
         var msg = config.command;
-        var pwd = 'cd ' + config.pwd + ";" ;
+        var pwd = 'cd ' + config.cd + ";" ;
         var env = config.env;
         if (!msg) {
             return;
