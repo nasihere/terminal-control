@@ -25,15 +25,16 @@ $(function () {
         return;
     }
 
-   
     connection.onopen = function () {
         // first we want users to enter their names
+        console.log("ws opened")
         input.removeAttr('disabled');
         status.text('Choose name:');
     };
 
     connection.onerror = function (error) {
         // just in there were some problems with conenction...
+
         content.html($('<p>', { text: 'Sorry, but there\'s some problem with your '
                                     + 'connection or the server is down.' } ));
     };

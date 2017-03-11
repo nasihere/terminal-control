@@ -8,7 +8,7 @@ function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;')
         .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
-child = exec("pwd", function (error, stdout, stderr) {
+child = exec(os.platform() === "win32" ? "cd" : "pwd", function (error, stdout, stderr) {
     console.log('stdout: ' + stdout);
     console.log('stderr: ' + stderr);
     if (error !== null) {

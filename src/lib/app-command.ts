@@ -1,7 +1,7 @@
 // http://nodejs.org/api.html#_child_processes
 var sys = require('sys')
 var os = require('os');
- var userName = os.hostname();
+var userName = os.hostname();
 var exec = require('child_process').exec;
 var child;
 function htmlEntities(str) {
@@ -9,7 +9,9 @@ function htmlEntities(str) {
                       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 // executes `pwd`
-child = exec("pwd", function (error, stdout, stderr) {
+
+
+child = exec(os.platform() === "win32"? "cd": "pwd", function (error, stdout, stderr) {
   console.log('stdout: ' + stdout);
   console.log('stderr: ' + stderr);
   if (error !== null) {

@@ -40,7 +40,7 @@ function execCmd(str, connection) {
 // Array with some colors
 var colors = [ 'red', 'green', 'white', 'magenta', 'purple', 'plum', 'orange' ];
 // ... in random order
-colors.sort(function(a,b) { return Math.random() > 0.5; } );
+colors.sort(function(a,b){ return Math.random() + 0.5; } );
 
 /**
  * HTTP server
@@ -73,7 +73,7 @@ wsServer.on('request', function(request) {
     // we need to know client index to remove them on 'close' event
     var index = clients.push(connection) - 1;
     var userName = os.hostname();
-    var userColor = false;
+    var userColor = "red"; //temp
 
     console.log((new Date()) + ' Connection accepted.');
 
@@ -109,7 +109,7 @@ wsServer.on('request', function(request) {
     });
     // user disconnected
     connection.on('close', function(connection) {
-        if (userName !== false && userColor !== false) {
+        if (userName && userColor ) {
             console.log((new Date()) + " Peer "
                 + connection.remoteAddress + " disconnected.");
             // remove user from the list of connected clients
