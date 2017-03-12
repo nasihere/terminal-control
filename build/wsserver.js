@@ -1,34 +1,31 @@
 "use strict";
-var appCmd = require('./lib/app-command').appCmd;
-var pingPort = require('./lib/app-command').pingPort;
+const app_command_1 = require("./lib/app-command");
+const os = require("os");
+const http = require("http");
+const websocket = require("websocket");
+let webSocketServer = websocket.server;
 process.title = 'node-chat';
-var webSocketsServerPort = 1337;
-var os = require('os');
-var webSocketServer = require('websocket').server;
-var http = require('http');
-var history = [];
-var clients = [];
+let webSocketsServerPort = 1337;
+let history = [];
+let clients = [];
 function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;')
         .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 function execCmd(str, connection) {
     if (str.indexOf('pingport://') !== -1) {
-        pingPort(str.substring(11).split('*#*')[0], connection);
+        app_command_1.pingPort(str.substring(11).split('*#*')[0], connection);
     }
     else {
-        appCmd(str.split('*#*')[0], connection);
+        app_command_1.appCmd(str.split('*#*')[0], connection);
     }
 }
 var colors = ['red', 'green', 'white', 'magenta', 'purple', 'plum', 'orange'];
 colors.sort(function (a, b) { return Math.random() + 0.5; });
-var server = http.createServer(function (request, response) {
-});
-server.listen(webSocketsServerPort, function () {
-    console.log((new Date()) + " Server is listening on port " + webSocketsServerPort);
+exports.server = http.createServer(function (request, response) {
 });
 var wsServer = new webSocketServer({
-    httpServer: server
+    httpServer: exports.server
 });
 wsServer.on('request', function (request) {
     console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
@@ -67,4 +64,4 @@ wsServer.on('request', function (request) {
         }
     });
 });
-//# sourceMappingURL=webserver.js.map
+//# sourceMappingURL=wsserver.js.map

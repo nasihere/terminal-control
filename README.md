@@ -7,7 +7,7 @@ I didn't used any heavy packages such as express, or static server. Everything's
 
 `download the repository`
 `run the tsc command if build folder didn't exists`
-`run the webserver.js -> node build/webserver.js
+`run the wsserver.ts -> node build/wsserver.ts
 `run the static server file -> node build/index.js`
 `configure all the apps in root.js array`
 

@@ -1,5 +1,2 @@
-declare var _default: {
-    appCmd: (cmd: any, connection: any) => void;
-    pingPort: (nodeport: any, connection: any) => void;
-};
-export default _default;
+export declare const appCmd: (cmd: any, connection: any) => void;
+export declare const pingPort: (nodeport: any, connection: any) => void;
