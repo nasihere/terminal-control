@@ -12,3 +12,5 @@ run the `tsc` command if build folder didn't exists
 configure all the apps in `root.js` array`
 
 goto the `localhost:8125/` and start or stop the services in single page.
+
+![Alt text](microservicePortController/Demo - 2017-03-12 at 1.15.59 AM.png?raw=true "DEMO SCREEN")
