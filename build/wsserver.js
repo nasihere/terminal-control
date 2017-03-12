@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const app_command_1 = require("./lib/app-command");
 const os = require("os");
 const http = require("http");

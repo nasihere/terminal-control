@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
@@ -25,7 +26,7 @@ exports.httpServer = http.createServer(function (request, response) {
     console.log('request starting...');
     let requestConfig = {
         uri: url.parse(request.url).pathname,
-        filePath: request.url === "/" ? 'build/html/index.html' : 'build/html/' + request.url,
+        filePath: request.url === "/" ? 'build/htmlv2/index.html' : 'build/htmlv2/' + request.url,
         get filename() { return path.join(process.cwd(), this.uri); },
         get contentType() { return findContentType(path.extname(this.filePath)); }
     };

@@ -1,13 +1,13 @@
 var NODECONFIG = [
-/*	{
-		"key": 4,
-		"name":"4WheelLove",
-		"Port": "3080",
-		"env":"set NODE_ENV=LOCAL; set NODE_PORT=3080; set debug=info;",
-		"command":"npm run start;",
-		"cd":"../4wheellove",
-		"stop":"lsof -t -i tcp:3080 | xargs kill;"
-	},*/
+    /*	{
+    		"key": 4,
+    		"name":"4WheelLove",
+    		"Port": "3080",
+    		"env":"set NODE_ENV=LOCAL; set NODE_PORT=3080; set debug=info;",
+    		"command":"npm run start;",
+    		"cd":"../4wheellove",
+    		"stop":"lsof -t -i tcp:3080 | xargs kill;"
+    	},*/
         {
             "key": 1,
             "name":"User Microservice", 

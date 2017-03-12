@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const httpServer_1 = require("./httpServer");
 const wsserver_1 = require("./wsserver");
 httpServer_1.httpServer.listen(8125, () => {

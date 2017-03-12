@@ -1,0 +1,145 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Documentor - Theme for doc sites</title>
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/fontawesome.css">
+    <link rel="stylesheet" type="text/css" href="css/inconsolata.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/highlight.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css">
+
+    <!-- [if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="/webServer.js"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="/js/root.js"></script>
+
+    <link rel="shortcut icon" href="">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="">
+    <link rel="apple-touch-icon-precomposed" href="">
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+
+          <a class="brand" href="#">Documentor</a>
+
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a href="#">Home</a></li>
+              <li class="active"><a href="#">Documentation</a></li>
+              <li><a href="#">Examples</a></li>
+            </ul>
+
+            <form class="navbar-search pull-left" action="">
+              <input type="text" class="search-query span4" placeholder="Search"/>
+            </form>
+
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">pksunkara<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#"><i class="icon-off"></i>Logout</a></li>
+                  <li><a href="#"><i class="icon-signin"></i>Register</a></li>
+                  <li class="divider"></li>
+                  <li class="nav-header">MANAGE ACCOUNT</li>
+                  <li class="active"><a href="#"><i class="icon-user"></i>Profile</a></li>
+                  <li><a href="#"><i class="icon-cogs"></i>Settings</a></li>
+                </ul>
+              </li>
+              <li class="divider-vertical"></li>
+              <li><a href="#">Edit this page on Github</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Index</li>
+              <li><a href="#">Flatiron</a></li>
+              <li><a href="#">Broadway</a></li>
+              <li><a href="#">Director</a></li>
+              <li><a href="#">Plates</a></li>
+              <li><a href="#">Resourceful</a></li>
+              <li class="active"><a href="#">Union</a></li>
+              <li><a href="#">Winston</a></li>
+              <li class="nav-header">Subnav</a></li>
+              <li><a href="#">Initialization</a></li>
+              <li class="active"><a href="#">Writing middleware</a></li>
+              <li><a href="#">Error handling</a></li>
+              <li><a href="#">Connect compatibility</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="span1">&nbsp;</div>
+
+        <div class="span7">
+          <div class="row-fluid">
+            <div class="span12 document">
+              <h1 class="page-header">Writing middleware</h1>
+              <p>Union is a minimalist middleware framework for node.js. It's minimalist, but extensible. Union's request handling is compatible with `connect`, meaning that all existing `connect-middlewares` should work out of the box with union.</p>
+              <h3>What problem does it solve?</h3>
+              <p>It provides an easy way to interact with requests before and after they are processed. But it's primary value add is that it's a hybrid buffered, streaming middleware kernel that isn't coupled with any other software.</p>
+
+              <div id="content">
+              </div>
+              <div class="hide">
+                  <span id="status">Connecting...</span>
+                  <input type="text" id="input" disabled="disabled" />
+              </div>
+
+              <div id="app">
+                <table class="table">
+                  <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Port</th>
+                      <th>Status</th>
+                      <th colspan="2">Command</th>
+                  </tr>
+                  <tr v-for="item in paginatedItems">
+                      <td>{{item.key}}</td>
+                      <td>{{item.name}}</td>
+                      <td>{{item.Port}}</td>
+                       <td><span class="r_circle" v-bind:id="item.Port">******</span></td>
+                      <td><button v-on:click="startService(item)">Start</button></td>
+                      <td><button v-on:click="stopService(item)">Stop</button></td>
+                      
+                  </tr>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <footer>
+        Copyright &copy; 2012, Pavan Kumar Sunkara
+      </footer>
+    </div>
+  </body>
+</html>
