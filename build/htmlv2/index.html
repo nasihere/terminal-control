@@ -112,7 +112,10 @@
                 </li>
 
                 <li>
-                    <a href="#"><button v-on:click="saveConfig(currentItem)" class="btn-primary span3">Submit</button></a>
+                    <a href="#">
+                        <button v-on:click="saveConfig(currentItem)" class="btn btn-primary ">Submit</button>
+                        <button v-on:click="deleteConfig(currentItem)" class="btn btn-danger ">Delete</button>
+                    </a>
                 </li>
 
                 

@@ -52,14 +52,13 @@ exports.saveConfig = function (newConfig, connection) {
         else {
             obj = JSON.parse(data);
             var pushJson = JSON.parse(newConfig);
-            console.log(pushJson.createdDt);
-            if (pushJson.createdDt === undefined) {
-                pushJson.createdDt = new Date();
+            if (pushJson.identifier === undefined) {
+                pushJson.identifier = new Date();
                 obj.configService.push(pushJson);
             }
             else {
                 obj.configService = obj.configService.map(x => {
-                    if (x.createdDt === pushJson.createdDt) {
+                    if (x.identifier === pushJson.identifier) {
                         return pushJson;
                     }
                     else {
@@ -95,6 +94,38 @@ exports.readConfig = function (connection) {
                     config: JSON.parse(data)
                 }
             }));
+        }
+    });
+};
+exports.deleteConfig = function (identifier, connection) {
+    if (identifier === undefined) {
+        return;
+    }
+    let obj = {
+        configService: []
+    };
+    fs.readFile(configSrc, 'utf8', function readFileCallback(err, data) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            JSON.parse(data).configService.filter(x => {
+                if (x.identifier !== identifier) {
+                    obj.configService.push(x);
+                }
+            });
+            const writeJson = JSON.stringify(obj);
+            fs.writeFile(configSrc, writeJson, 'utf8', (data) => {
+                if (data === null) {
+                    connection.sendUTF(JSON.stringify({
+                        type: 'deleteConfig',
+                        data: {
+                            success: true,
+                            config: JSON.parse(writeJson)
+                        }
+                    }));
+                }
+            });
         }
     });
 };

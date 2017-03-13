@@ -45,6 +45,13 @@ var vm = new Vue({
     readConfig: function() {
         connection.send('readConfig://');
 
+    },
+    deleteConfig: function(config) {
+        var r = confirm("Do you want to remove "+config.name+" service?");
+        if (r == true) {
+            connection.send('deleteConfig://'+config.identifier);
+            location.reload();
+        }
     }
   }
 })

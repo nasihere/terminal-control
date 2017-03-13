@@ -16,6 +16,10 @@ function execCmd(str, connection) {
     if (str.indexOf('readConfig://') !== -1) {
         app_command_1.readConfig(connection);
     }
+    else if (str.indexOf('deleteConfig://') !== -1) {
+        const msg = str.substring(str.indexOf('://') + 3);
+        app_command_1.deleteConfig(msg, connection);
+    }
     else if (str.indexOf('saveConfig://') !== -1) {
         const msg = str.substring(str.indexOf('://') + 3);
         app_command_1.saveConfig(msg, connection);
