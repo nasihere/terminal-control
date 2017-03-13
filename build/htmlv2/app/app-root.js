@@ -1,48 +1,24 @@
-var NODECONFIG = [
-    /*	{
-    		"key": 4,
-    		"name":"4WheelLove",
-    		"Port": "3080",
-    		"env":"set NODE_ENV=LOCAL; set NODE_PORT=3080; set debug=info;",
-    		"command":"npm run start;",
-    		"cd":"../4wheellove",
-    		"stop":"lsof -t -i tcp:3080 | xargs kill;"
-    	},*/
-        {
-            "key": 1,
-            "name":"User Microservice", 
-            "Port": "3080", 
-            "env":"export NODE_ENV=LOCAL; export NODE_PORT=3080; export debug=info;", 
-            "command":"npm run start;", 
-            "cd":"/Users/sayedn/projects/ceh/id-ceh-microservice-user", 
-            "stop":"lsof -t -i tcp:3080 | xargs kill;"
-        },
-        {
-            "key": 2, 
-            "name":"AutoPay Microservice", 
-            "Port": "3090", 
-            "env":"export NODE_ENV=LOCAL; export NODE_PORT=3090; export debug=info;", 
-            "command":"npm run start;", 
-            "cd":"/Users/sayedn/projects/ceh/id-ceh-microservice-autopay", 
-            "stop":"lsof -t -i tcp:3090 | xargs kill;"
-        },
-        {
-            "key": 3, 
-            "name":"TOPs Microservice", 
-            "Port": "4000", 
-            "env":"export NODE_ENV=LOCAL export NODE_PORT=4000; export debug=info;", 
-            "command":"npm run start;", 
-            "cd":"/Users/sayedn/projects/ceh/id-ceh-microservice-tops", 
-            "stop":"lsof -t -i tcp:4000 | xargs kill;"
-        }
-   
-    ];
+var NODECONFIG = [];
 var portTimer = [];
-new Vue({
+var vm = new Vue({
   el: '#app',
   data: {
     message: 'Welcome to NodePorts Monitors',
     paginatedItems: NODECONFIG,
+    currentItem: null,
+    editConfig: function(item){
+        this.currentItem = item;
+    },
+    newConfig: function(){
+          this.currentItem = {
+              "name":"",
+              "Port": "",
+              "env":"",
+              "command":"",
+              "cd":"",
+              "stop":"lsof -t -i tcp:#PORT# | xargs kill;"
+          };
+    },
     startService: function(config){
         var msg = config.command;
         var pwd = 'cd ' + config.cd + ";" ;
@@ -54,30 +30,38 @@ new Vue({
         connection.send(pwd + env + msg + "*#*" + config.name);
         checkPortSignal(config, 'start');
     },
+    setService: function(config){
+        this.paginatedItems = config;
+    },
     stopService: function(config){
-        var msg = config.stop;
+        var msg = config.stop.replace('#PORT#',config.Port);
         connection.send(msg + "*#*" + config.name);
         checkPortSignal(config, 'stop');
+    },
+    saveConfig: function(config) {
+        connection.send('saveConfig://'+JSON.stringify(config));
+        this.currentItem = null;
+    },
+    readConfig: function() {
+        connection.send('readConfig://');
+
     }
   }
 })
-
 function checkPortSignal(config, type){
     if (type === 'start') {   
         const execPing = function() {
-            $("#"+config.Port).attr('class', 'fa fa-pause-circle');
+            $("[port="+config.Port+"]").attr('class', 'fa fa-pause-circle');
             var msg = "pingport://"+config.Port;
             setTimeout(function(){connection.send(msg + "*#*" + config.name)},2000);
             
         }();
-           var interval = setInterval(execPing, 30000);
-        
+        var interval = setInterval(execPing, 30000);
         portTimer.push(config.Port);
-        
         portTimer[config.Port] = {"interval":interval};
     }
     else {
-        $("#"+config.Port).attr('class', 'fa fa-stop-circle');
+        $("[port="+config.Port+"]").attr('class', 'fa fa-stop-circle');
         clearInterval(portTimer[config.Port].interval);
         delete portTimer[config.Port];
     }

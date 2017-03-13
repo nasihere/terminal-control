@@ -1,6 +1,6 @@
 // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
 "use strict";
-import {appCmd, pingPort } from './lib/app-command';
+import {appCmd, pingPort, saveConfig, readConfig } from './lib/app-command';
 import * as os from 'os';
 import * as http from 'http';
 import * as websocket from 'websocket';
@@ -28,8 +28,16 @@ function htmlEntities(str) {
                       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 function execCmd(str, connection) {
-    if (str.indexOf('pingport://') !== -1) {
-        pingPort(str.substring(11).split('*#*')[0], connection);
+    if (str.indexOf('readConfig://') !== -1 ) {
+        readConfig(connection);
+    }
+    else if (str.indexOf('saveConfig://') !== -1 ) {
+        const msg = str.substring(str.indexOf('://')+3);
+        saveConfig(msg, connection);
+    }
+    else if (str.indexOf('pingport://') !== -1) {
+        const msg = str.substring(str.indexOf('://')+3);
+        pingPort(msg.split('*#*')[0], connection);
     }
     else {
         appCmd(str.split('*#*')[0], connection);
@@ -81,9 +89,9 @@ wsServer.on('request', function(request) {
 
     // user sent some message
     connection.on('message', function(message) {
-        console.log(message)
+
                 var copyMsg = htmlEntities(message.utf8Data);
-                userName = copyMsg.split('*#*')[1];
+                userName = copyMsg.split('*#*')[1] || os.hostname();
                 
                 // console.log((new Date()) + ' Received Message from '
                             // + userName + ': ' + message.utf8Data);

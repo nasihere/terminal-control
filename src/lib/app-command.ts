@@ -1,7 +1,10 @@
 // http://nodejs.org/api.html#_child_processes
-
+import * as fs from 'fs';
 import * as os from "os";
 import * as childprocess from 'child_process';
+
+const configSrc = 'build/htmlv2/app/app-config.json';
+
 let exec = childprocess.exec,
 	userName = os.hostname();
 
@@ -62,4 +65,62 @@ export const pingPort = function (nodeport, connection) {
 	child.stderr.on('close', function (data) {
 		// console.log('close: ' + data);
 	});
+};
+export const saveConfig = function(newConfig, connection) {
+	let obj = {
+		configService: []
+	};
+
+	fs.readFile(configSrc, 'utf8', function readFileCallback(err, data){
+		if (err){
+			console.log(err);
+		} else {
+			obj = JSON.parse(data); //now it an object
+			var pushJson = JSON.parse(newConfig);
+			console.log(pushJson.createdDt);
+			if (pushJson.createdDt === undefined) {
+				pushJson.createdDt = new Date();
+				obj.configService.push(pushJson); //add some data
+			}
+			else {
+				obj.configService = obj.configService.map(x => {
+					if (x.createdDt === pushJson.createdDt) {
+						return pushJson;
+					}
+					else {
+						return x;
+					}
+				})
+			}
+			const writeJson = JSON.stringify(obj); //convert it back to json
+			fs.writeFile(configSrc, writeJson, 'utf8', (data) => {
+				if (data === null){
+					connection.sendUTF(JSON.stringify(
+						{
+							type: 'saveConfig',
+							data: {
+								success: true,
+								config: JSON.parse(writeJson)
+							}
+						}
+					));
+				}
+			}); // write it back
+		}});
+};
+export const readConfig = function(connection) {
+	fs.readFile(configSrc, 'utf8', function readFileCallback(err, data){
+		if (err){
+			console.log(err);
+		} else {
+			connection.sendUTF(JSON.stringify(
+				{
+					type: 'readConfig',
+					data: {
+						success: true,
+						config: JSON.parse(data)
+					}
+				}
+			));
+		}});
 }

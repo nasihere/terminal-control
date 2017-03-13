@@ -1,0 +1,1 @@
+{"configService":[{"key":1,"name":"User Microservice","Port":"2222","env":"export NODE_ENV=LOCAL; export NODE_PORT=3080; export debug=info;","command":"npm run start;","cd":"/Users/sayedn/projects/ceh/id-ceh-microservice-user","stop":"lsof -t -i tcp:3080 | xargs kill;","osx":true,"createdDt":"2017-03-13T19:35:01.427Z"}]}

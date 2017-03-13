@@ -1,7 +1,8 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+const fs = require("fs");
 const os = require("os");
 const childprocess = require("child_process");
+const configSrc = 'build/htmlv2/app/app-config.json';
 let exec = childprocess.exec, userName = os.hostname();
 function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;')
@@ -38,6 +39,63 @@ exports.pingPort = function (nodeport, connection) {
         connection.sendUTF(JSON.stringify({ type: 'ping', data: obj }));
     });
     child.stderr.on('close', function (data) {
+    });
+};
+exports.saveConfig = function (newConfig, connection) {
+    let obj = {
+        configService: []
+    };
+    fs.readFile(configSrc, 'utf8', function readFileCallback(err, data) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            obj = JSON.parse(data);
+            var pushJson = JSON.parse(newConfig);
+            console.log(pushJson.createdDt);
+            if (pushJson.createdDt === undefined) {
+                pushJson.createdDt = new Date();
+                obj.configService.push(pushJson);
+            }
+            else {
+                obj.configService = obj.configService.map(x => {
+                    if (x.createdDt === pushJson.createdDt) {
+                        return pushJson;
+                    }
+                    else {
+                        return x;
+                    }
+                });
+            }
+            const writeJson = JSON.stringify(obj);
+            fs.writeFile(configSrc, writeJson, 'utf8', (data) => {
+                if (data === null) {
+                    connection.sendUTF(JSON.stringify({
+                        type: 'saveConfig',
+                        data: {
+                            success: true,
+                            config: JSON.parse(writeJson)
+                        }
+                    }));
+                }
+            });
+        }
+    });
+};
+exports.readConfig = function (connection) {
+    fs.readFile(configSrc, 'utf8', function readFileCallback(err, data) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            connection.sendUTF(JSON.stringify({
+                type: 'readConfig',
+                data: {
+                    success: true,
+                    config: JSON.parse(data)
+                }
+            }));
+        }
     });
 };
 //# sourceMappingURL=app-command.js.map

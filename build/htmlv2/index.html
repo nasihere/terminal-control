@@ -63,56 +63,56 @@
               <li class="nav-header">Node App Services</li>
               <li v-for="item in paginatedItems">
                 <a href="#">
-                  <i class="fa fa-play-circle" aria-hidden="true"></i> 
+                  <i class="fa fa-play-circle" v-bind:port="item.Port" v-on:click="startService(item)" aria-hidden="true"></i>
                   {{item.name}}
-                  <i class="fa fa-pencil-square pull-right" aria-hidden="true"></i> 
+                  <i class="fa fa-pencil-square pull-right" v-on:click="editConfig(item)" aria-hidden="true"></i>
                 </a>
               </li>
               <li class="nav-header">New Services</li>
-              <li><a href="#">Create New Service <i class="fa fa-plus-square pull-right" aria-hidden="true"></i></a></li>
+              <li><a href="#">Create New Service <i v-on:click="newConfig()" class="fa fa-plus-square pull-right" aria-hidden="true"></i></a></li>
               
             </ul>
           </div>
            
-           <div class=" ">
+           <div class="well sidebar-nav">
             
 
-            <div class="navbar-search">
-               <ul class="nav nav-list">
+            <div v-if="currentItem">
+               <ul class="nav nav-list navbar-search">
                 <li class="nav-header">Application</li>
                 <li class="active">
-                  <a href="#">Service Name: <input type="text" class="search-query " placeholder="User Microservice"/></a>
+                  <a href="#">Service Name: <input type="text" v-model="currentItem.name" class="search-query " placeholder="User Microservice"/></a>
                 </li>
 
                 <li class="nav-header">Service</li>
                 <li class="active">
-                  <a href="#">PORT: <input type="text" class="search-query " placeholder="3080"/></a>
+                  <a href="#">PORT: <input type="text" v-model="currentItem.Port" class="search-query " placeholder="3080"/></a>
                 </li>
 
                  <li class="nav-header">Project</li>
                 <li class="active">
-                  <a href="#">Directory: <input type="text" class="search-query " placeholder="/user/project/ceh/id-microservice-user"/></a>
+                  <a href="#">Directory: <input type="text" v-model="currentItem.cd" class="search-query " placeholder="/user/project/ceh/id-microservice-user"/></a>
                 </li>
 
 
                  <li class="nav-header">Startup Variable</li>
                 <li class="active">
-                  <a href="#">Enviornment: <input type="text" class="search-query " placeholder="export NODE_ENV=LOCAL;"/></a>
+                  <a href="#">Enviornment: <input type="text" v-model="currentItem.env" class="search-query " placeholder="export NODE_ENV=LOCAL;"/></a>
                 </li>
 
 
                  <li class="nav-header">Package JSON</li>
                 <li class="active">
-                  <a href="#">Command: <input type="text" class="search-query " placeholder="npm run start:local"/></a>
+                  <a href="#">Command: <input type="text"  v-model="currentItem.command" class="search-query " placeholder="npm run start:local"/></a>
                 </li>
 
                  <li class="nav-header">Operating System</li>
                 <li class="active">
-                  <a href="#"><input name="osRadio" type="radio" class="search-query " /> Windows / <input name="osRadio" type="radio" class="search-query" /> OSX: </a>
+                  <a href="#"><input name="osRadio" v-model="currentItem.osx" type="radio" class="search-query " /> Windows / <input name="osRadio" type="radio" class="search-query" /> OSX: </a>
                 </li>
 
                 <li>
-                  <a href="#"><input type="submit" class="btn-primary span3" /></a>
+                    <a href="#"><button v-on:click="saveConfig(currentItem)" class="btn-primary span3">Submit</button></a>
                 </li>
 
                 
@@ -128,55 +128,7 @@
           <div id="content"></div>
         </div>
 
-        <div  class="span7" >
-          <div class="row-fluid">
-            <div class="span12 document">
-              <h1 class="page-header">Writing middleware</h1>
-              <p>Union is a minimalist middleware framework for node.js. It's minimalist, but extensible. Union's request handling is compatible with `connect`, meaning that all existing `connect-middlewares` should work out of the box with union.</p>
-              <h3>What problem does it solve?</h3>
-              <p>It provides an easy way to interact with requests before and after they are processed. But it's primary value add is that it's a hybrid buffered, streaming middleware kernel that isn't coupled with any other software.</p>
 
-              
-              <div class="hide">
-                  <span id="status">Connecting...</span>
-                  <input type="text" id="input" disabled="disabled" />
-              </div>
-
-              <div >
-                <table class="table">
-                  <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Port</th>
-                      <th>Status</th>
-                      <th colspan="2">Command</th>
-                  </tr>
-                  <tr v-for="item in paginatedItems">
-                      <td>{{item.key}}</td>
-                      <td>{{item.name}}</td>
-                      <td>{{item.Port}}</td>
-                       <td><i  v-bind:id="item.Port" class="fa fa-play-circle" aria-hidden="true"></i></td>
-                      <td><button class="btn-success" v-on:click="startService(item)">Start</button></td>
-                      <td><button class="btn-danger" v-on:click="stopService(item)">Stop</button></td>
-                      
-                  </tr>
-                </table>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <div class="span8">
-          <div class="row-fluid">
-            <div class="span12 document">
-              <h1 class="page-header">Writing middleware</h1>
-              <p>Union is a minimalist middleware framework for node.js. It's minimalist, but extensible. Union's request handling is compatible with `connect`, meaning that all existing `connect-middlewares` should work out of the box with union.</p>
-              <h3>What problem does it solve?</h3>
-              <p>It provides an easy way to interact with requests before and after they are processed. But it's primary value add is that it's a hybrid buffered, streaming middleware kernel that isn't coupled with any other software.</p>
-
-            </div>
-          </div>
-        </div>
       </div>
       </div>
 

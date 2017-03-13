@@ -25,7 +25,8 @@ $(function () {
 
     connection.onopen = function () {
         // first we want users to enter their names
-        // console.log("ws opened")
+        console.log("ws opened")
+        vm.readConfig();
     };
 
     connection.onerror = function (error) {
@@ -49,12 +50,7 @@ $(function () {
 
         // NOTE: if you're not sure about the JSON structure
         // check the server source code above
-        if (json.type === 'color') { // first response from the server with user's color
-            myColor = json.data;
-            status.text(myName + ': ').css('color', myColor);
-            input.removeAttr('disabled').focus();
-            // from now user can start sending messages
-        } else if (json.type === 'history') { // entire message history
+        if (json.type === 'history') { // entire message history
             // insert every single message to the chat window
             for (var i=0; i < json.data.length; i++) {
                 addMessage(json.data[i].author, json.data[i].text,
@@ -65,15 +61,20 @@ $(function () {
             if (json.data.text.indexOf('*#*') !== -1) return;
             addMessage(json.data.author, json.data.text,
                        json.data.color, new Date(json.data.time));
+
         } else if (json.type === 'ping') { // it's a single 
             if (json.data.ping === true){
                 $("#"+json.data.port).attr('class', 'fa fa-play-circle');
             }
-            // else {
-            //     $("#port"+json.data.port).hide();
-            // }
+        } else if (json.type === 'saveConfig') { // it's a single
+            if (json.data.success === true){
+                NODECONFIG = json.data.config;
+            }
+        } else if (json.type === 'readConfig') { // it's a single
+            if (json.data.success === true){
+                vm.setService(json.data.config.configService);
+            }
         } else {
-            
             console.log('Hmm..., I\'ve never seen JSON like this: ', json);
         }
     };

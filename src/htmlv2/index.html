@@ -65,7 +65,7 @@
                 <a href="#">
                   <i class="fa fa-play-circle" aria-hidden="true"></i> 
                   {{item.name}}
-                  <i class="fa fa-pencil-square pull-right" aria-hidden="true"></i> 
+                  <i class="fa fa-pencil-square pull-right" v-on:click="editConfig(item)" aria-hidden="true"></i>
                 </a>
               </li>
               <li class="nav-header">New Services</li>
@@ -74,45 +74,45 @@
             </ul>
           </div>
            
-           <div class=" ">
+           <div class="well sidebar-nav">
             
 
-            <div class="navbar-search">
-               <ul class="nav nav-list">
+            <div v-if="currentItem">
+               <ul class="nav nav-list navbar-search">
                 <li class="nav-header">Application</li>
                 <li class="active">
-                  <a href="#">Service Name: <input type="text" class="search-query " placeholder="User Microservice"/></a>
+                  <a href="#">Service Name: <input type="text" v-model="currentItem.name" class="search-query " placeholder="User Microservice"/></a>
                 </li>
 
                 <li class="nav-header">Service</li>
                 <li class="active">
-                  <a href="#">PORT: <input type="text" class="search-query " placeholder="3080"/></a>
+                  <a href="#">PORT: <input type="text" v-model="currentItem.Port" class="search-query " placeholder="3080"/></a>
                 </li>
 
                  <li class="nav-header">Project</li>
                 <li class="active">
-                  <a href="#">Directory: <input type="text" class="search-query " placeholder="/user/project/ceh/id-microservice-user"/></a>
+                  <a href="#">Directory: <input type="text" v-model="currentItem.cd" class="search-query " placeholder="/user/project/ceh/id-microservice-user"/></a>
                 </li>
 
 
                  <li class="nav-header">Startup Variable</li>
                 <li class="active">
-                  <a href="#">Enviornment: <input type="text" class="search-query " placeholder="export NODE_ENV=LOCAL;"/></a>
+                  <a href="#">Enviornment: <input type="text" v-model="currentItem.env" class="search-query " placeholder="export NODE_ENV=LOCAL;"/></a>
                 </li>
 
 
                  <li class="nav-header">Package JSON</li>
                 <li class="active">
-                  <a href="#">Command: <input type="text" class="search-query " placeholder="npm run start:local"/></a>
+                  <a href="#">Command: <input type="text"  v-model="currentItem.command" class="search-query " placeholder="npm run start:local"/></a>
                 </li>
 
                  <li class="nav-header">Operating System</li>
                 <li class="active">
-                  <a href="#"><input name="osRadio" type="radio" class="search-query " /> Windows / <input name="osRadio" type="radio" class="search-query" /> OSX: </a>
+                  <a href="#"><input name="osRadio" v-model="currentItem.osx" type="radio" class="search-query " /> Windows / <input name="osRadio" type="radio" class="search-query" /> OSX: </a>
                 </li>
 
                 <li>
-                  <a href="#"><input type="submit" class="btn-primary span3" /></a>
+                    <a href="#"><button v-on:click="saveConfig(currentItem)" class="btn-primary span3">Submit</button></a>
                 </li>
 
                 

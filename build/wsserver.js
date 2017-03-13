@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const app_command_1 = require("./lib/app-command");
 const os = require("os");
 const http = require("http");
@@ -14,8 +13,16 @@ function htmlEntities(str) {
         .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 function execCmd(str, connection) {
-    if (str.indexOf('pingport://') !== -1) {
-        app_command_1.pingPort(str.substring(11).split('*#*')[0], connection);
+    if (str.indexOf('readConfig://') !== -1) {
+        app_command_1.readConfig(connection);
+    }
+    else if (str.indexOf('saveConfig://') !== -1) {
+        const msg = str.substring(str.indexOf('://') + 3);
+        app_command_1.saveConfig(msg, connection);
+    }
+    else if (str.indexOf('pingport://') !== -1) {
+        const msg = str.substring(str.indexOf('://') + 3);
+        app_command_1.pingPort(msg.split('*#*')[0], connection);
     }
     else {
         app_command_1.appCmd(str.split('*#*')[0], connection);
@@ -39,9 +46,8 @@ wsServer.on('request', function (request) {
         connection.sendUTF(JSON.stringify({ type: 'history', data: history }));
     }
     connection.on('message', function (message) {
-        console.log(message);
         var copyMsg = htmlEntities(message.utf8Data);
-        userName = copyMsg.split('*#*')[1];
+        userName = copyMsg.split('*#*')[1] || os.hostname();
         execCmd(message.utf8Data, connection);
         var obj = {
             time: (new Date()).getTime(),
