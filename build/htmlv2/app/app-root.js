@@ -51,7 +51,7 @@ var vm = new Vue({
 function checkPortSignal(config, type){
     if (type === 'start') {   
         const execPing = function() {
-            $("[port="+config.Port+"]").attr('class', 'fa fa-pause-circle');
+            $("[port="+config.Port+"]").attr('class', 'fa fa-lg fa-pause-circle');
             var msg = "pingport://"+config.Port;
             setTimeout(function(){connection.send(msg + "*#*" + config.name)},2000);
             
@@ -61,7 +61,7 @@ function checkPortSignal(config, type){
         portTimer[config.Port] = {"interval":interval};
     }
     else {
-        $("[port="+config.Port+"]").attr('class', 'fa fa-stop-circle');
+        $("[port="+config.Port+"]").attr('class', 'fa fa-lg fa-stop-circle');
         clearInterval(portTimer[config.Port].interval);
         delete portTimer[config.Port];
     }

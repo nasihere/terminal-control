@@ -64,7 +64,7 @@ $(function () {
 
         } else if (json.type === 'ping') { // it's a single 
             if (json.data.ping === true){
-                $("#"+json.data.port).attr('class', 'fa fa-play-circle');
+                $("[port="+json.data.port+"]").attr('class', 'fa fa-lg fa-stop-circle');
             }
         } else if (json.type === 'saveConfig') { // it's a single
             if (json.data.success === true){

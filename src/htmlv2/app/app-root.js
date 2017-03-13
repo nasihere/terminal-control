@@ -5,9 +5,19 @@ var vm = new Vue({
   data: {
     message: 'Welcome to NodePorts Monitors',
     paginatedItems: NODECONFIG,
-    currentItem: {},
+    currentItem: null,
     editConfig: function(item){
         this.currentItem = item;
+    },
+    newConfig: function(){
+          this.currentItem = {
+              "name":"",
+              "Port": "",
+              "env":"",
+              "command":"",
+              "cd":"",
+              "stop":"lsof -t -i tcp:#PORT# | xargs kill;"
+          };
     },
     startService: function(config){
         var msg = config.command;
@@ -24,23 +34,24 @@ var vm = new Vue({
         this.paginatedItems = config;
     },
     stopService: function(config){
-        var msg = config.stop;
+        var msg = config.stop.replace('#PORT#',config.Port);
         connection.send(msg + "*#*" + config.name);
         checkPortSignal(config, 'stop');
     },
     saveConfig: function(config) {
         connection.send('saveConfig://'+JSON.stringify(config));
-        config = {};
+        this.currentItem = null;
     },
     readConfig: function() {
         connection.send('readConfig://');
+
     }
   }
 })
 function checkPortSignal(config, type){
     if (type === 'start') {   
         const execPing = function() {
-            $("#"+config.Port).attr('class', 'fa fa-pause-circle');
+            $("[port="+config.Port+"]").attr('class', 'fa fa-lg fa-pause-circle');
             var msg = "pingport://"+config.Port;
             setTimeout(function(){connection.send(msg + "*#*" + config.name)},2000);
             
@@ -50,7 +61,7 @@ function checkPortSignal(config, type){
         portTimer[config.Port] = {"interval":interval};
     }
     else {
-        $("#"+config.Port).attr('class', 'fa fa-stop-circle');
+        $("[port="+config.Port+"]").attr('class', 'fa fa-lg fa-stop-circle');
         clearInterval(portTimer[config.Port].interval);
         delete portTimer[config.Port];
     }

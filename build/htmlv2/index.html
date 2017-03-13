@@ -63,13 +63,13 @@
               <li class="nav-header">Node App Services</li>
               <li v-for="item in paginatedItems">
                 <a href="#">
-                  <i class="fa fa-play-circle" v-bind:port="item.Port" v-on:click="startService(item)" aria-hidden="true"></i>
-                  {{item.name}}
-                  <i class="fa fa-pencil-square pull-right" v-on:click="editConfig(item)" aria-hidden="true"></i>
+                  <i class="fa fa-lg fa-play-circle" v-bind:port="item.Port" v-on:click="startService(item)" aria-hidden="true"></i>
+                    <span v-on:click="startService(item)">{{item.name}}</span>
+                  <i class="fa fa-lg fa-pencil-square pull-right" v-on:click="editConfig(item)" aria-hidden="true"></i>
                 </a>
               </li>
               <li class="nav-header">New Services</li>
-              <li><a href="#">Create New Service <i v-on:click="newConfig()" class="fa fa-plus-square pull-right" aria-hidden="true"></i></a></li>
+              <li><a v-on:click="newConfig()" href="javascript:void(0)">Create New Service <i  class="fa fa-lg fa-plus-square pull-right" aria-hidden="true"></i></a></li>
               
             </ul>
           </div>
