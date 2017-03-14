@@ -71,6 +71,7 @@ $(function () {
         } else if (json.type === 'saveConfig') { // it's a single
             if (json.data.success === true){
                 NODECONFIG = json.data.config;
+                location.reload();
             }
         } else if (json.type === 'readConfig') { // it's a single
             if (json.data.success === true){

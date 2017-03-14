@@ -66,6 +66,10 @@ var vm = new Vue({
         checkPortSignal(config, 'stop');
     },
     saveConfig: function(config) {
+        if (config.name === '' || config.Port === '' ) {
+            this.currentItem = null;
+            return;
+        };
         connection.send('saveConfig://'+JSON.stringify(config));
         this.currentItem = null;
     },
@@ -74,6 +78,10 @@ var vm = new Vue({
 
     },
     deleteConfig: function(config) {
+        if (config.name === '' || config.Port === '' ) {
+            this.currentItem = null;
+            return;
+        };
         var r = confirm("Do you want to remove "+config.name+" service?");
         if (r == true) {
             connection.send('deleteConfig://'+config.identifier);
