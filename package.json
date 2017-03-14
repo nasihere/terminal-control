@@ -19,5 +19,8 @@
     "jade": "^1.11.0",
     "nodejs-log-server": "0.0.14",
     "websocket": "^1.0.24"
+  },
+  "dependencies": {
+    "rc": "^1.1.7"
   }
 }

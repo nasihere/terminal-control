@@ -2,16 +2,15 @@
 import * as fs from 'fs';
 import * as os from "os";
 import * as childprocess from 'child_process';
-
+import * as rc from "rc";
+import { stringifyHtml } from '../utils';
+console.log(rc('ws'))
 const configSrc = 'build/htmlv2/app/app-config.json';
 
-let exec = childprocess.exec,
+let exec     = childprocess.exec,
 	userName = os.hostname();
 
-function htmlEntities (str) {
-	return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+
 // executes `pwd` or 'cm' from terminal
 // child = exec(os.platform() === "win32"? "cd": "pwd", function (error, stdout, stderr) {
 //   console.log('stdout: ' + stdout);
@@ -21,6 +20,142 @@ function htmlEntities (str) {
 //   }
 // });
 
+export class appCommand {
+	colors: Array<string> = [ 'red', 'green', 'blue', 'magenta', 'purple', 'plum', 'orange' ].sort();
+	puts = (error, stdout, stderr): void => {
+	};
+	appCmd = (cmd, connection) => {
+		let self = this;
+		let userColor = this.colors.shift();
+		let child = exec(cmd, this.puts);
+		child.stdout.on('data',  (data) => {
+			console.log('stdout: ' + data);
+			let obj = {
+				time:   (new Date()).getTime(),
+				text:   stringifyHtml(data),
+				author: userName,
+				color:  userColor
+			};
+			connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
+		});
+		child.stderr.on('data', function (data) {
+			console.log('stderr: ' + data);
+		});
+		//child.on('close', function(code) {
+		//console.log('closing code: ' + code);
+		//});
+	}
+	pingPort =  (nodeport, connection) => {
+		let child = exec('lsof -t -i :' + nodeport, this.puts);
+		child.stdout.on('data', function (data) {
+			// console.log('stdout: ' + data);
+			var obj = {
+				port: nodeport,
+				ping: true
+			}
+			connection.sendUTF(JSON.stringify({type: 'ping', data: obj}));
+
+		});
+		child.stderr.on('close', function (data) {
+			// console.log('close: ' + data);
+		});
+	};
+	saveConfig = function (newConfig, connection) {
+		let obj = {
+			configService: []
+		};
+
+		fs.readFile(configSrc, 'utf8', (err, data) => {
+			if ( err ) {
+				console.log(err);
+			} else {
+				obj = JSON.parse(data); //now it an object
+				var pushJson = JSON.parse(newConfig);
+				if ( pushJson.identifier === undefined ) {
+					pushJson.identifier = new Date();
+					obj.configService.push(pushJson); //add some data
+				}
+				else {
+					obj.configService = obj.configService.map(x => {
+						if ( x.identifier === pushJson.identifier ) {
+							return pushJson;
+						}
+						else {
+							return x;
+						}
+					})
+				}
+				const writeJson = JSON.stringify(obj); //convert it back to json
+				fs.writeFile(configSrc, writeJson, 'utf8', (data) => {
+					if ( data === null ) {
+						connection.sendUTF(JSON.stringify(
+							{
+								type: 'saveConfig',
+								data: {
+									success: true,
+									config:  JSON.parse(writeJson)
+								}
+							}
+						));
+					}
+				}); // write it back
+			}
+		});
+	};
+	readConfig = (connection): void => {
+		fs.readFile(configSrc, 'utf8', (err, data): void => {
+			if ( err ) {
+				console.log(err);
+			} else {
+				connection.sendUTF(JSON.stringify(
+					{
+						type: 'readConfig',
+						data: {
+							success: true,
+							config:  JSON.parse(data)
+						}
+					}
+				));
+			}
+		});
+	};
+	deleteConfig = (identifier, connection):void=> {
+		if ( identifier === undefined ) {
+			return;
+		}
+		let obj = {
+			configService: []
+		};
+		fs.readFile(configSrc, 'utf8', (err, data) => {
+			if ( err ) {
+				console.log(err);
+			} else {
+				JSON.parse(data).configService.filter(x => {
+					if ( x.identifier !== identifier ) {
+						obj.configService.push(x);
+					}
+
+				});
+				const writeJson = JSON.stringify(obj); //convert it back to json
+				fs.writeFile(configSrc, writeJson, 'utf8', (data) => {
+					if ( data === null ) {
+						connection.sendUTF(JSON.stringify(
+							{
+								type: 'deleteConfig',
+								data: {
+									success: true,
+									config:  JSON.parse(writeJson)
+								}
+							}
+						));
+					}
+				}); // write it back
+			}
+		});
+	}
+}
+
+/*
 function puts (error, stdout, stderr) {
 	//console.log(stdout)
 }
@@ -31,16 +166,16 @@ var colors = [ 'red', 'green', 'blue', 'magenta', 'purple', 'plum', 'orange' ];
 colors.sort();
 
 //exec("ls -la", puts);
-export const appCmd = function (cmd, connection) {
+export const appCmd = (cmd, connection) => {
 	let userColor = colors.shift();
 	let child = exec(cmd, puts);
 	child.stdout.on('data', function (data) {
 		console.log('stdout: ' + data);
 		let obj = {
-			time: (new Date()).getTime(),
-			text: htmlEntities(data),
+			time:   (new Date()).getTime(),
+			text:   stringifyHtml(data),
 			author: userName,
-			color: userColor
+			color:  userColor
 		};
 		connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 	});
@@ -66,24 +201,24 @@ export const pingPort = function (nodeport, connection) {
 		// console.log('close: ' + data);
 	});
 };
-export const saveConfig = function(newConfig, connection) {
+export const saveConfig = function (newConfig, connection) {
 	let obj = {
 		configService: []
 	};
 
-	fs.readFile(configSrc, 'utf8', function readFileCallback(err, data){
-		if (err){
+	fs.readFile(configSrc, 'utf8', function readFileCallback (err, data) {
+		if ( err ) {
 			console.log(err);
 		} else {
 			obj = JSON.parse(data); //now it an object
 			var pushJson = JSON.parse(newConfig);
-			if (pushJson.identifier === undefined) {
+			if ( pushJson.identifier === undefined ) {
 				pushJson.identifier = new Date();
 				obj.configService.push(pushJson); //add some data
 			}
 			else {
 				obj.configService = obj.configService.map(x => {
-					if (x.identifier === pushJson.identifier) {
+					if ( x.identifier === pushJson.identifier ) {
 						return pushJson;
 					}
 					else {
@@ -93,23 +228,24 @@ export const saveConfig = function(newConfig, connection) {
 			}
 			const writeJson = JSON.stringify(obj); //convert it back to json
 			fs.writeFile(configSrc, writeJson, 'utf8', (data) => {
-				if (data === null){
+				if ( data === null ) {
 					connection.sendUTF(JSON.stringify(
 						{
 							type: 'saveConfig',
 							data: {
 								success: true,
-								config: JSON.parse(writeJson)
+								config:  JSON.parse(writeJson)
 							}
 						}
 					));
 				}
 			}); // write it back
-		}});
+		}
+	});
 };
-export const readConfig = (connection):void => {
-	fs.readFile(configSrc, 'utf8', (err, data):void => {
-		if (err){
+export const readConfig = (connection): void => {
+	fs.readFile(configSrc, 'utf8', (err, data): void => {
+		if ( err ) {
 			console.log(err);
 		} else {
 			connection.sendUTF(JSON.stringify(
@@ -117,26 +253,27 @@ export const readConfig = (connection):void => {
 					type: 'readConfig',
 					data: {
 						success: true,
-						config: JSON.parse(data)
+						config:  JSON.parse(data)
 					}
 				}
 			));
-		}});
+		}
+	});
 };
-export const deleteConfig = function(identifier, connection) {
-	if (identifier === undefined) {
+export const deleteConfig = function (identifier, connection) {
+	if ( identifier === undefined ) {
 		return;
 	}
 
 	let obj = {
 		configService: []
 	};
-	fs.readFile(configSrc, 'utf8', function readFileCallback(err, data){
-		if (err){
+	fs.readFile(configSrc, 'utf8', function readFileCallback (err, data) {
+		if ( err ) {
 			console.log(err);
 		} else {
 			JSON.parse(data).configService.filter(x => {
-				if (x.identifier !== identifier) {
+				if ( x.identifier !== identifier ) {
 					obj.configService.push(x);
 				}
 
@@ -144,17 +281,18 @@ export const deleteConfig = function(identifier, connection) {
 
 			const writeJson = JSON.stringify(obj); //convert it back to json
 			fs.writeFile(configSrc, writeJson, 'utf8', (data) => {
-				if (data === null){
+				if ( data === null ) {
 					connection.sendUTF(JSON.stringify(
 						{
 							type: 'deleteConfig',
 							data: {
 								success: true,
-								config: JSON.parse(writeJson)
+								config:  JSON.parse(writeJson)
 							}
 						}
 					));
 				}
 			}); // write it back
-		}});
-}
+		}
+	});
+}*/
