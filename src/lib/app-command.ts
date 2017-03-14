@@ -107,8 +107,8 @@ export const saveConfig = function(newConfig, connection) {
 			}); // write it back
 		}});
 };
-export const readConfig = function(connection) {
-	fs.readFile(configSrc, 'utf8', function readFileCallback(err, data){
+export const readConfig = (connection):void => {
+	fs.readFile(configSrc, 'utf8', (err, data):void => {
 		if (err){
 			console.log(err);
 		} else {

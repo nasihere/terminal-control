@@ -29,8 +29,8 @@ function findContentType (extname) {
 
 }
 
-export const httpServer=http.createServer(function (request, response) {
-	console.log('request starting...');
+export const httpServer=http.createServer((request, response)=> {
+	console.log(`fetching ${request.url}`);
 	let requestConfig = {
 		uri: url.parse(request.url).pathname,
 		filePath: request.url === "/" ? 'build/htmlv2/index.html' : 'build/htmlv2/'+ request.url,
@@ -40,6 +40,7 @@ export const httpServer=http.createServer(function (request, response) {
 
 	fs.readFile(requestConfig.filePath, function (error, content) {
 		if (error) {
+			console.log(`error on ${request.url}`)
 			if (error.code == 'ENOENT') {
 				fs.readFile('./404.html', function (error, content) {
 					response.writeHead(200, {'Content-Type': requestConfig.contentType});
@@ -54,6 +55,7 @@ export const httpServer=http.createServer(function (request, response) {
 		}
 		else {
 			response.writeHead(200, {'Content-Type': requestConfig.contentType});
+			console.log(`fetched ${request.url}`);
 			response.end(content, 'utf-8');
 		}
 	});
