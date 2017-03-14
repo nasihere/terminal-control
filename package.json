@@ -14,10 +14,14 @@
   },
   "author": "Nasir Sayed",
   "license": "ISC",
+  "contributors": ["Noah Wallace noah.z.wallace@gmail.com"],
   "devDependencies": {
     "@types/node": "^7.0.8",
     "jade": "^1.11.0",
     "nodejs-log-server": "0.0.14",
     "websocket": "^1.0.24"
+  },
+  "dependencies": {
+    "rc": "^1.1.7"
   }
 }

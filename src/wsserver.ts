@@ -1,6 +1,6 @@
 // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
 "use strict";
-import { appCmd, pingPort, saveConfig, readConfig, deleteConfig } from './lib/app-command';
+import { appCommand } from './lib/app-command';
 import * as os from 'os';
 import * as http from 'http';
 import * as websocket from 'websocket';
@@ -10,10 +10,9 @@ let webSocketServer = websocket.server;
 process.title = 'node-chat';
 
 
-export class wsServerClass {
+export class wsServerClass extends appCommand {
 	history = [];
 	clients = [];
-	colors = [ 'red', 'green', 'white', 'magenta', 'purple', 'plum', 'orange' ];
 	httpserver = http.createServer(function (request, response) {
 		// Not important for us. We're writing WebSocket server, not HTTP server
 	});
@@ -86,28 +85,28 @@ export class wsServerClass {
 	};
 
 	constructor () {
-
+		super();
 		this.setWsServer()
 	}
 
 	execCmd = (str:string, connection):void => {
 		if ( str.indexOf('readConfig://') !== -1 ) {
-			readConfig(connection);
+			this.readConfig(connection);
 		}
 		else if ( str.indexOf('deleteConfig://') !== -1 ) {
 			const msg = str.substring(str.indexOf('://') + 3);
-			deleteConfig(msg, connection);
+			this.deleteConfig(msg, connection);
 		}
 		else if ( str.indexOf('saveConfig://') !== -1 ) {
 			const msg = str.substring(str.indexOf('://') + 3);
-			saveConfig(msg, connection);
+			this.saveConfig(msg, connection);
 		}
 		else if ( str.indexOf('pingport://') !== -1 ) {
 			const msg = str.substring(str.indexOf('://') + 3);
-			pingPort(msg.split('*#*')[ 0 ], connection);
+			this.pingPort(msg.split('*#*')[ 0 ], connection);
 		}
 		else {
-			appCmd(str.split('*#*')[ 0 ], connection);
+			this.appCmd(str.split('*#*')[ 0 ], connection);
 		}
 	}
 
