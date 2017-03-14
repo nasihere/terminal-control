@@ -42,7 +42,7 @@ new Vue({
   el: '#app',
   data: {
     message: 'Welcome to NodePorts Monitors',
-    paginatedItems: NODECONFIG,
+    settings: NODECONFIG,
     startService: function(config){
         var msg = config.command;
         var pwd = 'cd ' + config.cd + ";" ;
