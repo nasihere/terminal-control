@@ -5,9 +5,20 @@ var vm = new Vue({
   data: {
     message: 'Welcome to NodePorts Monitors',
     paginatedItems: NODECONFIG,
+    logs: [],
+    printLogs: [],
     currentItem: null,
     editConfig: function(item){
         this.currentItem = item;
+    },
+    searchLogs: function(search){
+        const msg = search.toLowerCase();
+        this.printLogs = this.logs.filter(x => {
+            return (x.message.toLowerCase().indexOf(msg) !== -1 ||
+                    x.author.toLowerCase().indexOf(msg) !== -1 ||
+                    x.dt.toLowerCase().indexOf(msg) !== -1 ||
+                    msg === '')
+        })
     },
     newConfig: function(){
           this.currentItem = {
@@ -21,7 +32,7 @@ var vm = new Vue({
     },
     startService: function(config){
         var msg = config.command;
-        var pwd = 'cd ' + config.cd + ";" ;
+        var pwd = 'cd ' + config.cd.replace('package.json','') + ";" ;
         var env = config.env;
         if (!msg) {
             return;
@@ -45,6 +56,16 @@ var vm = new Vue({
     readConfig: function() {
         connection.send('readConfig://');
 
+    },
+    deleteConfig: function(config) {
+        var r = confirm("Do you want to remove "+config.name+" service?");
+        if (r == true) {
+            connection.send('deleteConfig://'+config.identifier);
+            location.reload();
+        }
+    },
+    appendLog: function(log) {
+        this.logs.push(log);
     }
   }
 })
