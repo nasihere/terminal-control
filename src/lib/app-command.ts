@@ -4,8 +4,8 @@ import * as os from "os";
 import * as childprocess from 'child_process';
 import * as rc from "rc";
 import { stringifyHtml } from '../utils';
-console.log(rc('ws'))
-const configSrc = 'build/htmlv2/app/app-config.json';
+
+
 
 let exec     = childprocess.exec,
 	userName = os.hostname();
@@ -22,6 +22,14 @@ let exec     = childprocess.exec,
 
 export class appCommand {
 	colors: Array<string> = [ 'red', 'green', 'blue', 'magenta', 'purple', 'plum', 'orange' ].sort();
+	configSrc:string;
+	constructor(){
+		let rcConfig={
+			configPath:"build/htmlv2/app/app-config.json"
+		}
+		const config = rc('dev-micro-dashboard',rcConfig);
+		this.configSrc=config.configPath;
+	}
 	puts = (error, stdout, stderr): void => {
 	};
 	appCmd = (cmd, connection) => {
@@ -65,7 +73,7 @@ export class appCommand {
 			configService: []
 		};
 
-		fs.readFile(configSrc, 'utf8', (err, data) => {
+		fs.readFile(this.configSrc, 'utf8', (err, data) => {
 			if ( err ) {
 				console.log(err);
 			} else {
@@ -86,7 +94,7 @@ export class appCommand {
 					})
 				}
 				const writeJson = JSON.stringify(obj); //convert it back to json
-				fs.writeFile(configSrc, writeJson, 'utf8', (data) => {
+				fs.writeFile(this.configSrc, writeJson, 'utf8', (data) => {
 					if ( data === null ) {
 						connection.sendUTF(JSON.stringify(
 							{
@@ -103,7 +111,7 @@ export class appCommand {
 		});
 	};
 	readConfig = (connection): void => {
-		fs.readFile(configSrc, 'utf8', (err, data): void => {
+		fs.readFile(this.configSrc, 'utf8', (err, data): void => {
 			if ( err ) {
 				console.log(err);
 			} else {
@@ -126,7 +134,7 @@ export class appCommand {
 		let obj = {
 			configService: []
 		};
-		fs.readFile(configSrc, 'utf8', (err, data) => {
+		fs.readFile(this.configSrc, 'utf8', (err, data) => {
 			if ( err ) {
 				console.log(err);
 			} else {
@@ -137,7 +145,7 @@ export class appCommand {
 
 				});
 				const writeJson = JSON.stringify(obj); //convert it back to json
-				fs.writeFile(configSrc, writeJson, 'utf8', (data) => {
+				fs.writeFile(this.configSrc, writeJson, 'utf8', (data) => {
 					if ( data === null ) {
 						connection.sendUTF(JSON.stringify(
 							{
