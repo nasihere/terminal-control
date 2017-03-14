@@ -4,7 +4,7 @@ var vm = new Vue({
   el: '#app',
   data: {
     message: 'Welcome to NodePorts Monitors',
-    paginatedItems: NODECONFIG,
+    settings: NODECONFIG,
     logs: [],
     printLogs: [],
     currentItem: null,
@@ -41,8 +41,24 @@ var vm = new Vue({
         connection.send(pwd + env + msg + "*#*" + config.name);
         checkPortSignal(config, 'start');
     },
+    startall: function(){
+        $(".fa-play-circle").each(function(i, ele) {
+            //this.settings.filter(x => this.startService(x));
+            console.log(ele)
+            $(ele).click();
+        });
+    },
     setService: function(config){
-        this.paginatedItems = config;
+        this.settings = config;
+    },
+    turnService: function(config){
+        if ( $("[port="+config.Port+"]").hasClass('fa-play-circle') === true || 
+             $("[port="+config.Port+"]").hasClass('fa-pause-circle') === true) {
+            this.startService(config);
+        }
+        else {
+            this.stopService(config);
+        }
     },
     stopService: function(config){
         var msg = config.stop.replace('#PORT#',config.Port);
@@ -65,7 +81,9 @@ var vm = new Vue({
         }
     },
     appendLog: function(log) {
-        this.logs.push(log);
+        var tmp = this.logs;
+        var tmpNew = [log];
+        this.logs = tmpNew.concat(tmp);
     }
   }
 })
@@ -82,7 +100,7 @@ function checkPortSignal(config, type){
         portTimer[config.Port] = {"interval":interval};
     }
     else {
-        $("[port="+config.Port+"]").attr('class', 'fa fa-lg fa-stop-circle');
+        $("[port="+config.Port+"]").attr('class', 'fa fa-lg fa-play-circle');
         clearInterval(portTimer[config.Port].interval);
         delete portTimer[config.Port];
     }

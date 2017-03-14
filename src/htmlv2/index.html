@@ -48,6 +48,7 @@
 
             <ul class="nav pull-right">
               <li class="divider-vertical"></li>
+              <li><a onclick="vm.startall()" href="javascript:void(0)">Start all services</a></li>
               <li><a href="https://github.com/nasihere/microservicePortController">Edit this page on Github</a></li>
             </ul>
           </div>
@@ -61,10 +62,10 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Node App Services</li>
-              <li v-for="item in paginatedItems">
+              <li v-for="item in settings">
                 <a href="#">
-                  <i class="fa fa-lg fa-play-circle" v-bind:port="item.Port" v-on:click="startService(item)" aria-hidden="true"></i>
-                    <span v-on:click="startService(item)">{{item.name}}</span>
+                  <i class="fa fa-lg fa-play-circle" v-bind:port="item.Port" v-on:click="turnService(item)" aria-hidden="true"></i>
+                    <span v-on:click="turnService(item)">{{item.name}}</span>
                   <i class="fa fa-lg fa-pencil-square pull-right" v-on:click="editConfig(item)" aria-hidden="true"></i>
                 </a>
               </li>
@@ -107,7 +108,7 @@
 
                 <li>
                     <a href="#">
-                        <button v-on:click="saveConfig(currentItem)" class="btn btn-primary ">Submit</button>
+                        <button v-on:click="saveConfig(currentItem)" class="btn btn-primary ">Save & Close</button>
                         <button v-on:click="deleteConfig(currentItem)" class="btn btn-danger ">Delete</button>
                     </a>
                 </li>
@@ -124,11 +125,11 @@
         <div class="span8 well" >
           <div id="content">
               <ul id="example-1">
-                  <li v-for="item in printLogs">
-                      <p><span style="color:#fff">{{item.author}}</span>
-                      <span style="color:#93a1a1">{{item.dt}}:</span>
-                      <span style="color:#d7e5a1"><em v-html="item.message"></em></span>
-                          <!--{{ item }}-->
+                  <li v-for="item in printLogs" >
+                      <p>
+                        <span style="color:#fff">{{item.author}}</span>
+                        <span style="color:#93a1a1">{{item.dt}}:</span>
+                        <span style="color:#d7e5a1"><em v-html="item.message"></em></span>
                       </p>
                   </li>
               </ul>
