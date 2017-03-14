@@ -57,6 +57,7 @@ export class wsServerClass {
 						author: userName,
 						color:  userColor
 					};
+
 					self.history.push(obj);
 					self.history = self.history.slice(-100);
 
@@ -89,28 +90,23 @@ export class wsServerClass {
 		this.setWsServer()
 	}
 
-	execCmd = (str, connection) => {
+	execCmd = (str:string, connection):void => {
 		if ( str.indexOf('readConfig://') !== -1 ) {
-			console.log("execCMD", 1)
 			readConfig(connection);
 		}
 		else if ( str.indexOf('deleteConfig://') !== -1 ) {
-			console.log("execCMD", 2)
 			const msg = str.substring(str.indexOf('://') + 3);
 			deleteConfig(msg, connection);
 		}
 		else if ( str.indexOf('saveConfig://') !== -1 ) {
-			console.log("execCMD", 3)
 			const msg = str.substring(str.indexOf('://') + 3);
 			saveConfig(msg, connection);
 		}
 		else if ( str.indexOf('pingport://') !== -1 ) {
-			console.log("execCMD", 4)
 			const msg = str.substring(str.indexOf('://') + 3);
 			pingPort(msg.split('*#*')[ 0 ], connection);
 		}
 		else {
-			console.log("execCMD", 5)
 			appCmd(str.split('*#*')[ 0 ], connection);
 		}
 	}
