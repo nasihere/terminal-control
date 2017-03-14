@@ -12,7 +12,7 @@ a { color: #859900; font-weight: bold; }
 a:hover { color: #dc322f; }
 p small, h6, blockquote small, legend small { color: #839496; }
 .page-header { border-bottom: 1px solid #073642; }
-hr { border-top: 1px solid #073642; border-bottom: 1 px solid #002b36; }
+hr { border-top: 1px solid #073642; border-bottom: 1px solid #002b36; }
 abbr[title]{ border-bottom: 1px dotted #586e75; }
 blockquote { border-left: 5px solid #073642; } blockquote.pull-right { border-right: 5px solid #073642; }
 code, pre { color: #00ffff; background-color: #073642; border: 1px solid #002b36; }
@@ -45,7 +45,7 @@ a > i:hover {color: #859900}
 .well { background-color: #073642; }
 .hero-unit {background-color: #073642; }
 #content { border-radius:6px; overflow-y: scroll;
-           margin-top:10px; max-height: 860px; min-height: 860px; color:#AADD00;}
+           margin-top:10px; height:100%; color:#AADD00;}
 li {
     line-height: 26px;
 }
