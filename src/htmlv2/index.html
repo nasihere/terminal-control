@@ -82,28 +82,39 @@
                <ul class="nav nav-list navbar-search">
                 <li class="nav-header">Application</li>
                 <li class="active">
-                  <a href="#">Service Name: <input type="text" v-model="currentItem.name" class="search-query " placeholder="User Microservice"/></a>
+                  <a href="#">Service Name: <input type="text" v-model="currentItem.name" class="search-query " />
+                  <small>e.g:  USER MICROSERVICE</small></a>
+                  
                 </li>
 
                 <li class="nav-header">Service</li>
                 <li class="active">
-                  <a href="#">PORT: <input type="text" v-model="currentItem.Port" class="search-query " placeholder="3080"/></a>
+                  <a href="#">PORT: <input type="text" v-model="currentItem.Port" class="search-query "/>
+                  <small>e.g:  3080</small>
+                  </a>
                 </li>
 
                  <li class="nav-header">Path</li>
                 <li class="active">
-                  <a href="#">package.json: <input type="text" v-model="currentItem.cd" class="search-query " placeholder="/user/project/package.json"/></a>
+                  <a href="#">package.json: <input type="text" v-model="currentItem.cd" class="search-query " />
+                  <small>e.g:  /user/project/package.json</small>
+                  </a>
                 </li>
 
                  <li class="nav-header">Startup Variable</li>
                 <li class="active">
-                  <a href="#">Enviornment: <input type="text" v-model="currentItem.env" class="search-query " placeholder="export NODE_ENV=LOCAL;"/></a>
+                  <a href="#">Enviornment: <input type="text" v-model="currentItem.env" class="search-query " />
+                  <small>e.g:  export NODE_ENV=LOCAL;</small>
+                  </a>
                 </li>
 
 
                  <li class="nav-header">Package JSON</li>
                 <li class="active">
-                  <a href="#">Command: <input type="text"  v-model="currentItem.command" class="search-query " placeholder="npm run start:local"/></a>
+                  <a href="#">Command: <input type="text"  v-model="currentItem.command" class="search-query " />
+                  <small>e.g 1: npm run start:local</small><br/>
+                  <small>e.g 2: node build/proxy.js</small>
+                  </a>
                 </li>
 
                 <li>
