@@ -6,11 +6,7 @@ This repository helps to all the developer to run the microservices from single 
 I didn't used any heavy packages such as express, or static server. Everything's using local OS and native library of nodejs.
 
 `download the repository`
-
-run the `tsc` command if build folder didn't exists
-
-configure all the apps in `root.js` array`
-
+run 'npm run start:local` 
 goto the `localhost:8125/` and start or stop the services in single page.
 
-![Screenshot](Demo - 2017-03-12 at 1.15.59 AM.png)
+![Screenshot](Demo - 2017-03-13.png)

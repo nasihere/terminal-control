@@ -57,7 +57,7 @@ $(function () {
                            json.data[i].color, new Date(json.data[i].time));
             }
         } else if (json.type === 'message') { // it's a single message
-            if (json.data.text.indexOf('pingport://') !== -1) return;
+            if (json.data.text.indexOf('://') !== -1) return;
             if (json.data.text.indexOf('*#*') !== -1) return;
             addMessage(json.data.author, json.data.text,
                        json.data.color, new Date(json.data.time));
@@ -83,9 +83,19 @@ $(function () {
      * Add message to the chat window
      */
     function addMessage(author, message, color, dt) {
-        content.prepend('<p><span style="color:' + 'white' + '">' + author + '</span><br/> @ ' +
-             + (dt.getHours() < 10 ? '0' + dt.getHours() : dt.getHours()) + ':'
-             + (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes())
-             + ': ' + message + '</p>');
+
+        vm.appendLog({
+            author: author,
+            message: message,
+            color: color,
+            dt: (dt.getHours() < 10 ? '0' + dt.getHours() : dt.getHours()) + ':'
+                + (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes())
+        });
+        vm.searchLogs($("#searchText").val());
+        // content.prepend('<p><span style="color:' + 'white' + '">' + author + '</span> @ ' +
+        //      + (dt.getHours() < 10 ? '0' + dt.getHours() : dt.getHours()) + ':'
+        //      + (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes())
+        //      + ': ' + message + '</p>');
+
     }
 });

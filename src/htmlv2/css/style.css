@@ -7,7 +7,7 @@ footer {text-align: center; margin-bottom: 20px; }
 .document .highlight { padding: 10px 0; }
 
 body { color: #839496; background-color: #002b36; }
-body, p, input, select, button, textarea, code, pre, .navbar-search .search-query { font-family: Inconsolata; font-size: 14px; }
+body, p, input, select, button, textarea, code, pre, .navbar-search .search-query { font-family: Inconsolata; font-size: 20px; }
 a { color: #859900; font-weight: bold; }
 a:hover { color: #dc322f; }
 p small, h6, blockquote small, legend small { color: #839496; }
@@ -34,6 +34,7 @@ legend, label { color: #93a1a1; }
 .navbar .brand { color: #ffffff; }
 .navbar .nav>li>a { color: #d7e5a1; text-shadow: 0 -1px 0 #002b36; }
 .navbar .nav>li>a:hover { color: #dc322f;  }
+.search-query  { width:100% }
 .navbar .nav .active>a, .navbar .nav .active>a:hover { color: #e8bc33; background-color: #002b36; }
 .navbar-search .search-query { color: #002b36; background-color: #007777; border: 1px solid #073642; font-weight: bold; }
 .navbar-search .search-query:-moz-placeholder { color: #002b36; }
@@ -44,3 +45,6 @@ legend, label { color: #93a1a1; }
 .hero-unit {background-color: #073642; }
 #content { border-radius:6px; overflow-y: scroll;
            margin-top:10px; max-height: 860px; color:#AADD00;}
+li {
+    line-height: 26px;
+}
