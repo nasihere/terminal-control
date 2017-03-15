@@ -38,13 +38,16 @@ var vm = new Vue({
         if (!msg) {
             return;
         }
-        // send the message as an ordinary text
         connection.send(pwd + env + msg + "*#*" + config.name);
         checkPortSignal(config, 'start');
     },
+    pingPort: function(){
+        this.settings.forEach(function(config){
+            checkPortSignal(config, 'start');
+        })  
+    },
     startall: function(){
         $(".fa-play-circle").each(function(i, ele) {
-            //this.settings.filter(x => this.startService(x));
             $(ele).click();
         });
     },
@@ -95,14 +98,13 @@ var vm = new Vue({
     },
     parseLogToJson: function (log) {
         if (this.inlinelogs === false) return log;
-        var logArr = log.split(/(,(?![^\(]*\)))/g);
+        var logArr = log.replace(/&amp;/g, '&').replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>').replace(/&quot;/g, '').split(/(,(?![^\(]*\)))/g);
 
         if (logArr.length > 1) {
             var obj = {};
             var unreferencedKey = 0;
             logArr.map(function (item) {
-                item = item.replace(/&amp;/g, '&').replace(/&lt;/g, '<')
-		.replace(/&gt;/g, '>').replace(/&quot;/g, '');
                 var m = item.match(/=/);
                 if (m) {
                     var key = item.substring(0, m.index).trim();

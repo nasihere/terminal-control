@@ -21,9 +21,15 @@ export class wsServerClass extends appCommand {
 		// an enhanced HTTP request. For more info http://tools.ietf.org/html/rfc6455#page-6
 		httpServer: this.httpserver
 	});
+	public historyWrite = (log) => {
+		
+		this.history.push(log);
+		this.history = this.history.slice(-100);
+
+	};
 	private setWsServer = () => {
 		let self = this;
-
+		const historyCallback = this.historyWrite;
 		this.wsServer.on('request', function (request) {
 			request.on('requestResolved', (req) => {
 				console.log((new Date()) + ' Connection from origin ' + req.origin + '.');
@@ -48,7 +54,7 @@ export class wsServerClass extends appCommand {
 					// console.log((new Date()) + ' Received Message from '
 					// + userName + ': ' + message.utf8Data);
 
-					self.execCmd(message.utf8Data, conn);
+					self.execCmd(message.utf8Data, conn, historyCallback);
 					// we want to keep history of all sent messages
 					let obj = {
 						time:   (new Date()).getTime(),
@@ -89,7 +95,7 @@ export class wsServerClass extends appCommand {
 		this.setWsServer()
 	}
 
-	execCmd = (str:string, connection):void => {
+	execCmd = (str:string, connection, logCallback):void => {
 		if ( str.indexOf('readConfig://') !== -1 ) {
 			this.readConfig(connection);
 		}
@@ -107,7 +113,7 @@ export class wsServerClass extends appCommand {
 		}
 		else {
 			const msg = str.split('*#*');
-		    this.appCmd(msg, connection);
+		    this.appCmd(msg, connection, logCallback);
 
 		}
 	}

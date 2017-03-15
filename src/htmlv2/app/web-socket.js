@@ -56,6 +56,11 @@ $(function () {
                 addMessage(json.data[i].author, json.data[i].text,
                            json.data[i].color, new Date(json.data[i].time));
             }
+            if (json.data.length) {
+                setTimeout(function() {
+                    vm.pingPort();
+                },1000);
+            }
         } else if (json.type === 'message') { // it's a single message
             addMessage(json.data.author, json.data.text,
                        json.data.color, new Date(json.data.time));
