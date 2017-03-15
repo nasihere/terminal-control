@@ -1,4 +1,4 @@
-  <head>
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,160 +14,179 @@
     <link rel="stylesheet" type="text/css" href="css/highlight.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css">
 
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <!-- [if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-    
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!-- [if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
 
     <link rel="shortcut icon" href="">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="">
     <link rel="apple-touch-icon-precomposed" href="">
-  </head>
-  <body>
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
         <div class="container-fluid">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
 
-          <a class="brand" href="#">Node Services</a>
+            <a class="brand" href="#">Node Services</a>
 
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li><a href="#">Home</a></li>
-              <li class="active"><a href="#">Services</a></li>
-              <li><a href="#">Import</a></li>
-            </ul>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li><a href="#">Home</a></li>
+                    <li class="active"><a href="#">Services</a></li>
+                    <li><a href="#">Import</a></li>
+                </ul>
 
-            <form class="navbar-search pull-left" action="">
-              <input type="text" id="searchText" onkeyup="vm.searchLogs(this.value)" class="search-query span4" placeholder="Search"/>
-            </form>
+                <form class="navbar-search pull-left" action="">
+                    <input type="text" id="searchText" onkeyup="vm.searchLogs(this.value)" class="search-query span4"
+                           placeholder="Search"/>
+                </form>
 
-            <ul class="nav pull-right">
-              <li class="divider-vertical"></li>
-              <li><a onclick="vm.startall()" href="javascript:void(0)">Start all services</a></li>
-              <li><a href="https://github.com/nasihere/microservicePortController">Edit this page on Github</a></li>
-            </ul>
-          </div>
+                <ul class="nav pull-right">
+                    <li class="divider-vertical"></li>
+                    <li><a onclick="vm.startall()" href="javascript:void(0)">Start all services</a></li>
+                    <li><a href="https://github.com/nasihere/microservicePortController">Edit this page on Github</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 
-    <div id="app" class="container-fluid">
-      <div class="row-fluid">
+<div id="app" class="container-fluid">
+    <div class="row-fluid">
         <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Node App Services</li>
-              <li v-for="item in settings">
-                <a href="javascript:void(0)">
-                  <i class="fa fa-lg fa-play-circle" v-bind:port="item.Port" v-on:click="turnService(item)" aria-hidden="true"></i>
-                    <span v-on:click="turnService(item)">{{item.name}}</span>
-                  <i class="fa fa-lg fa-pencil-square pull-right" v-on:click="editConfig(item)" aria-hidden="true"></i>
-                </a>
-              </li>
-              <li class="nav-header">New Services</li>
-              <li><a v-on:click="newConfig()" href="javascript:void(0)">Create New Service <i  class="fa fa-lg fa-plus-square pull-right" aria-hidden="true"></i></a></li>
-              
-            </ul>
-          </div>
-           
-           <div v-if="currentItem" class="well sidebar-nav">
-            
+            <div class="well sidebar-nav">
+                <ul class="nav nav-list">
+                    <li class="nav-header">Node App Services</li>
+                    <li v-for="item in settings">
+                        <a href="javascript:void(0)">
+                            <i class="fa fa-lg fa-play-circle" v-bind:port="item.Port" v-on:click="turnService(item)"
+                               aria-hidden="true"></i>
+                            <span v-on:click="turnService(item)">{{item.name}}</span>
+                            <i class="fa fa-lg fa-pencil-square pull-right" v-on:click="editConfig(item)"
+                               aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="nav-header">New Services</li>
+                    <li><a v-on:click="newConfig()" href="javascript:void(0)">Create New Service <i
+                            class="fa fa-lg fa-plus-square pull-right" aria-hidden="true"></i></a></li>
 
-            <div >
-               <ul class="nav nav-list navbar-search">
-                <li class="nav-header">Application</li>
-                <li class="active">
-                  <a href="#">Service Name: <input type="text" v-model="currentItem.name" class="search-query " />
-                  <small>e.g:  USER MICROSERVICE</small></a>
-                  
-                </li>
-
-                <li class="nav-header">Service</li>
-                <li class="active">
-                  <a href="#">PORT: <input type="text" v-model="currentItem.Port" class="search-query "/>
-                  <small>e.g:  3080</small>
-                  </a>
-                </li>
-
-                 <li class="nav-header">Path</li>
-                <li class="active">
-                  <a href="#">package.json: <input type="text" v-model="currentItem.cd" class="search-query " />
-                  <small>e.g:  /user/project/package.json</small>
-                  </a>
-                </li>
-
-                 <li class="nav-header">Startup Variable</li>
-                <li class="active">
-                  <a href="#">Enviornment: <input type="text" v-model="currentItem.env" class="search-query " />
-                  <small>e.g:  export NODE_ENV=LOCAL;</small>
-                  </a>
-                </li>
-
-
-                 <li class="nav-header">Package JSON</li>
-                <li class="active">
-                  <a href="#">Command: <input type="text"  v-model="currentItem.command" class="search-query " />
-                  <small>e.g 1: npm run start:local</small><br/>
-                  <small>e.g 2: node build/proxy.js</small>
-                  </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <button v-on:click="saveConfig(currentItem)" class="btn btn-primary ">Save & Close</button>
-                        <button v-on:click="deleteConfig(currentItem)" class="btn btn-danger ">Delete</button>
-                    </a>
-                </li>
-
-                
-              </ul>
+                </ul>
             </div>
 
-          </div>
+            <div v-if="currentItem" class="well sidebar-nav">
+
+
+                <div>
+                    <ul class="nav nav-list navbar-search">
+                        <li class="nav-header">Application</li>
+                        <li class="active">
+                            <a href="#">Service Name: <input type="text" v-model="currentItem.name"
+                                                             class="search-query "/>
+                                <small>e.g: USER MICROSERVICE</small>
+                            </a>
+
+                        </li>
+
+                        <li class="nav-header">Service</li>
+                        <li class="active">
+                            <a href="#">PORT: <input type="text" v-model="currentItem.Port" class="search-query "/>
+                                <small>e.g: 3080</small>
+                            </a>
+                        </li>
+
+                        <li class="nav-header">Path</li>
+                        <li class="active">
+                            <a href="#">package.json: <input type="text" v-model="currentItem.cd"
+                                                             class="search-query "/>
+                                <small>e.g: /user/project/package.json</small>
+                            </a>
+                        </li>
+
+                        <li class="nav-header">Startup Variable</li>
+                        <li class="active">
+                            <a href="#">Enviornment: <input type="text" v-model="currentItem.env"
+                                                            class="search-query "/>
+                                <small>e.g: export NODE_ENV=LOCAL;</small>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-header">Package JSON</li>
+                        <li class="active">
+                            <a href="#">Command: <input type="text" v-model="currentItem.command"
+                                                        class="search-query "/>
+                                <small>e.g 1: npm run start:local</small>
+                                <br/>
+                                <small>e.g 2: node build/proxy.js</small>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <button v-on:click="saveConfig(currentItem)" class="btn btn-primary ">Save & Close
+                                </button>
+                                <button v-on:click="deleteConfig(currentItem)" class="btn btn-danger ">Delete</button>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+
+            </div>
 
         </div>
 
 
-        <div class="span8 well" >
-          <div id="content">
-              <div class="checkbox pull-right">
-                    <input type="checkbox" id="checkbox" v-model="inlinelogs" />Parse JSON
-              </div>
-              <ul id="example-1">
-                  
-                  <li v-for="item in printLogs" >
-                      <p>
+        <div class="span8 well container-fluid">
+            <div class="row">
+                <div class="col-xs-12 checkbox pull-right">
+                    <input type="checkbox" id="checkbox" v-model="inlinelogs"/>Parse JSON
+                </div>
+            </div>
+            <div id="content" class="row">
+            <div class="container span12" >
+                <div class="row" v-for="item in printLogs">
+
+                    <div class="span3">
                         <span v-bind:style="{color: item.color}">{{item.author}}</span>
-                        <span style="color:#93a1a1">{{item.dt}}:</span>
+                        <span style="color:#93A1A1">{{item.dt}}:</span>
+                    </div>
+                    <div class="span9" style="display:inline-block">
                         <code v-if="!inlinelogs" v-bind:style="{color: item.color}" v-html="item.message"></code>
-                        <pre v-if="inlinelogs" v-bind:style="{color: item.color}">{{ parseLogToJson(item.message)}}</pre>
-                      </p>
-                  </li>
-              </ul>
-          </div>
+                        <pre v-if="inlinelogs"
+                             v-bind:style="{color: item.color}">{{ parseLogToJson(item.message)}}</pre>
+                    </div>
+                </div>
+            </div></div>
+
         </div>
+    </div>
 
 
-      </div>
-      </div>
+</div>
+</div>
 
 
+<hr>
+<footer>
+    Copyright &copy; 2017 <a href="https://github.com/nasihere">@NasirSayed</a> & <a
+        href="https://github.com/NoahWallace">@NoahWallace</a>
+</footer>
+</body>
 
-
-      <hr>
-       <footer>
-        Copyright &copy; 2017 <a href="https://github.com/nasihere">@NasirSayed</a> & <a href="https://github.com/NoahWallace">@NoahWallace</a>
-      </footer>
-  </body>
-
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="https://unpkg.com/vue/dist/vue.js"></script>
-  <script src="/app/web-socket.js"></script>
-  <script src="/app/app-root.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="/app/web-socket.js"></script>
+<script src="/app/app-root.js"></script>
 </html>
