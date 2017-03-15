@@ -46,6 +46,9 @@ a > i:hover {color: #859900}
 .hero-unit {background-color: #073642; }
 #content { border-radius:6px; overflow-y: scroll;
            margin-top:10px; height:100%; color:#AADD00;}
+#content > .row-fluid{
+    margin-top:8px;
+}
 li {
     line-height: 26px;
 }

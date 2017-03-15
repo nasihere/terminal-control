@@ -153,21 +153,23 @@
                     <input type="checkbox" id="checkbox" v-model="inlinelogs"/>Parse JSON
                 </div>
             </div>
-            <div id="content" class="row">
-            <div class="container span12" >
-                <div class="row" v-for="item in printLogs">
+            <div id="content" class="row-fluid">
 
-                    <div class="span3">
-                        <span v-bind:style="{color: item.color}">{{item.author}}</span>
-                        <span style="color:#93A1A1">{{item.dt}}:</span>
-                    </div>
-                    <div class="span9" style="display:inline-block">
-                        <code v-if="!inlinelogs" v-bind:style="{color: item.color}" v-html="item.message"></code>
-                        <pre v-if="inlinelogs"
-                             v-bind:style="{color: item.color}">{{ parseLogToJson(item.message)}}</pre>
+                    <div class="row-fluid" v-for="item in printLogs">
+
+                        <div class="span4">
+                            <span v-bind:style="{color: item.color}">{{item.author}}</span>
+                            <span style="color:#93A1A1">{{item.dt}}:</span>
+                        </div>
+                        <div class="span8" style="display:inline-block">
+                            <code v-if="!inlinelogs" v-bind:style="{color: item.color}" v-html="item.message"></code>
+                            <pre v-if="inlinelogs"
+                                 v-bind:style="{color: item.color}">{{ parseLogToJson(item.message)}}</pre>
+                        </div>
                     </div>
                 </div>
-            </div></div>
+
+
 
         </div>
     </div>
