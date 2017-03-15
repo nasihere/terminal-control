@@ -66,12 +66,12 @@
             <div class="well sidebar-nav">
                 <ul class="nav nav-list">
                     <li class="nav-header">Node App Services</li>
-                    <li v-for="item in settings">
+                    <li v-for="(item, index) in settings">
                         <a href="javascript:void(0)">
                             <i class="fa fa-lg fa-play-circle" v-bind:port="item.Port" v-on:click="turnService(item)"
                                aria-hidden="true"></i>
                             <span v-on:click="turnService(item)">{{item.name}}</span>
-                            <i class="fa fa-lg fa-pencil-square pull-right" v-on:click="editConfig(item)"
+                            <i class="fa fa-lg fa-pencil-square pull-right" v-on:click="editConfig(item, index)"
                                aria-hidden="true"></i>
                         </a>
                     </li>
@@ -150,7 +150,7 @@
         <div class="span8 well container-fluid">
             <div class="row">
                 <div class="col-xs-12 checkbox pull-right">
-                    <input type="checkbox" id="checkbox" v-model="inlinelogs"/>Parse JSON
+                    <input type="checkbox" id="checkbox" v-model="inlinelogs"/>Inline logs
                 </div>
             </div>
             <div id="content" class="row">
