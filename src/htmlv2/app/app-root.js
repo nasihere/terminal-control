@@ -4,7 +4,7 @@ var vm = new Vue({
   el: '#app',
   data: {
     message: 'Welcome to NodePorts Monitors',
-    inlinelogs: true,
+    inlinelogs: false,
     settings: NODECONFIG,
     logs: [],
     printLogs: [],
