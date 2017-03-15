@@ -101,19 +101,16 @@ var vm = new Vue({
             var obj = {};
             var unreferencedKey = 0;
             logArr.map(function (item) {
+                item = item.replace(/&amp;/g, '&').replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>').replace(/&quot;/g, '');
                 var m = item.match(/=/);
                 if (m) {
-                    item = item.replace(/&amp;/g, '&').replace(/&lt;/g, '<')
-		.replace(/&gt;/g, '>').replace(/&quot;/g, '');
-        console.log(item)
                     var key = item.substring(0, m.index).trim();
                     var val = item.substring(m.index + 1).trim();
                     obj[key] = val
                 }
                 else if (item && item !== ","){
-                    obj[unreferencedKey] = item.replace(/&amp;/g, '&').replace(/&lt;/g, '<')
-		.replace(/&gt;/g, '>').replace(/&quot;/g, '');
-        console.log(item);
+                    obj[unreferencedKey] = item;
                     unreferencedKey++;
                 }
 
