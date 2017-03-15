@@ -53,14 +53,10 @@ $(function () {
         if (json.type === 'history') { // entire message history
             // insert every single message to the chat window
             for (var i=0; i < json.data.length; i++) {
-                if (json.data.text.indexOf('://') !== -1) continue;
-                if (json.data.text.indexOf('*#*') !== -1) continue;
                 addMessage(json.data[i].author, json.data[i].text,
                            json.data[i].color, new Date(json.data[i].time));
             }
         } else if (json.type === 'message') { // it's a single message
-            if (json.data.text.indexOf('://') !== -1) return;
-            if (json.data.text.indexOf('*#*') !== -1) return;
             addMessage(json.data.author, json.data.text,
                        json.data.color, new Date(json.data.time));
 
@@ -86,7 +82,7 @@ $(function () {
      * Add message to the chat window
      */
     function addMessage(author, message, color, dt) {
-
+        if (message !== '' && (message.indexOf('://') !== -1 || message.indexOf('*#*') !== -1)) return;
         vm.appendLog({
             author: author,
             message: message,

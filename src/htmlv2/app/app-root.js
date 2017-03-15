@@ -44,7 +44,6 @@ var vm = new Vue({
     startall: function(){
         $(".fa-play-circle").each(function(i, ele) {
             //this.settings.filter(x => this.startService(x));
-            console.log(ele)
             $(ele).click();
         });
     },

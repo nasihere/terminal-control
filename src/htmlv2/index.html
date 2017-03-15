@@ -138,9 +138,9 @@
               <ul id="example-1">
                   <li v-for="item in printLogs" >
                       <p>
-                        <span style="color:#fff">{{item.author}}</span>
+                        <span v-bind:style="{color: item.color}">{{item.author}}</span>
                         <span style="color:#93a1a1">{{item.dt}}:</span>
-                        <span style="color:#d7e5a1"><em v-html="item.message"></em></span>
+                        <code v-bind:style="{color: item.color}" v-html="item.message"></code>
                       </p>
                   </li>
               </ul>

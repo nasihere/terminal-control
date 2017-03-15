@@ -15,7 +15,7 @@ p small, h6, blockquote small, legend small { color: #839496; }
 hr { border-top: 1px solid #073642; border-bottom: 1px solid #002b36; }
 abbr[title]{ border-bottom: 1px dotted #586e75; }
 blockquote { border-left: 5px solid #073642; } blockquote.pull-right { border-right: 5px solid #073642; }
-code, pre { color: #00ffff; background-color: #073642; border: 1px solid #002b36; }
+code, pre { color: #00ffff; background-color: #073642; border: 1px solid #002b36; line-height: initial;}
 legend, label { color: #93a1a1; }
 .dropdown-menu { background-color: #073642; border-color: #5e8675; }
 .dropdown-menu .divider { background-color: #5e8675; border-bottom: #002b36; }
