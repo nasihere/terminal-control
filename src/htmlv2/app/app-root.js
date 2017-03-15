@@ -38,13 +38,16 @@ var vm = new Vue({
         if (!msg) {
             return;
         }
-        // send the message as an ordinary text
         connection.send(pwd + env + msg + "*#*" + config.name);
         checkPortSignal(config, 'start');
     },
+    pingPort: function(){
+        this.settings.forEach(function(config){
+            checkPortSignal(config, 'start');
+        })  
+    },
     startall: function(){
         $(".fa-play-circle").each(function(i, ele) {
-            //this.settings.filter(x => this.startService(x));
             $(ele).click();
         });
     },
