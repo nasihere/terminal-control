@@ -78,9 +78,8 @@ $(function () {
         }
     };
 
-    /**
-     * Add message to the chat window
-     */
+    
+
     function addMessage(author, message, color, dt) {
         if (message !== '' && (message.indexOf('://') !== -1 || message.indexOf('*#*') !== -1)) return;
         vm.appendLog({
@@ -91,10 +90,6 @@ $(function () {
                 + (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes())
         });
         vm.searchLogs($("#searchText").val());
-        // content.prepend('<p><span style="color:' + 'white' + '">' + author + '</span> @ ' +
-        //      + (dt.getHours() < 10 ? '0' + dt.getHours() : dt.getHours()) + ':'
-        //      + (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes())
-        //      + ': ' + message + '</p>');
-
     }
+
 });
