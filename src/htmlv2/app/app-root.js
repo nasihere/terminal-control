@@ -4,6 +4,7 @@ var vm = new Vue({
   el: '#app',
   data: {
     message: 'Welcome to NodePorts Monitors',
+    inlinelogs: true,
     settings: NODECONFIG,
     logs: [],
     printLogs: [],
@@ -13,7 +14,7 @@ var vm = new Vue({
     },
     searchLogs: function(search){
         const msg = search.toLowerCase();
-        this.printLogs = this.logs.filter(x => {
+        this.printLogs = this.logs.filter(function(x) {
             return (x.message.toLowerCase().indexOf(msg) !== -1 ||
                     x.author.toLowerCase().indexOf(msg) !== -1 ||
                     x.dt.toLowerCase().indexOf(msg) !== -1 ||
@@ -65,7 +66,7 @@ var vm = new Vue({
         checkPortSignal(config, 'stop');
     },
     saveConfig: function(config) {
-        if (config.name === '' || config.Port === '' ) {
+        if (config.name === ''  ) {
             this.currentItem = null;
             return;
         };
@@ -91,6 +92,32 @@ var vm = new Vue({
         var tmp = this.logs;
         var tmpNew = [log];
         this.logs = tmpNew.concat(tmp);
+    },
+    parseLogToJson: function (log) {
+        if (this.inlinelogs === false) return log;
+        var logArr = log.split(/(,(?![^\(]*\)))/g);
+
+        if (logArr.length > 1) {
+            var obj = {};
+            var unreferencedKey = 0;
+            logArr.map(function (item) {
+                var m = item.match(/=/);
+                if (m) {
+                    var key = item.substring(0, m.index).trim();
+                    var val = item.substring(m.index + 1).trim();
+                    obj[key] = val
+                }
+                else if (item && item !== ","){
+                    obj[unreferencedKey] = item;
+                    unreferencedKey++;
+                }
+
+            });
+            return obj;
+        }
+        else {
+            return logArr[0]
+        }
     }
   }
 })

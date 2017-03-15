@@ -135,12 +135,17 @@
 
         <div class="span8 well" >
           <div id="content">
+              <div class="checkbox pull-right">
+                    <input type="checkbox" id="checkbox" v-model="inlinelogs" />Parse JSON
+              </div>
               <ul id="example-1">
+                  
                   <li v-for="item in printLogs" >
                       <p>
                         <span v-bind:style="{color: item.color}">{{item.author}}</span>
                         <span style="color:#93a1a1">{{item.dt}}:</span>
-                        <code v-bind:style="{color: item.color}" v-html="item.message"></code>
+                        <code v-if="!inlinelogs" v-bind:style="{color: item.color}" v-html="item.message"></code>
+                        <pre v-if="inlinelogs" v-bind:style="{color: item.color}">{{ parseLogToJson(item.message)}}</pre>
                       </p>
                   </li>
               </ul>
