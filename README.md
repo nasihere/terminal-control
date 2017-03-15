@@ -44,4 +44,5 @@ EXAMPLE1
             "cd":<pathofexternalproject:string> // "/user/project/pacakge.json"
         }
     ]
+}    
 ```
