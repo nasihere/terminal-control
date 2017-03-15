@@ -95,14 +95,13 @@ var vm = new Vue({
     },
     parseLogToJson: function (log) {
         if (this.inlinelogs === false) return log;
-        var logArr = log.split(/(,(?![^\(]*\)))/g);
+        var logArr = log.replace(/&amp;/g, '&').replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>').replace(/&quot;/g, '').split(/(,(?![^\(]*\)))/g);
 
         if (logArr.length > 1) {
             var obj = {};
             var unreferencedKey = 0;
             logArr.map(function (item) {
-                item = item.replace(/&amp;/g, '&').replace(/&lt;/g, '<')
-		.replace(/&gt;/g, '>').replace(/&quot;/g, '');
                 var m = item.match(/=/);
                 if (m) {
                     var key = item.substring(0, m.index).trim();
