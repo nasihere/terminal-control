@@ -9,8 +9,9 @@ var vm = new Vue({
     logs: [],
     printLogs: [],
     currentItem: null,
-    editConfig: function(item){
+    editConfig: function(item, index){
         this.currentItem = item;
+        this.currentItem.index = index;
     },
     searchLogs: function(search){
         const msg = search.toLowerCase();
@@ -27,8 +28,7 @@ var vm = new Vue({
               "Port": "",
               "env":"",
               "command":"",
-              "cd":"",
-              "stop":"lsof -t -i tcp:#PORT# | xargs kill;"
+              "cd":""
           };
     },
     startService: function(config){
@@ -61,7 +61,7 @@ var vm = new Vue({
         }
     },
     stopService: function(config){
-        var msg = config.stop.replace('#PORT#',config.Port);
+        var msg = "lsof -t -i tcp:#PORT# | xargs kill;".replace('#PORT#',config.Port);
         connection.send(msg + "*#*" + config.name);
         checkPortSignal(config, 'stop');
     },
@@ -78,13 +78,13 @@ var vm = new Vue({
 
     },
     deleteConfig: function(config) {
-        if (config.name === '' || config.Port === '' ) {
+        if (config.name === '') {
             this.currentItem = null;
             return;
         };
         var r = confirm("Do you want to remove "+config.name+" service?");
         if (r == true) {
-            connection.send('deleteConfig://'+config.identifier);
+            connection.send('deleteConfig://'+config.index);
             location.reload();
         }
     },

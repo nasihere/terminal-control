@@ -39,7 +39,6 @@ export class wsServerClass extends appCommand {
 				let userName;
 				let userColor = self.colors[ index ];
 				// send back chat history
-				console.log(self.history,'self.history')
 				if ( self.history.length > 0 ) {
 					conn.sendUTF(JSON.stringify({type: 'history', data: self.history}))
 				}

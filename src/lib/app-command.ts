@@ -86,13 +86,13 @@ export class appCommand {
 			} else {
 				obj = JSON.parse(data); //now it an object
 				var pushJson = JSON.parse(newConfig);
-				if ( pushJson.identifier === undefined ) {
-					pushJson.identifier = new Date();
+				if ( pushJson.index === undefined ) {
 					obj.configService.push(pushJson); //add some data
 				}
 				else {
-					obj.configService = obj.configService.map(x => {
-						if ( x.identifier === pushJson.identifier ) {
+					obj.configService = obj.configService.map((x,index) => {
+						if ( index === pushJson.index ) {
+							delete pushJson.index; 
 							return pushJson;
 						}
 						else {
@@ -134,10 +134,12 @@ export class appCommand {
 			}
 		});
 	};
-	deleteConfig = (identifier, connection):void=> {
-		if ( identifier === undefined ) {
+	deleteConfig = (index, connection):void=> {
+		if ( index === undefined ) {
+			console.log(index , 'index')
 			return;
 		}
+		index = parseInt(index); // convert to string to number;
 		let obj = {
 			configService: []
 		};
@@ -145,11 +147,14 @@ export class appCommand {
 			if ( err ) {
 				console.log(err);
 			} else {
+				let i = 0;
 				JSON.parse(data).configService.filter(x => {
-					if ( x.identifier !== identifier ) {
+					if ( i !== index ) {
 						obj.configService.push(x);
 					}
-
+					i++;
+					
+					
 				});
 				const writeJson = JSON.stringify(obj); //convert it back to json
 				fs.writeFile(this.configSrc, writeJson, 'utf8', (data) => {
