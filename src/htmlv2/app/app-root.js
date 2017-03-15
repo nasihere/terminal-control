@@ -78,7 +78,7 @@ var vm = new Vue({
 
     },
     deleteConfig: function(config) {
-        if (config.name === '' || config.Port === '' ) {
+        if (config.name === '') {
             this.currentItem = null;
             return;
         };

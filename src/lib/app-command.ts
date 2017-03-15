@@ -136,8 +136,10 @@ export class appCommand {
 	};
 	deleteConfig = (index, connection):void=> {
 		if ( index === undefined ) {
+			console.log(index , 'index')
 			return;
 		}
+		index = parseInt(index); // convert to string to number;
 		let obj = {
 			configService: []
 		};
@@ -145,11 +147,14 @@ export class appCommand {
 			if ( err ) {
 				console.log(err);
 			} else {
+				let i = 0;
 				JSON.parse(data).configService.filter(x => {
-					if ( x.index !== index ) {
+					if ( i !== index ) {
 						obj.configService.push(x);
 					}
-
+					i++;
+					
+					
 				});
 				const writeJson = JSON.stringify(obj); //convert it back to json
 				fs.writeFile(this.configSrc, writeJson, 'utf8', (data) => {
