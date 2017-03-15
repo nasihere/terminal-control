@@ -21,7 +21,7 @@ let exec     = childprocess.exec,
 // });
 
 export class appCommand {
-	colors: Array<string> = [ 'red', 'green', 'blue', 'magenta', 'purple', 'plum', 'orange' ].sort();
+	colors: Array<string> = [ 'red', 'DeepSkyBlue', 'gold', 'magenta', '#ADFF2F', 'plum', 'orange','aqua','BlanchedAlmond','#00BFFF' ].sort();
 	configSrc:string;
 	constructor(){
 		let rcConfig={
@@ -35,19 +35,26 @@ export class appCommand {
 	appCmd = (cmd, connection) => {
 		let self = this;
 		let userColor = this.colors.shift();
-		let child = exec(cmd, this.puts);
+		let child = exec(cmd[0], this.puts);
 		child.stdout.on('data',  (data) => {
 			console.log('stdout: ' + data);
 			let obj = {
 				time:   (new Date()).getTime(),
 				text:   stringifyHtml(data),
-				author: userName,
+				author: cmd[1],
 				color:  userColor
 			};
 			connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 		});
 		child.stderr.on('data', function (data) {
 			console.log('stderr: ' + data);
+			let obj = {
+				time:   (new Date()).getTime(),
+				text:   stringifyHtml(data),
+				author: cmd[1],
+				color:  userColor
+			};
+			connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 		});
 		//child.on('close', function(code) {
 		//console.log('closing code: ' + code);

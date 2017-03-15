@@ -39,8 +39,9 @@ export class wsServerClass extends appCommand {
 				let userName;
 				let userColor = self.colors[ index ];
 				// send back chat history
+				console.log(self.history,'self.history')
 				if ( self.history.length > 0 ) {
-					conn.sendUTF(JSON.stringify({type: 'history', data: self.history}));
+					conn.sendUTF(JSON.stringify({type: 'history', data: self.history}))
 				}
 				conn.on('message', (message) => {
 					let copyMsg = stringifyHtml(message.utf8Data);
@@ -106,7 +107,9 @@ export class wsServerClass extends appCommand {
 			this.pingPort(msg.split('*#*')[ 0 ], connection);
 		}
 		else {
-			this.appCmd(str.split('*#*')[ 0 ], connection);
+			const msg = str.split('*#*');
+		    this.appCmd(msg, connection);
+
 		}
 	}
 
