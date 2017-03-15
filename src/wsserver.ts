@@ -41,9 +41,7 @@ export class wsServerClass extends appCommand {
 				// send back chat history
 				console.log(self.history,'self.history')
 				if ( self.history.length > 0 ) {
-					setTimeout(function(){
-						conn.sendUTF(JSON.stringify({type: 'history', data: self.history}))
-					},1000);
+					conn.sendUTF(JSON.stringify({type: 'history', data: self.history}))
 				}
 				conn.on('message', (message) => {
 					let copyMsg = stringifyHtml(message.utf8Data);
