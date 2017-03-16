@@ -33,16 +33,15 @@ export class wsServerClass extends appCommand {
 		this.wsServer.on('request', function (request) {
 			request.on('requestResolved', (req) => {
 				console.log((new Date()) + ' Connection from origin ' + req.origin + '.');
-
 			});
 			request.on('requestAccepted', (conn) => {
 				// accept connection - you should check 'request.origin' to make sure that
 				// client is connecting from your website
 				// (http://en.wikipedia.org/wiki/Same_origin_policy)
 				// we need to know client index to remove them on 'close' event
-				console.log((new Date()) + ' Connection accepted.');
-				let index = self.clients.push(conn) - 1;
-				let userName;
+				let index = self.clients.length;
+				console.log((new Date()) + ' Connection accepted.',index);
+				let userName = 'NODEUSER'+index;
 				let userColor = self.colors[ index ];
 				// send back chat history
 				if ( self.history.length > 0 ) {
@@ -50,16 +49,16 @@ export class wsServerClass extends appCommand {
 				}
 				conn.on('message', (message) => {
 					let copyMsg = stringifyHtml(message.utf8Data);
-					userName = copyMsg.split('*#*')[ 1 ] || os.hostname();
+					const appName = copyMsg.split('*#*')[ 1 ] || os.hostname();
 					// console.log((new Date()) + ' Received Message from '
-					// + userName + ': ' + message.utf8Data);
+					// + appName + ': ' + message.utf8Data);
 
 					self.execCmd(message.utf8Data, conn, historyCallback);
 					// we want to keep history of all sent messages
 					let obj = {
 						time:   (new Date()).getTime(),
 						text:   stringifyHtml(message.utf8Data),
-						author: userName,
+						author: appName,
 						color:  userColor
 					};
 
@@ -75,18 +74,30 @@ export class wsServerClass extends appCommand {
 				})
 				// user disconnected
 				conn.on('close', (connection) => {
-					if ( userName && userColor ) {
-						console.log((new Date()) + " Peer "
-							+ connection.remoteAddress + " disconnected.");
+					if ( userName && userColor ) {	
+						const msg = "Peer disconnected due to Multi window Recognized!. Please check old logs in existing window tab.";
+						let obj = {
+							time:   (new Date()).getTime(),
+							text:   stringifyHtml("Peer disconnected due to Multi window Recognized!. Please check old logs in existing window tab."),
+							author: "NODESERVICE",
+							color:  'red'
+						};
+
+						self.history.push(obj);
+						self.history = self.history.slice(-100);
+						self.execCmd(msg, conn, historyCallback);
+						
 						// remove user from the list of connected clients
 						self.clients.splice(index, 1);
 						// push back user's color to be reused by another user
 						self.colors.push(userColor);
+						
 					}
 				});
 
 			});
-			request.accept(null,request.origin)
+			const connection = request.accept(null,request.origin)
+			self.clients.push(connection) - 1;
 		});
 	};
 
