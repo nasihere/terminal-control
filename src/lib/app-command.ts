@@ -21,7 +21,7 @@ let exec     = childprocess.exec,
 // });
 
 export class appCommand {
-	colors: Array<string> = [ 'red', 'DeepSkyBlue', 'gold', 'magenta', '#ADFF2F', 'plum', 'orange','aqua','BlanchedAlmond','#00BFFF' ].sort();
+	colors: Array<string> = [ '#ffb2b2', 'DeepSkyBlue', 'gold', 'magenta', '#ADFF2F', 'plum', 'orange','aqua','BlanchedAlmond','#00BFFF' ].sort();
 	configSrc:string;
 	constructor(){
 		let rcConfig={
@@ -32,7 +32,7 @@ export class appCommand {
 	}
 	puts = (error, stdout, stderr): void => {
 	};
-	appCmd = (cmd, connection) => {
+	appCmd = (cmd, connection, logCallback) => {
 		let self = this;
 		let userColor = this.colors.shift();
 		let child = exec(cmd[0], this.puts);
@@ -44,6 +44,7 @@ export class appCommand {
 				author: cmd[1],
 				color:  userColor
 			};
+			logCallback(obj);
 			connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 		});
 		child.stderr.on('data', function (data) {
@@ -54,6 +55,7 @@ export class appCommand {
 				author: cmd[1],
 				color:  userColor
 			};
+			logCallback(obj);
 			connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 		});
 		//child.on('close', function(code) {
@@ -86,13 +88,13 @@ export class appCommand {
 			} else {
 				obj = JSON.parse(data); //now it an object
 				var pushJson = JSON.parse(newConfig);
-				if ( pushJson.identifier === undefined ) {
-					pushJson.identifier = new Date();
+				if ( pushJson.index === undefined ) {
 					obj.configService.push(pushJson); //add some data
 				}
 				else {
-					obj.configService = obj.configService.map(x => {
-						if ( x.identifier === pushJson.identifier ) {
+					obj.configService = obj.configService.map((x,index) => {
+						if ( index === pushJson.index ) {
+							delete pushJson.index; 
 							return pushJson;
 						}
 						else {
@@ -134,10 +136,12 @@ export class appCommand {
 			}
 		});
 	};
-	deleteConfig = (identifier, connection):void=> {
-		if ( identifier === undefined ) {
+	deleteConfig = (index, connection):void=> {
+		if ( index === undefined ) {
+			console.log(index , 'index')
 			return;
 		}
+		index = parseInt(index); // convert to string to number;
 		let obj = {
 			configService: []
 		};
@@ -145,11 +149,14 @@ export class appCommand {
 			if ( err ) {
 				console.log(err);
 			} else {
+				let i = 0;
 				JSON.parse(data).configService.filter(x => {
-					if ( x.identifier !== identifier ) {
+					if ( i !== index ) {
 						obj.configService.push(x);
 					}
-
+					i++;
+					
+					
 				});
 				const writeJson = JSON.stringify(obj); //convert it back to json
 				fs.writeFile(this.configSrc, writeJson, 'utf8', (data) => {
