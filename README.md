@@ -1,4 +1,4 @@
-# microservicePortController - NASIR SAYED & NOAH WALLACE
+# NodeServices - NASIR SAYED & NOAH WALLACE
 # Version 0.0.1
 
 This repository helps to all the developer to run the microservices from single web page. I'm using websocket to talk to system terminal. It create instance of each service to trace all the logs and report on the web page. All microservices or other NODE application are configuarable. It also support environment, port, location of the project directory and package.json command. 
@@ -41,9 +41,8 @@ EXAMPLE1
             "Port": <portnumber:string>,
             "env":<environmentVariables>, // export NODE_ENV=LOCAL; export NODE_ENC=ABC;
             "command":<npm command string:string>, // "npm run start"
-            "cd":<pathofexternalproject:string>,
-            "stop":<killcommand> ,//"lsof -t -i tcp:#PORT# | xargs kill;"
-            "identifier":<uniqueIdentifier:string>
+            "cd":<pathofexternalproject:string> // "/user/project/pacakge.json"
         }
     ]
+}    
 ```

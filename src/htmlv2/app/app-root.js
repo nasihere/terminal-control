@@ -4,13 +4,14 @@ var vm = new Vue({
   el: '#app',
   data: {
     message: 'Welcome to NodePorts Monitors',
-    inlinelogs: true,
+    inlinelogs: false,
     settings: NODECONFIG,
     logs: [],
     printLogs: [],
     currentItem: null,
-    editConfig: function(item){
+    editConfig: function(item, index){
         this.currentItem = item;
+        this.currentItem.index = index;
     },
     searchLogs: function(search){
         const msg = search.toLowerCase();
@@ -27,8 +28,7 @@ var vm = new Vue({
               "Port": "",
               "env":"",
               "command":"",
-              "cd":"",
-              "stop":"lsof -t -i tcp:#PORT# | xargs kill;"
+              "cd":""
           };
     },
     startService: function(config){
@@ -38,13 +38,16 @@ var vm = new Vue({
         if (!msg) {
             return;
         }
-        // send the message as an ordinary text
         connection.send(pwd + env + msg + "*#*" + config.name);
         checkPortSignal(config, 'start');
     },
+    pingPort: function(){
+        this.settings.forEach(function(config){
+            checkPortSignal(config, 'start');
+        })  
+    },
     startall: function(){
         $(".fa-play-circle").each(function(i, ele) {
-            //this.settings.filter(x => this.startService(x));
             $(ele).click();
         });
     },
@@ -61,7 +64,7 @@ var vm = new Vue({
         }
     },
     stopService: function(config){
-        var msg = config.stop.replace('#PORT#',config.Port);
+        var msg = "lsof -t -i tcp:#PORT# | xargs kill;".replace('#PORT#',config.Port);
         connection.send(msg + "*#*" + config.name);
         checkPortSignal(config, 'stop');
     },
@@ -78,13 +81,13 @@ var vm = new Vue({
 
     },
     deleteConfig: function(config) {
-        if (config.name === '' || config.Port === '' ) {
+        if (config.name === '') {
             this.currentItem = null;
             return;
         };
         var r = confirm("Do you want to remove "+config.name+" service?");
         if (r == true) {
-            connection.send('deleteConfig://'+config.identifier);
+            connection.send('deleteConfig://'+config.index);
             location.reload();
         }
     },
@@ -95,14 +98,13 @@ var vm = new Vue({
     },
     parseLogToJson: function (log) {
         if (this.inlinelogs === false) return log;
-        var logArr = log.split(/(,(?![^\(]*\)))/g);
+        var logArr = log.replace(/&amp;/g, '&').replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>').replace(/&quot;/g, '').split(/(,(?![^\(]*\)))/g);
 
         if (logArr.length > 1) {
             var obj = {};
             var unreferencedKey = 0;
             logArr.map(function (item) {
-                item = item.replace(/&amp;/g, '&').replace(/&lt;/g, '<')
-		.replace(/&gt;/g, '>').replace(/&quot;/g, '');
                 var m = item.match(/=/);
                 if (m) {
                     var key = item.substring(0, m.index).trim();
