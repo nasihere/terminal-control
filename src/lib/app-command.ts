@@ -4,6 +4,7 @@ import * as os from "os";
 import * as childprocess from 'child_process';
 import * as rc from "rc";
 import { stringifyHtml } from '../utils';
+let platform=os.platform();
 
 
 
@@ -35,7 +36,9 @@ export class appCommand {
 	appCmd = (cmd, connection, logCallback) => {
 		let self = this;
 		let userColor = this.colors.shift();
-		let child = exec(cmd[0], this.puts);
+		let oscmd= platform === "win32"? cmd[0].replace(/;/g," & ") : cmd[0]
+
+		let child = exec(oscmd, this.puts);
 		child.stdout.on('data',  (data) => {
 			console.log('stdout: ' + data);
 			let obj = {
