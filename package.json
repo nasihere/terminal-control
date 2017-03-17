@@ -1,6 +1,6 @@
 {
-  "name": "nodeappmonitor",
-  "version": "1.0.0",
+  "name": "nodeserviceagent",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
