@@ -30,8 +30,7 @@ export class wsServerClass extends appCommand {
 		
 	};
 	private broadCastMsg = (obj,conn) => {
-		conn.sendUTF(JSON.stringify({type: 'message', data: obj}));
-		
+			
 		// broadcast message to all connected clients
 		let json = JSON.stringify({type: 'message', data: obj});
 		for ( let i = 0; i < this.clients.length; i++ ) {
