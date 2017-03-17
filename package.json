@@ -11,9 +11,12 @@
     "prestart":"node ./npm-node-os.js clean && npm run compile && npm run copy",
     "start": " node build/index.js",
     "start:local": "rm -rf ./build; tsc; cp -R ./src/htmlv2  ./build; node build/index.js"
-
-
   },
+  "bin": {
+    "nsc": "./build/bin/module.js"
+  },
+  "main" : "./build/index.js",
+  "preferGlobal": "true",
   "author": "Nasir Sayed",
   "license": "ISC",
   "contributors": [
