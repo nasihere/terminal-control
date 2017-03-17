@@ -3,12 +3,20 @@ Version 0.0.1
 
 NodeServices Agent is a terminal on browser to start/stop all the node application by one click. It has feature to view NODE Application console.logs directly on webview. Ability to search logs and append new node service application. It easy to manage all running instance in one single interface.”
 
-It easy and fast for development purpose.
+It easy and fast for development purpose. To get all information of your apps in one place. 
 
 #### Install
 ---------
 You can install this package with npm.
     
+`npm install -g nodeserviceagent`
+Then go to the terminal and type `nsc` to run the application. 
+
+Default port 8125. If you wish to choose own port so `nsc {PORT}` replace {PORT} to any desire port number like 9900 or 8338 
+
+#### RC Config (Optional)
+---------
+If you have any RC config available in the system. `nsc` will hook up to that config by automatically. That generally will be helpful for big organizations.
 
 
     ```
@@ -25,11 +33,9 @@ You can install this package with npm.
     $ run 'npm run start:local`
     ```
 
+run the `nsc`
 
-Then navigate to  `localhost:8125/` and start or stop the services in single page.
-
-
-EXAMPLE1
+EXAMPLE: RC Config parameter 
 ---------
 
 ```
