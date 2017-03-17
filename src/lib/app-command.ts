@@ -40,26 +40,26 @@ export class appCommand {
 
 		let child = exec(oscmd, this.puts);
 		child.stdout.on('data',  (data) => {
-			console.log('stdout: ' + data);
+			// console.log('stdout: ' + data);
 			let obj = {
 				time:   (new Date()).getTime(),
 				text:   stringifyHtml(data),
 				author: cmd[1],
 				color:  userColor
 			};
-			logCallback(obj);
-			connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
+			logCallback(obj, connection);
+			//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 		});
 		child.stderr.on('data', function (data) {
-			console.log('stderr: ' + data);
+			// console.log('stderr: ' + data);
 			let obj = {
 				time:   (new Date()).getTime(),
 				text:   stringifyHtml(data),
 				author: cmd[1],
 				color:  userColor
 			};
-			logCallback(obj);
-			connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
+			logCallback(obj, connection);
+			//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 		});
 		//child.on('close', function(code) {
 		//console.log('closing code: ' + code);
@@ -141,7 +141,6 @@ export class appCommand {
 	};
 	deleteConfig = (index, connection):void=> {
 		if ( index === undefined ) {
-			console.log(index , 'index')
 			return;
 		}
 		index = parseInt(index); // convert to string to number;

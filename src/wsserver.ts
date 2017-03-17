@@ -9,7 +9,7 @@ let webSocketServer = websocket.server;
 // Optional. You will see this name in eg. 'ps' or 'top' command
 process.title = 'node-chat';
 
-
+const skipLog = ['readConfig://', 'deleteConfig://', 'saveConfig://', 'pingport://'];
 export class wsServerClass extends appCommand {
 	history = [];
 	clients = [];
@@ -21,10 +21,22 @@ export class wsServerClass extends appCommand {
 		// an enhanced HTTP request. For more info http://tools.ietf.org/html/rfc6455#page-6
 		httpServer: this.httpserver
 	});
-	public historyWrite = (log) => {
+	public historyWrite = (log,conn) => {
+		if (skipLog.indexOf(log.text) === -1) {
+			this.history.push(log);
+			this.history = this.history.slice(-100);
+			this.broadCastMsg(log,conn);
+		}
 		
-		this.history.push(log);
-		this.history = this.history.slice(-100);
+	};
+	private broadCastMsg = (obj,conn) => {
+		conn.sendUTF(JSON.stringify({type: 'message', data: obj}));
+		
+		// broadcast message to all connected clients
+		let json = JSON.stringify({type: 'message', data: obj});
+		for ( let i = 0; i < this.clients.length; i++ ) {
+			this.clients[ i ].sendUTF(json);
+		}	
 
 	};
 	private setWsServer = () => {
@@ -61,16 +73,18 @@ export class wsServerClass extends appCommand {
 						author: appName,
 						color:  userColor
 					};
+					// if (message.utf8Data.indexOf("://") === -1) {
+					// 	self.history.push(obj);
+					// 	self.history = self.history.slice(-100);
+					
+					
+					// 	// broadcast message to all connected clients
+					// 	let json = JSON.stringify({type: 'message', data: obj});
+					// 	for ( let i = 0; i < self.clients.length; i++ ) {
+					// 		self.clients[ i ].sendUTF(json);
 
-					self.history.push(obj);
-					self.history = self.history.slice(-100);
-
-					// broadcast message to all connected clients
-					let json = JSON.stringify({type: 'message', data: obj});
-					for ( let i = 0; i < self.clients.length; i++ ) {
-						self.clients[ i ].sendUTF(json);
-
-					}
+					// 	}
+					// }
 				})
 				// user disconnected
 				conn.on('close', (connection) => {
@@ -97,7 +111,7 @@ export class wsServerClass extends appCommand {
 
 			});
 			const connection = request.accept(null,request.origin)
-			self.clients.push(connection) - 1;
+			self.clients.push(connection);
 		});
 	};
 
