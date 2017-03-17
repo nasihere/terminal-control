@@ -39,6 +39,7 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin('./css/bootstrap.dark.min.css'),
+        new ExtractTextPlugin('./css/base.css'),
         new HtmlWebpackPlugin({title: 'Tree-Shaking', template: "./src/htmlv3/index.html"})
     ]
 
