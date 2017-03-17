@@ -1,16 +1,15 @@
-# NodeServices - NASIR SAYED & NOAH WALLACE
-# Version 0.0.1
+# NodeServicesAgent 
+Version 0.0.1
 
-This repository helps to all the developer to run the microservices from single web page. I'm using websocket to talk to system terminal. It create instance of each service to trace all the logs and report on the web page. All microservices or other NODE application are configuarable. It also support environment, port, location of the project directory and package.json command. 
+NodeServices Agent is a terminal on browser to start/stop all the node application by one click. It has feature to view NODE Application console.logs directly on webview. Ability to search logs and append new node service application. It easy to manage all running instance in one single interface.”
 
-I didn't used any heavy packages such as express, or static server. Everything's using local OS and native library of nodejs.
+It easy and fast for development purpose.
 
+#### Install
+---------
+You can install this package with npm.
+    
 
-#### Getting Started
-
-1. clone or download the repository from https://github.com/nasihere/microservicePortController.git
-2. create a json file of your choosing. structure is below in Example1
-2. in terminal issue these commands
 
     ```
     $ cd ~/
