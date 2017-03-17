@@ -36,7 +36,7 @@ export class appCommand {
 	appCmd = (cmd, connection, logCallback) => {
 		let self = this;
 		let userColor = this.colors.shift();
-		let oscmd= platform === "win32"? cmd[0].replace(/;/g," & ") : cmd[0]
+		let oscmd= platform === "win32"? cmd[0].replace(/;/g,"&") : cmd[0]
 
 		let child = exec(oscmd, this.puts);
 		child.stdout.on('data',  (data) => {
