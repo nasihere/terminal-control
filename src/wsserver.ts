@@ -30,8 +30,7 @@ export class wsServerClass extends appCommand {
 		
 	};
 	private broadCastMsg = (obj,conn) => {
-		conn.sendUTF(JSON.stringify({type: 'message', data: obj}));
-		
+			
 		// broadcast message to all connected clients
 		let json = JSON.stringify({type: 'message', data: obj});
 		for ( let i = 0; i < this.clients.length; i++ ) {
@@ -55,16 +54,14 @@ export class wsServerClass extends appCommand {
 				console.log((new Date()) + ' Connection accepted.',index);
 				let userName = 'NODEUSER'+index;
 				let userColor = self.colors[ index ];
-				// send back chat history
+				// send back logs history
 				if ( self.history.length > 0 ) {
 					conn.sendUTF(JSON.stringify({type: 'history', data: self.history}))
 				}
 				conn.on('message', (message) => {
 					let copyMsg = stringifyHtml(message.utf8Data);
 					const appName = copyMsg.split('*#*')[ 1 ] || os.hostname();
-					// console.log((new Date()) + ' Received Message from '
-					// + appName + ': ' + message.utf8Data);
-
+				
 					self.execCmd(message.utf8Data, conn, historyCallback);
 					// we want to keep history of all sent messages
 					let obj = {
@@ -73,39 +70,13 @@ export class wsServerClass extends appCommand {
 						author: appName,
 						color:  userColor
 					};
-					// if (message.utf8Data.indexOf("://") === -1) {
-					// 	self.history.push(obj);
-					// 	self.history = self.history.slice(-100);
-					
-					
-					// 	// broadcast message to all connected clients
-					// 	let json = JSON.stringify({type: 'message', data: obj});
-					// 	for ( let i = 0; i < self.clients.length; i++ ) {
-					// 		self.clients[ i ].sendUTF(json);
-
-					// 	}
-					// }
 				})
 				// user disconnected
 				conn.on('close', (connection) => {
 					if ( userName && userColor ) {	
-						const msg = "Peer disconnected due to Multi window Recognized!. Please check old logs in existing window tab.";
-						let obj = {
-							time:   (new Date()).getTime(),
-							text:   stringifyHtml("Peer disconnected due to Multi window Recognized!. Please check old logs in existing window tab."),
-							author: "NODESERVICE",
-							color:  'red'
-						};
-
-						self.history.push(obj);
-						self.history = self.history.slice(-100);
-						self.execCmd(msg, conn, historyCallback);
 						
 						// remove user from the list of connected clients
 						self.clients.splice(index, 1);
-						// push back user's color to be reused by another user
-						self.colors.push(userColor);
-						
 					}
 				});
 
