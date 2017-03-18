@@ -30,7 +30,7 @@ function findContentType (extname) {
 }
 
 export const httpServer=http.createServer((request, response)=> {
-	console.log(`fetching ${request.url}`);
+	// console.log(`fetching ${request.url}`);
 	let requestConfig = {
 		uri: url.parse(request.url).pathname,
 		filePath: request.url === "/" ? 'build/htmlv2/index.html' : 'build/htmlv2/'+ request.url,
@@ -55,7 +55,7 @@ export const httpServer=http.createServer((request, response)=> {
 		}
 		else {
 			response.writeHead(200, {'Content-Type': requestConfig.contentType});
-			console.log(`fetched ${request.url}`);
+			// console.log(`fetched ${request.url}`);
 			response.end(content, 'utf-8');
 		}
 	});

@@ -1,8 +1,8 @@
 {
-  "name": "nodeappmonitor",
-  "version": "1.0.0",
+  "name": "nodeserviceagent",
+  "version": "0.0.5",
   "description": "",
-  "main": "index.js",
+  "main": "./build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc",
@@ -13,6 +13,10 @@
     "start:local": "rm -rf ./build; tsc; cp -R ./src/htmlv3  ./build; node build/index.js",
     "start:webpack": "webpack-dashboard -- node build/index.js"
   },
+  "bin": {
+    "nsc": "./build/bin/module.js"
+  },
+  "preferGlobal": "true",
   "author": "Nasir Sayed",
   "license": "ISC",
   "contributors": [
