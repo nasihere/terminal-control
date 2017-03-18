@@ -1,21 +1,20 @@
 {
   "name": "nodeserviceagent",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "",
-  "main": "index.js",
+  "main": "./build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile":"tsc",
-    "copy":"node ./npm-node-os.js copy",
+    "compile": "tsc",
+    "copy": "node ./npm-node-os.js copy",
     "html": "cp -R ./src/html  ./build",
-    "prestart":"node ./npm-node-os.js clean && npm run compile && npm run copy",
+    "prestart": "node ./npm-node-os.js clean && npm run compile && npm run copy",
     "start": " node build/index.js",
     "start:local": "rm -rf ./build; tsc; cp -R ./src/htmlv2  ./build; node build/index.js"
   },
   "bin": {
     "nsc": "./build/bin/module.js"
   },
-  "main" : "./build/index.js",
   "preferGlobal": "true",
   "author": "Nasir Sayed",
   "license": "ISC",
@@ -23,11 +22,10 @@
     "Noah Wallace noah.z.wallace@gmail.com"
   ],
   "devDependencies": {
-    "@types/node": "^7.0.8",
-    "rc": "^1.1.7",
-    "websocket": "^1.0.24"
+    "@types/node": "^7.0.8"
   },
   "dependencies": {
-    "rc": "^1.1.7"
+    "rc": "^1.1.7",
+    "websocket": "^1.0.24"
   }
 }

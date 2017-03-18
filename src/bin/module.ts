@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('../index.js').runService();
+require('../index.js');

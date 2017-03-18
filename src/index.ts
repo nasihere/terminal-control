@@ -11,4 +11,4 @@ function runService() {
 		console.log((new Date()) + " Server is listening on port " + 1337);
 	});
 }
-exports.runService = runService;
+runService();
