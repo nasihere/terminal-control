@@ -1,5 +1,5 @@
 {
-  "compileOnSave": true,
+  "compileOnSave": false,
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
@@ -7,15 +7,17 @@
     "outDir": "build",
     "sourceMap": true,
     "removeComments": true,
-    "declaration": true,
-    "declarationDir": "build/types",
+    "declaration": false,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "jsx": "react",
+    "allowJs": true
   },
   "exclude":[
     "node_modules",
     "build",
     "sandbox",
-    "*.js"
+    "*.js",
+    "./src/html*"
   ]
 }
