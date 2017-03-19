@@ -13,7 +13,7 @@
     "start:local": "rm -rf ./build; tsc; cp -R ./src/htmlv2  ./build; node build/index.js"
   },
   "bin": {
-    "nsc": "./build/bin/module.js"
+    "nsa": "./build/bin/module.js"
   },
   "preferGlobal": "true",
   "author": "Nasir Sayed",
