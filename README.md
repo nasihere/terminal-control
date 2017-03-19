@@ -12,7 +12,12 @@ You can install this package with npm.
 `npm install -g nodeserviceagent`
 Then go to the terminal and type `nsc` to run the application. 
 
-Default port 8125. If you wish to choose own port so `nsc {PORT}` replace {PORT} to any desire port number like 9900 or 8338 
+Default port 8125. If you wish to choose own port 
+e.g 1: `nsc --port 8125`
+
+You can also set RC config path
+e.g 2: `nsc --port 8125 --config /user/document/project/projectconfig.rc`
+
 
 #### RC Config (Optional)
 ---------

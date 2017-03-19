@@ -7,7 +7,7 @@ import * as websocket from 'websocket';
 import { stringifyHtml } from './utils';
 let webSocketServer = websocket.server;
 // Optional. You will see this name in eg. 'ps' or 'top' command
-process.title = 'node-chat';
+process.title = 'node-service-agent';
 
 const skipLog = ['readConfig://', 'deleteConfig://', 'saveConfig://', 'pingport://'];
 export class wsServerClass extends appCommand {

@@ -1,14 +1,16 @@
 import { httpServer } from './httpServer';
 import { tempwsServer } from './wsserver'
-const PORT = (process.argv.length > 2) ? process.argv.slice(2)[0] : 8125;
+import {parseArgv} from './utils/stringifyHtml';
+const { port } = parseArgv();
 
+// console.log(port, config);
 function runService() {
-	httpServer.listen(PORT, () => {
-		console.log('Server running at http://localhost:'+PORT+'/');
+	httpServer.listen(port, () => {
+		console.log('Server running at http://localhost:'+port+'/');
 	});
 
 	tempwsServer.httpserver.listen(1337, function () {
-		console.log((new Date()) + " Server is listening on port " + 1337);
+		// console.log((new Date()) + " Server is listening on port " + 1337);
 	});
 }
 runService();
