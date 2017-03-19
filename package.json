@@ -10,7 +10,8 @@
     "html": "cp -R ./src/html  ./build",
     "prestart": "node ./npm-node-os.js clean && npm run compile && npm run copy",
     "start": " node build/index.js",
-    "start:local": "rm -rf ./build; tsc; cp -R ./src/htmlv2  ./build; node build/index.js"
+    "start:local": "rm -rf ./build; tsc; cp -R ./src/htmlv3  ./build; node build/index.js",
+    "start:webpack": "webpack-dashboard -- node build/index.js"
   },
   "bin": {
     "nsc": "./build/bin/module.js"
@@ -22,10 +23,30 @@
     "Noah Wallace noah.z.wallace@gmail.com"
   ],
   "devDependencies": {
-    "@types/node": "^7.0.8"
+    "@types/node": "^7.0.8",
+    "babel-core": "^6.24.0",
+    "babel-loader": "^7.0.0-beta.1",
+    "babel-preset-env": "^1.2.2",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-react": "^6.23.0",
+    "css-loader": "^0.27.3",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.10.1",
+    "html-webpack-plugin": "^2.28.0",
+    "rc": "^1.1.7",
+    "react-addons-css-transition-group": "^15.4.2",
+    "react-addons-transition-group": "^15.4.2",
+    "reactstrap": "^4.3.0",
+    "style-loader": "^0.14.1",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.2.1",
+    "webpack-dashboard": "^0.3.0",
+    "websocket": "^1.0.24"
   },
   "dependencies": {
     "rc": "^1.1.7",
-    "websocket": "^1.0.24"
+    "react": "^15.4.2",
+    "react-bootstrap": "^0.30.8",
+    "react-dom": "^15.4.2"
   }
 }
