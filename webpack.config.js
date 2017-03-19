@@ -25,6 +25,14 @@ module.exports = {
                 }
             },
             {
+                test: /\.(png|jpeg|jpg|gnf|ico)$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name:"./images/[hash].ext"
+                }
+            },
+            {
                 test:    /\.js(x)?$/,
                 exclude: /node_modules/,
                 loader:  'babel-loader',

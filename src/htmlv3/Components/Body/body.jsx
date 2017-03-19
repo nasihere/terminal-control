@@ -6,10 +6,11 @@ import {LeftColumn} from '../LeftColumn'
 export class Body extends React.Component {
 
     render() {
+        console.log(this.props)
         return (
             <div>
                 <Col xs={12} md={4}>
-                    <LeftColumn/>
+                    <LeftColumn services={this.props.services}/>
                 </Col>
                 <Col xs={12} md={8}>
                     <Row>
