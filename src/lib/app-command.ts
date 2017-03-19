@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as os from "os";
 import * as childprocess from 'child_process';
 import * as rc from "rc";
-import { stringifyHtml } from '../utils';
+import { stringifyHtml, parseArgv } from '../utils';
 let platform=os.platform();
 
 
@@ -25,8 +25,9 @@ export class appCommand {
 	colors: Array<string> = [ '#ffb2b2', 'DeepSkyBlue', 'gold', 'magenta', '#ADFF2F', 'plum', 'orange','aqua','BlanchedAlmond','#00BFFF' ].sort();
 	configSrc:string;
 	constructor(){
+		const {configPath} = parseArgv();
 		let rcConfig={
-			configPath:"build/htmlv2/app/app-config.json"
+			configPath: configPath
 		}
 		const config = rc('dev-micro-dashboard',rcConfig);
 		this.configSrc=config.configPath;
