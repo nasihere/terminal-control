@@ -5,6 +5,7 @@ import * as os from 'os';
 import * as http from 'http';
 import * as websocket from 'websocket';
 import { stringifyHtml } from './utils';
+let platform=os.platform();
 let webSocketServer = websocket.server;
 // Optional. You will see this name in eg. 'ps' or 'top' command
 process.title = 'node-service-agent';
@@ -106,6 +107,12 @@ export class wsServerClass extends appCommand {
 		else if ( str.indexOf('pingport://') !== -1 ) {
 			const msg = str.substring(str.indexOf('://') + 3);
 			this.pingPort(msg.split('*#*')[ 0 ], connection);
+		}
+		else if ( str.indexOf(' | xargs kill;') !== -1){
+			//Stop the service
+			let port = str.replace('lsof -t -i tcp:','').replace(' | xargs kill;','');
+			const msg = platform === "win32" ? 'FOR /F "tokens=5 delims= " %%P IN (\'netstat -a -n -o ^| findstr :'+port+'.*LISTENING\') DO TaskKill.exe /PID %%P' : str;
+			this.appCmd(msg, connection, logCallback);
 		}
 		else {
 			const msg = str.split('*#*');
