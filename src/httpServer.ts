@@ -30,10 +30,16 @@ function findContentType (extname) {
 }
 
 export const httpServer=http.createServer((request, response)=> {
+	if (request.url === '/favicon.ico') {
+		response.writeHead(200, {'Content-Type': 'image/x-icon'} );
+		response.end();
+		console.log('favicon requested');
+		return;
+	}
 	// console.log(`fetching ${request.url}`);
 	let requestConfig = {
 		uri: url.parse(request.url).pathname,
-		filePath: request.url === "/" ? 'build/htmlv2/index.html' : 'build/htmlv2/'+ request.url,
+		filePath: request.url === "/" ? 'build/htmlv3/index.html' : 'build/htmlv3/'+ request.url,
 		get filename() {return path.join(process.cwd(), this.uri)},
 		get contentType(){return findContentType(path.extname(this.filePath))}
 	}
@@ -61,3 +67,5 @@ export const httpServer=http.createServer((request, response)=> {
 	});
 
 })
+
+

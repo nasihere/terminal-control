@@ -1,7 +1,7 @@
 import React from 'react';
 import {Navbar, Nav, NavItem, FormGroup, FormControl, Button} from 'react-bootstrap/lib'
 
-export const NavBarInstance = () => (
+export const NavBarInstance = (props) => (
     <Navbar>
         <Navbar.Header>
             <Navbar.Brand>

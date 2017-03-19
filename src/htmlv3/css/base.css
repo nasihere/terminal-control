@@ -1,3 +1,10 @@
-h1,h2,h3,h4,h5{
-    margin:10px 5px;
+.panel-group,
+.well{
+    margin:10px;
 }
+
+
+
+/*List Reset*/
+.list-group{}
+.list-group-item{border:none;}
