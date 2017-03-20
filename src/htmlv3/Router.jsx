@@ -8,8 +8,8 @@ let history= createBrowserHistory();
 
 export const AppRouter = () => {
     return (
-        <BrowserRouter>
-            <Route path="/" component={App}/>
+        <BrowserRouter basename="/" >
+            <Route path="/" component={App} />
         </BrowserRouter>
     )
 }

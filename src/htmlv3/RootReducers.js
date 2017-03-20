@@ -1,17 +1,9 @@
 import React from 'react';
 import {combineReducers} from 'redux';
+import {ApplicationReducer} from './Components/Application/reducer'
 
-const websocket = (state = [], action) => {
-    switch (action.type) {
-        case "SETWEBSOCKET":
-            return Object.assign({}, state, action.payload)
-            break;
-        default:
-            return state;
 
-    }
-}
 
 export const RootReducer = combineReducers({
-    websocket
+    websocket:ApplicationReducer
 })
