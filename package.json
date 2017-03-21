@@ -8,10 +8,9 @@
     "compile": "tsc",
     "copy": "node ./npm-node-os.js copy",
     "html": "cp -R ./src/html  ./build",
-    "prestart": "node ./npm-node-os.js clean && npm run compile && webpack",
-    "start": " node build/index.js",
-    "start:local": "rm -rf ./build; tsc; cp -R ./src/htmlv3  ./build; node build/index.js",
-    "start:webpack": "webpack-dashboard -- node build/index.js"
+    "prebuild": "node ./npm-node-os.js clean",
+    "build": "npm run compile && webpack",
+    "start": " node build/index.js"
   },
   "bin": {
     "nsa": "./build/bin/module.js"
@@ -42,7 +41,6 @@
     "style-loader": "^0.14.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.2.1",
-    "webpack-dashboard": "^0.3.0",
     "websocket": "^1.0.24"
   },
   "dependencies": {
