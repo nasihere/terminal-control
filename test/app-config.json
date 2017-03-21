@@ -1,0 +1,1 @@
+{"configService":[{"name":"Express App 1","Port":"3000","env":"export NODE_ENV=LOCAL; export NODE_PORT=3000;","command":"npm run start;","cd":"/Users/Nasz/GitHub/node-agent/test/api-1"},{"name":"Express App 2","Port":"3010","env":"export NODE_ENV=LOCAL; export NODE_PORT=3010;","command":"npm run start;","cd":"/Users/Nasz/GitHub/node-agent/test/api-2"}]}

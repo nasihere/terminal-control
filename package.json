@@ -10,7 +10,7 @@
     "html": "cp -R ./src/html  ./build",
     "prebuild": "node ./npm-node-os.js clean",
     "build": "npm run compile && webpack",
-    "start": " node build/index.js"
+    "start": " node build/index.js --config=./test/app-config.json"
   },
   "bin": {
     "nsa": "./build/bin/module.js"
@@ -37,6 +37,7 @@
     "react-addons-css-transition-group": "^15.4.2",
     "react-addons-transition-group": "^15.4.2",
     "reactstrap": "^4.3.0",
+    "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "style-loader": "^0.14.1",
     "url-loader": "^0.5.8",
