@@ -5,6 +5,9 @@ export class ServiceItems extends React.Component {
     startService = (item,idx) => {
         this.props.startService(item,idx)
     }
+    pingService = (item, idx) => {
+        this.props.pingService(item, idx)
+    }
     render () {
         let {items} = this.props.services;
 
@@ -12,7 +15,9 @@ export class ServiceItems extends React.Component {
             items.map((item, idx) => {
                 return (
                     <ListGroupItem key={idx.toString()}>{item.name}
-                        <Button type="button" onClick={()=>this.startService(item, idx)}>Start</Button>
+                        <Button type="button" onClick={()=>this.startService(item)}>Start</Button>
+                        <Button type="button" onClick={()=>this.pingService(item)}>Ping</Button>
+
                     </ListGroupItem>
                 )
             });

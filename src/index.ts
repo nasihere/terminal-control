@@ -1,6 +1,6 @@
-import { httpServer } from './httpServer';
-import { tempwsServer } from './wsserver'
-import {parseArgv} from './utils/stringifyHtml';
+import { httpServer } from './Server/httpServer';
+import { tempwsServer } from './Server/wsserver'
+import {parseArgv} from './utils';
 const { port } = parseArgv();
 
 // console.log(port, config);

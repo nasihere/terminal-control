@@ -5,14 +5,17 @@ import {
     SETSTATECLOSED,
     SETSTATEOPEN,
     WEBSOCKETCONNECT,
-    STARTSERVICE
+    STARTSERVICE,
+    PINGSERVICE,
+    PINGSERVICERECEIVED
 } from './action.js';
 
 export const socketConnect = (function () {
     let connection = null;
     const onOpen = (connection, store) => evt => {
         store.dispatch({type: SETSTATEOPEN});
-        connection.send('readConfig://');
+        let cmdObj=JSON.stringify({req:"getConfigFile"})
+        connection.send(cmdObj);
     }
     const onClose = (connection, store) => evt => {
         connection.close();
@@ -22,26 +25,30 @@ export const socketConnect = (function () {
     const onMessage = (conn, store) => evt => {
 
         try {
-            let response = JSON.parse(evt.data);//console.log(response)
+            let response = JSON.parse(evt.data);
             let dispatchType;
-
+            //console.log(response.type , 'type -> websocketHandler')
             switch (response.type) {
                 case "history":
                     break;
                 case "message":
                     break;
                 case "ping":
+                    //console.log('ping case executed -> websocketHandler')
+                    dispatchType = PINGSERVICERECEIVED;
+                    store.dispatch({type: dispatchType, payload: {status:response.data}});
                     break;
                 case "saveConfig":
                     break;
                 case "readConfig":
                     dispatchType = SETAVAILABLESERVICES;
+                    store.dispatch({type: dispatchType, payload: response.data.config.configService})
                     break;
                 default:
                     throw new Error("Invalid Dispatch Type")
             }
+            //console.log(response.data, 'onMessage Event -> websocketHandler.js')
 
-            dispatchType ? store.dispatch({type: dispatchType, payload: response.data.config.configService}):""
         }
         catch (e) {
             store.dispatch({type: SETAVAILABLESERVICESERROR, payload: e})
@@ -49,6 +56,8 @@ export const socketConnect = (function () {
 
     }
     return store => next => action => {
+        let payload = action.payload ? JSON.stringify(action.payload) : null;
+
         switch (action.type) {
 
             case WEBSOCKETCONNECT:
@@ -60,8 +69,13 @@ export const socketConnect = (function () {
                 connection.onmessage = onMessage(connection, store);
                 break;
             case STARTSERVICE:
-                console.log(action.payload)
-                connection.send(action.payload);
+                //console.log(action.payload, 'store startService -> webSockethandler.js')
+                connection.send(payload);
+                break;
+
+            case PINGSERVICE:
+                //console.log(action.payload, 'StorePingService -> webSockethandler.js')
+                connection.send(payload);
                 break;
             default:
                 return next(action);

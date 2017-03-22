@@ -4,179 +4,145 @@ import * as os from "os";
 import * as childprocess from 'child_process';
 import * as rc from "rc";
 import { stringifyHtml, parseArgv } from '../utils';
+import {configHandler} from './configHandler';
 let platform=os.platform();
-
-
-
 let exec     = childprocess.exec,
 	userName = os.hostname();
 
 
-// executes `pwd` or 'cm' from terminal
-// child = exec(os.platform() === "win32"? "cd": "pwd", function (error, stdout, stderr) {
-//   console.log('stdout: ' + stdout);
-//   console.log('stderr: ' + stderr);
-//   if (error !== null) {
-//     console.log('exec error: ' + error);
-//   }
-// });
-
 export class appCommand {
 	colors: Array<string> = [ '#ffb2b2', 'DeepSkyBlue', 'gold', 'magenta', '#ADFF2F', 'plum', 'orange','aqua','BlanchedAlmond','#00BFFF' ].sort();
 	configSrc:string;
+	history = [];
+	clients = [];
+	skipLog = [ 'readConfig://', 'deleteConfig://', 'saveConfig://', 'pingport://' ];
+	configHandler:configHandler;
 	constructor(){
 		const {configPath} = parseArgv();
 		let rcConfig={
 			configPath: configPath
-		}
+		};
 		const config = rc('dev-micro-dashboard',rcConfig);
 		this.configSrc=config.configPath;
+		this.configHandler=new configHandler(this.configSrc);
 	}
-	puts = (error, stdout, stderr): void => {
-	};
-	appCmd = (cmd, connection, logCallback) => {
-		let self = this;
-		let userColor = this.colors.shift();
-		let oscmd= platform === "win32"? cmd[0].replace(/;/g,"&") : cmd[0]
+	public writeToHistory = (log, conn) => {
+		if ( this.skipLog.indexOf(log.text) === -1 ) {
+			this.history.push(log);
+			this.history = this.history.slice(-100);
+			this.broadCastMsg(log, conn);
+		}
 
-		let child = exec(oscmd, this.puts);
-		child.stdout.on('data',  (data) => {
-			// console.log('stdout: ' + data);
-			let obj = {
-				time:   (new Date()).getTime(),
-				text:   stringifyHtml(data),
-				author: cmd[1],
-				color:  userColor
-			};
-			logCallback(obj, connection);
-			//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
-		});
-		child.stderr.on('data', function (data) {
-			// console.log('stderr: ' + data);
-			let obj = {
-				time:   (new Date()).getTime(),
-				text:   stringifyHtml(data),
-				author: cmd[1],
-				color:  userColor
-			};
-			logCallback(obj, connection);
-			//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
-		});
-		//child.on('close', function(code) {
-		//console.log('closing code: ' + code);
-		//});
-	}
-	pingPort =  (nodeport, connection) => {
-		let child = exec('lsof -t -i :' + nodeport, this.puts);
+	};
+	private broadCastMsg = (obj, conn) => {
+
+		// broadcast message to all connected clients
+		let json = JSON.stringify({type: 'message', data: obj});
+		for ( let i = 0; i < this.clients.length; i++ ) {
+			this.clients[ i ].sendUTF(json);
+		}
+
+	};
+	pingPort =  (message, connection) => {
+		let child = exec('lsof -t -i :' + message.port, this.puts);
 		child.stdout.on('data', function (data) {
 			// console.log('stdout: ' + data);
 			var obj = {
-				port: nodeport,
+				port: message.port,
+				id:message.id,
+				pid:child.pid,
 				ping: true
 			}
 			connection.sendUTF(JSON.stringify({type: 'ping', data: obj}));
 
 		});
+		child.on('error',(e)=>{console.log(1,e)});
 		child.stderr.on('close', function (data) {
 			// console.log('close: ' + data);
 		});
 	};
-	saveConfig = function (newConfig, connection) {
-		let obj = {
-			configService: []
-		};
-
-		fs.readFile(this.configSrc, 'utf8', (err, data) => {
-			if ( err ) {
-				console.log(err);
-			} else {
-				obj = JSON.parse(data); //now it an object
-				var pushJson = JSON.parse(newConfig);
-				if ( pushJson.index === undefined ) {
-					obj.configService.push(pushJson); //add some data
-				}
-				else {
-					obj.configService = obj.configService.map((x,index) => {
-						if ( index === pushJson.index ) {
-							delete pushJson.index; 
-							return pushJson;
-						}
-						else {
-							return x;
-						}
-					})
-				}
-				const writeJson = JSON.stringify(obj); //convert it back to json
-				fs.writeFile(this.configSrc, writeJson, 'utf8', (data) => {
-					if ( data === null ) {
-						connection.sendUTF(JSON.stringify(
-							{
-								type: 'saveConfig',
-								data: {
-									success: true,
-									config:  JSON.parse(writeJson)
-								}
-							}
-						));
-					}
-				}); // write it back
-			}
-		});
-	};
-	readConfig = (connection): void => {
-		fs.readFile(this.configSrc, 'utf8', (err, data): void => {
-			if ( err ) {
-				console.log(err);
-			} else {
-				connection.sendUTF(JSON.stringify(
-					{
-						type: 'readConfig',
-						data: {
-							success: true,
-							config:  JSON.parse(data)
-						}
-					}
-				));
-			}
-		});
-	};
-	deleteConfig = (index, connection):void=> {
-		if ( index === undefined ) {
-			return;
+	puts = (error, stdout, stderr): void => {
+		//TODO: Handle Errors More Elegantly
+		if(error){
+			console.log("exec closed with error")
 		}
-		index = parseInt(index); // convert to string to number;
-		let obj = {
-			configService: []
-		};
-		fs.readFile(this.configSrc, 'utf8', (err, data) => {
-			if ( err ) {
-				console.log(err);
-			} else {
-				let i = 0;
-				JSON.parse(data).configService.filter(x => {
-					if ( i !== index ) {
-						obj.configService.push(x);
-					}
-					i++;
-					
-					
-				});
-				const writeJson = JSON.stringify(obj); //convert it back to json
-				fs.writeFile(this.configSrc, writeJson, 'utf8', (data) => {
-					if ( data === null ) {
-						connection.sendUTF(JSON.stringify(
-							{
-								type: 'deleteConfig',
-								data: {
-									success: true,
-									config:  JSON.parse(writeJson)
-								}
-							}
-						));
-					}
-				}); // write it back
-			}
+		else{console.log("exec closed without error")}
+		console.log('puts', stdout, stderr, error);
+	};
+	createNewService = (message, connection) => {
+		let self = this;
+		let userColor = this.colors.shift();
+		const msg = message.cmd.split('*#*');
+		let oscmd= platform === "win32"? msg[0].replace(/;/g,"&") : msg[0];
+
+		let child = exec(oscmd, this.puts);
+
+		child.stdout.on('data',  (data) => {
+			console.log('stdout: ' + data);
+			let obj = {
+				time:   (new Date()).getTime(),
+				text:   stringifyHtml(data),
+				author: msg[1],
+				color:  userColor,
+				pid: child.pid,
+				id: message.id
+			};
+			self.writeToHistory(obj, connection);
+			//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 		});
+		child.stderr.on('data', function (data) {
+			console.log('stderr: ' + data);
+			let obj = {
+				time:   (new Date()).getTime(),
+				text:   stringifyHtml(data),
+				author: msg[1],
+				color:  userColor,
+				pid: child.pid,
+				id:msg.id
+			};
+			self.writeToHistory(obj, connection);
+			//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
+		});
+		child.on('close', function(code) {
+			console.log('closing code: ' + code);
+		});
+	};
+	handleMessage = (message:IMessageIn, connection): void => {
+		let copyMsg = stringifyHtml(message.cmd);
+		const appName = copyMsg.split('*#*')[ 1 ] || os.hostname();
+		if ( message.req === "getConfigFile" ) {
+			this.configHandler.readConfig(connection);
+		}
+		else if ( message.req=='deleteConfig') {
+
+			this.configHandler.deleteConfig(message, connection);
+		}
+		else if ( message.req === 'saveConfig'){
+
+			this.configHandler.saveConfig(message, connection);
+		}
+		else if ( message.req === 'pingService' ) {
+			this.pingPort(message, connection);
+		}
+		else if ( message.req='killService' ) {
+			//Stop the service
+			let port = message.cmd.replace('lsof -t -i tcp:', '').replace(' | xargs kill;', '');
+			const msg = platform === "win32" ? 'FOR /F "tokens=5 delims= " %%P IN (\'netstat -a -n -o ^| findstr :' + port + '.*LISTENING\') DO TaskKill.exe /PID %%P' : message;
+			this.createNewService(msg, connection);
+		}
+		else if ( message.req === 'startService' as string ) {
+			this.createNewService(message, connection);
+		}
+		else {
+
+
+		}
 	}
+}
+export type requestTypes = 'getConfigFile' | 'deleteConfig' | 'saveConfig' | 'pingService' | 'killService' |'startService';
+export interface IMessageIn{
+	cmd:string;
+	req:requestTypes
+	id:string;
 }
 

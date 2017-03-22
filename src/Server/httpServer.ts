@@ -38,6 +38,7 @@ export const httpServer=http.createServer((request, response)=> {
 	}
 	// console.log(`fetching ${request.url}`);
 	//console.log(`${request.url}`)
+	// TODO: configure the file path to more current and viable syntax
 	let requestConfig = {
 		uri: url.parse(request.url).pathname,
 		filePath: /\.(css|js)$/.test(request.url) ?  'build/htmlv3/'+ request.url : 'build/htmlv3/index.html' ,

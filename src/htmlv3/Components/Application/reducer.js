@@ -4,30 +4,49 @@ import {
     SETAVAILABLESERVICESERROR,
     SETSTATECLOSED,
     SETSTATEOPEN,
-    WEBSOCKETCONNECT, STARTSERVICE} from './action.js';
+    WEBSOCKETCONNECT,
+    STARTSERVICE,
+    PINGSERVICERECEIVED
+} from './action.js';
 
-let initialState={
-    status:'closed',
-    services:{
-        items:[],
-        error:null
+let initialState = {
+    status:     'closed',
+    services:   {
+        items: [],
+        error: null
+    },
+    portStatus: {
+        port: 0,
+        ping: false
     }
 }
 
 export const ApplicationReducer = (state = initialState, action) => {
-    switch(action.type){
+    console.log(action.payload, action.type, 'ApplicationReducer()')
+    switch (action.type) {
         case SETSTATEOPEN:
-            return Object.assign({},state,{status:'open'});
+            return Object.assign({}, state, {status: 'open'});
 
         case SETSTATECLOSED:
-            return Object.assign({},state,{status:'closed'});
+            return Object.assign({}, state, {status: 'closed'});
 
         case SETAVAILABLESERVICES:
-            return Object.assign({},state,{services:{items:action.payload}});
+            return Object.assign({}, state, {services: {items: action.payload}});
         case SETAVAILABLESERVICESERROR:
-            return Object.assign({},state,{services:{items:[],error:action.payload}});
+            return Object.assign({}, state, {services: {items: [], error: action.payload}});
         case STARTSERVICE:
-            return Object.assign({},state,{startedservices:action.payload});
+            return Object.assign({}, state, {startedservices: action.payload});
+        case PINGSERVICERECEIVED:console.log(100,action)
+            return Object.assign({},
+                state,
+                {services:
+                    {items:state.services.items.map( (item, idx) =>
+                        item.id === action.payload.status.id ?
+                            Object.assign({}, item, {portStatus: action.payload.status}) :
+                            item
+                    )
+                    }
+                });
         default:
             return state;
     }
