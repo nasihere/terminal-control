@@ -16,7 +16,5 @@ export const AppRouter = () => {
                 <Route exact path="/" render={()=>(<Redirect to="/Home"/>)}/>
             </div>
         </BrowserRouter>
-
-
     )
 }

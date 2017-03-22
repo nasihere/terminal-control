@@ -3,6 +3,7 @@ import {PanelGroup, Panel, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {ServiceItems} from './services.jsx';
 import {startService} from '../Application/action.js';
+import {NewServiceForm} from '../Tile_NewService';
 
 export class ServiceColumnClass extends React.Component {
     state = {
@@ -20,7 +21,7 @@ export class ServiceColumnClass extends React.Component {
                     <Panel header="Services" eventKey="1">
                          <ServiceItems {...this.props}/>
                     </Panel>
-                    <Panel header="Add New Request" eventKey="2">Panel 2 content</Panel>
+                    <Panel header="Add New Request" eventKey="2"> <NewServiceForm/></Panel>
                 </PanelGroup>
             </Row>
         )
