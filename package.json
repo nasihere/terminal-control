@@ -10,7 +10,7 @@
     "html": "cp -R ./src/html  ./build",
     "prebuild": "node ./npm-node-os.js clean",
     "build": "npm run compile && webpack",
-    "start": " node build/index.js --config=./test/app-config.json"
+    "start": " node build/index.js"
   },
   "bin": {
     "nsa": "./build/bin/module.js"

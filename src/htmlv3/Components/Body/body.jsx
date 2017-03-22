@@ -1,6 +1,6 @@
 import React from 'react';
 import {Col, Row, Checkbox, Panel, PanelGroup} from 'react-bootstrap/lib';
-import {Tile} from '../Tile/tile.jsx';
+import {Tile} from '../Common/Tile/tile.jsx';
 import {ServiceColumn} from '../ServiceControllers'
 
 export class Body extends React.Component {

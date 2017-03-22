@@ -37,16 +37,17 @@ export const httpServer=http.createServer((request, response)=> {
 		return;
 	}
 	// console.log(`fetching ${request.url}`);
+	//console.log(`${request.url}`)
 	let requestConfig = {
 		uri: url.parse(request.url).pathname,
-		filePath: request.url === "/" ? 'build/htmlv3/index.html' : 'build/htmlv3/'+ request.url,
+		filePath: /\.(css|js)$/.test(request.url) ?  'build/htmlv3/'+ request.url : 'build/htmlv3/index.html' ,
 		get filename() {return path.join(process.cwd(), this.uri)},
 		get contentType(){return findContentType(path.extname(this.filePath))}
 	}
 
 	fs.readFile(requestConfig.filePath, function (error, content) {
 		if (error) {
-			console.log(`error on ${request.url}`)
+			console.log(`error on ${request.url}`,error)
 			if (error.code == 'ENOENT') {
 				fs.readFile('./404.html', function (error, content) {
 					response.writeHead(200, {'Content-Type': requestConfig.contentType});
