@@ -1,1 +1,2 @@
-export * from "./stringifyHtml"
+export * from "./stringifyHtml";
+export * from "./parseArgv";

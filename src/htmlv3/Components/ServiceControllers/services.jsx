@@ -15,8 +15,8 @@ export class ServiceItems extends React.Component {
             items.map((item, idx) => {
                 return (
                     <ListGroupItem key={idx.toString()}>{item.name}
-                        <Button type="button" onClick={()=>this.startService(item, idx)}>Start</Button>
-                        <Button type="button" onClick={()=>this.pingService(item, idx)}>Ping</Button>
+                        <Button type="button" onClick={()=>this.startService(item)}>Start</Button>
+                        <Button type="button" onClick={()=>this.pingService(item)}>Ping</Button>
 
                     </ListGroupItem>
                 )

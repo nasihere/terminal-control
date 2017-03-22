@@ -24,14 +24,22 @@ export const startService = (obj, idx) => {
 
     return (dispatch) => {
         let pwd = 'cd ' + obj.cd.replace('package.json', '') + ";"
-        dispatch({type: STARTSERVICE, payload: `${pwd}${obj.env}${obj.command}*#*${obj.name}`})
+        dispatch({type: STARTSERVICE,
+            payload: {
+                id:obj.id,
+                req:"startService",
+                cmd:`${pwd}${obj.env}${obj.command}*#*${obj.name}`}})
     }
 }
 
 export const pingService = (obj, idx) => {
     return (dispatch) => {
-        const msg = "pingport://"+obj.Port;
-        console.log(msg , 'action.js -> pingService()')
-        dispatch({type: PINGSERVICE, payload: `${msg}`})
+        dispatch({
+            type: PINGSERVICE,
+            payload: {
+                id:obj.id,
+                req:"pingService",
+                port:obj.Port
+            }})
     }
 }

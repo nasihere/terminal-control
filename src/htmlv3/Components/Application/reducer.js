@@ -6,13 +6,14 @@ import {
     SETSTATEOPEN,
     WEBSOCKETCONNECT,
     STARTSERVICE,
-    PINGSERVICERECEIVED} from './action.js';
+    PINGSERVICERECEIVED
+} from './action.js';
 
-let initialState={
-    status:'closed',
-    services:{
-        items:[],
-        error:null
+let initialState = {
+    status:     'closed',
+    services:   {
+        items: [],
+        error: null
     },
     portStatus: {
         port: 0,
@@ -22,23 +23,30 @@ let initialState={
 
 export const ApplicationReducer = (state = initialState, action) => {
     console.log(action.payload, action.type, 'ApplicationReducer()')
-    switch(action.type){
+    switch (action.type) {
         case SETSTATEOPEN:
-            return Object.assign({},state,{status:'open'});
+            return Object.assign({}, state, {status: 'open'});
 
         case SETSTATECLOSED:
-            return Object.assign({},state,{status:'closed'});
+            return Object.assign({}, state, {status: 'closed'});
 
         case SETAVAILABLESERVICES:
-            return Object.assign({},state,{services:{items:action.payload}});
+            return Object.assign({}, state, {services: {items: action.payload}});
         case SETAVAILABLESERVICESERROR:
-            return Object.assign({},state,{services:{items:[],error:action.payload}});
+            return Object.assign({}, state, {services: {items: [], error: action.payload}});
         case STARTSERVICE:
-            return Object.assign({},state,{startedservices:action.payload});
-        case PINGSERVICERECEIVED:
-
-            // return Object.assign({},state, {services:{items:{0:{portStatus: action.payload}}}});
-            return Object.assign({},state,{portStatus:action.payload});
+            return Object.assign({}, state, {startedservices: action.payload});
+        case PINGSERVICERECEIVED:console.log(100,action)
+            return Object.assign({},
+                state,
+                {services:
+                    {items:state.services.items.map( (item, idx) =>
+                        item.id === action.payload.status.id ?
+                            Object.assign({}, item, {portStatus: action.payload.status}) :
+                            item
+                    )
+                    }
+                });
         default:
             return state;
     }
