@@ -2,7 +2,7 @@ import React from 'react';
 import {PanelGroup, Panel, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {ServiceItems} from './services.jsx';
-import {startService, pingService} from '../Application/action.js';
+import {startService, pingService, killService} from '../Application/action.js';
 import {NewServiceForm} from '../Tile_NewService';
 
 export class ServiceColumnClass extends React.Component {
@@ -40,4 +40,4 @@ let mapStateToProps=(state)=>{
     }
 }
 
-export const ServiceColumn = connect(mapStateToProps,{startService, pingService})(ServiceColumnClass);
+export const ServiceColumn = connect(mapStateToProps,{startService, pingService, killService})(ServiceColumnClass);

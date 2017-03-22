@@ -6,7 +6,8 @@ import {
     SETSTATEOPEN,
     WEBSOCKETCONNECT,
     STARTSERVICE,
-    PINGSERVICERECEIVED
+    PINGSERVICERECEIVED,
+    HISTORYSERVICE
 } from './action.js';
 
 let initialState = {
@@ -18,7 +19,8 @@ let initialState = {
     portStatus: {
         port: 0,
         ping: false
-    }
+    },
+    logsHistory: []
 }
 
 export const ApplicationReducer = (state = initialState, action) => {
@@ -36,7 +38,9 @@ export const ApplicationReducer = (state = initialState, action) => {
             return Object.assign({}, state, {services: {items: [], error: action.payload}});
         case STARTSERVICE:
             return Object.assign({}, state, {startedservices: action.payload});
-        case PINGSERVICERECEIVED:console.log(100,action)
+        case HISTORYSERVICE:
+            return Object.assign({}, state, {logsHistory:[...state.logsHistory, action.payload]});
+        case PINGSERVICERECEIVED:
             return Object.assign({},
                 state,
                 {services:
@@ -47,6 +51,8 @@ export const ApplicationReducer = (state = initialState, action) => {
                     )
                     }
                 });
+
+
         default:
             return state;
     }

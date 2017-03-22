@@ -7,7 +7,9 @@ export const SETAVAILABLESERVICES = "SETAVAILABLESERVICES";
 export const SETAVAILABLESERVICESERROR = "SETAVAILABLESERVICESERROR";
 export const STARTSERVICE = "STARTSERVICE";
 export const PINGSERVICE = "PINGSERVICE";
-export const PINGSERVICERECEIVED = "PINGSERVICERECEIVED";
+export const PINGSERVICERECEIVED = "PINGSERVICERECEIVED";;
+export const KILLSERVICE = "KILLSERVICE";
+export const HISTORYSERVICE = "HISTORYSERVICE";
 export const connectWebSocket = () => {
     return (dispatch) => {
         dispatch({type: WEBSOCKETCONNECT})
@@ -32,6 +34,19 @@ export const startService = (obj, idx) => {
     }
 }
 
+export const killService = (obj, idx) => {
+
+    return (dispatch) => {
+
+        var msg = "lsof -t -i tcp:#PORT# | xargs kill;".replace('#PORT#',obj.Port); //*#*${obj.name} will add servicename for terminal logs
+
+        dispatch({type: KILLSERVICE,
+            payload: {
+                id:obj.id,
+                req:"killService",
+                cmd:`${msg}`}})
+    }
+}
 export const pingService = (obj, idx) => {
     return (dispatch) => {
         dispatch({

@@ -8,6 +8,9 @@ export class ServiceItems extends React.Component {
     pingService = (item, idx) => {
         this.props.pingService(item, idx)
     }
+    killService = (item, idx) => {
+        this.props.killService(item, idx)
+    }
     render () {
         let {items} = this.props.services;
 
@@ -17,6 +20,8 @@ export class ServiceItems extends React.Component {
                     <ListGroupItem key={idx.toString()}>{item.name}
                         <Button type="button" onClick={()=>this.startService(item)}>Start</Button>
                         <Button type="button" onClick={()=>this.pingService(item)}>Ping</Button>
+                        <span>ping: {(item.portStatus) ? "true" : "false"}</span>
+                        <Button type="button" onClick={()=>this.killService(item)}>Stop</Button>
 
                     </ListGroupItem>
                 )

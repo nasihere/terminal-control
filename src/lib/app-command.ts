@@ -69,7 +69,7 @@ export class appCommand {
 		else{console.log("exec closed without error")}
 		console.log('puts', stdout, stderr, error);
 	};
-	createNewService = (message, connection) => {
+	serviceAction = (message, connection) => {
 		let self = this;
 		let userColor = this.colors.shift();
 		const msg = message.cmd.split('*#*');
@@ -104,7 +104,16 @@ export class appCommand {
 			//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 		});
 		child.on('close', function(code) {
-			console.log('closing code: ' + code);
+			console.log('stdclose: ' + code);
+			let obj = {
+				time:   (new Date()).getTime(),
+				text:   stringifyHtml(code),
+				author: msg[1],
+				color:  userColor,
+				pid: child.pid,
+				id:	msg.id
+			};
+			self.writeToHistory(obj, connection);
 		});
 	};
 	handleMessage = (message:IMessageIn, connection): void => {
@@ -128,10 +137,10 @@ export class appCommand {
 			//Stop the service
 			let port = message.cmd.replace('lsof -t -i tcp:', '').replace(' | xargs kill;', '');
 			const msg = platform === "win32" ? 'FOR /F "tokens=5 delims= " %%P IN (\'netstat -a -n -o ^| findstr :' + port + '.*LISTENING\') DO TaskKill.exe /PID %%P' : message;
-			this.createNewService(msg, connection);
+			this.serviceAction(msg, connection);
 		}
 		else if ( message.req === 'startService' as string ) {
-			this.createNewService(message, connection);
+			this.serviceAction(message, connection);
 		}
 		else {
 
