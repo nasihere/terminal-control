@@ -2,7 +2,7 @@ import React from 'react';
 import {PanelGroup, Panel, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {ServiceItems} from './services.jsx';
-import {startService} from '../Application/action.js';
+import {startService, pingService} from '../Application/action.js';
 
 export class ServiceColumnClass extends React.Component {
     state = {
@@ -12,6 +12,10 @@ export class ServiceColumnClass extends React.Component {
     handleSelect = (activeKey) => {
         this.setState({activeKey});
     };
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps, 'componentWillReceiveProps() -> Columns.jsx')
+
+    }
     render() {
 
         return (
@@ -19,6 +23,7 @@ export class ServiceColumnClass extends React.Component {
                 <PanelGroup activeKey={this.state.activeKey} onSelect={this.handleSelect.bind(this)} accordion>
                     <Panel header="Services" eventKey="1">
                          <ServiceItems {...this.props}/>
+
                     </Panel>
                     <Panel header="Add New Request" eventKey="2">Panel 2 content</Panel>
                 </PanelGroup>
@@ -29,8 +34,9 @@ export class ServiceColumnClass extends React.Component {
 
 let mapStateToProps=(state)=>{
     return {
-        services:state.websocket.services
+        services:state.websocket.services,
+        portStatus: state.websocket.portStatus
     }
 }
 
-export const ServiceColumn = connect(mapStateToProps,{startService})(ServiceColumnClass);
+export const ServiceColumn = connect(mapStateToProps,{startService, pingService})(ServiceColumnClass);

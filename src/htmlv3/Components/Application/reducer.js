@@ -4,17 +4,24 @@ import {
     SETAVAILABLESERVICESERROR,
     SETSTATECLOSED,
     SETSTATEOPEN,
-    WEBSOCKETCONNECT, STARTSERVICE} from './action.js';
+    WEBSOCKETCONNECT,
+    STARTSERVICE,
+    PINGSERVICERECEIVED} from './action.js';
 
 let initialState={
     status:'closed',
     services:{
         items:[],
         error:null
+    },
+    portStatus: {
+        port: 0,
+        ping: false
     }
 }
 
 export const ApplicationReducer = (state = initialState, action) => {
+    console.log(action.payload, action.type, 'ApplicationReducer()')
     switch(action.type){
         case SETSTATEOPEN:
             return Object.assign({},state,{status:'open'});
@@ -28,6 +35,10 @@ export const ApplicationReducer = (state = initialState, action) => {
             return Object.assign({},state,{services:{items:[],error:action.payload}});
         case STARTSERVICE:
             return Object.assign({},state,{startedservices:action.payload});
+        case PINGSERVICERECEIVED:
+
+            // return Object.assign({},state, {services:{items:{0:{portStatus: action.payload}}}});
+            return Object.assign({},state,{portStatus:action.payload});
         default:
             return state;
     }

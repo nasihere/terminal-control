@@ -33,6 +33,7 @@ export class appCommand {
 		this.configSrc=config.configPath;
 	}
 	puts = (error, stdout, stderr): void => {
+		console.log('puts', stdout, stderr, error);
 	};
 	appCmd = (cmd, connection, logCallback) => {
 		let self = this;
@@ -41,7 +42,7 @@ export class appCommand {
 
 		let child = exec(oscmd, this.puts);
 		child.stdout.on('data',  (data) => {
-			// console.log('stdout: ' + data);
+			console.log('stdout: ' + data);
 			let obj = {
 				time:   (new Date()).getTime(),
 				text:   stringifyHtml(data),
@@ -52,7 +53,7 @@ export class appCommand {
 			//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 		});
 		child.stderr.on('data', function (data) {
-			// console.log('stderr: ' + data);
+			console.log('stderr: ' + data);
 			let obj = {
 				time:   (new Date()).getTime(),
 				text:   stringifyHtml(data),

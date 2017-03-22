@@ -6,6 +6,8 @@ export const WEBSOCKETCONNECT = "WEBSOCKETCONNECT";
 export const SETAVAILABLESERVICES = "SETAVAILABLESERVICES";
 export const SETAVAILABLESERVICESERROR = "SETAVAILABLESERVICESERROR";
 export const STARTSERVICE = "STARTSERVICE";
+export const PINGSERVICE = "PINGSERVICE";
+export const PINGSERVICERECEIVED = "PINGSERVICERECEIVED";
 export const connectWebSocket = () => {
     return (dispatch) => {
         dispatch({type: WEBSOCKETCONNECT})
@@ -26,3 +28,10 @@ export const startService = (obj, idx) => {
     }
 }
 
+export const pingService = (obj, idx) => {
+    return (dispatch) => {
+        const msg = "pingport://"+obj.Port;
+        console.log(msg , 'action.js -> pingService()')
+        dispatch({type: PINGSERVICE, payload: `${msg}`})
+    }
+}

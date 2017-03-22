@@ -16,13 +16,11 @@ if(typeof window.__REDUX_DEVTOOLS_EXTENSION__ === 'function'){
     composables.push(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 }
 
-
-    let store = createStore(
+let store = createStore(
     RootReducer,
     compose( applyMiddleware(...middlewares), ...composables)
 
 );
-
 ReactDOM.render(
     <Provider store={store}>
         <AppRouter/>
