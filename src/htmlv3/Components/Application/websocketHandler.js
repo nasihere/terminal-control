@@ -7,7 +7,9 @@ import {
     WEBSOCKETCONNECT,
     STARTSERVICE,
     PINGSERVICE,
-    PINGSERVICERECEIVED
+    PINGSERVICERECEIVED,
+    KILLSERVICE,
+    HISTORYSERVICE
 } from './action.js';
 
 export const socketConnect = (function () {
@@ -27,14 +29,16 @@ export const socketConnect = (function () {
         try {
             let response = JSON.parse(evt.data);
             let dispatchType;
-            //console.log(response.type , 'type -> websocketHandler')
+            // console.log(response.type, 'type -> websocketHandler')
+            // console.log(response.data, 'data -> websocketHandler')
             switch (response.type) {
                 case "history":
                     break;
                 case "message":
+                    dispatchType = HISTORYSERVICE;
+                    store.dispatch({type: dispatchType, payload: {status:response.data}});
                     break;
                 case "ping":
-                    //console.log('ping case executed -> websocketHandler')
                     dispatchType = PINGSERVICERECEIVED;
                     store.dispatch({type: dispatchType, payload: {status:response.data}});
                     break;
@@ -47,7 +51,6 @@ export const socketConnect = (function () {
                 default:
                     throw new Error("Invalid Dispatch Type")
             }
-            //console.log(response.data, 'onMessage Event -> websocketHandler.js')
 
         }
         catch (e) {
@@ -72,7 +75,9 @@ export const socketConnect = (function () {
                 //console.log(action.payload, 'store startService -> webSockethandler.js')
                 connection.send(payload);
                 break;
-
+            case KILLSERVICE:
+                connection.send(payload);
+                break;
             case PINGSERVICE:
                 //console.log(action.payload, 'StorePingService -> webSockethandler.js')
                 connection.send(payload);

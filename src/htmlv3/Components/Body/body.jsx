@@ -3,7 +3,9 @@ import {Col, Row, Checkbox, Panel, PanelGroup} from 'react-bootstrap/lib';
 import {Tile} from '../Common/Tile/tile.jsx';
 import {ServiceColumn} from '../ServiceControllers'
 
-export class Body extends React.Component {
+import {connect} from 'react-redux';
+export class BodyClass extends React.Component {
+
 
     render() {
 
@@ -25,9 +27,23 @@ export class Body extends React.Component {
                     </Row>
                     <Row>
                         <Tile>5423</Tile>
+                        {
+                            this.props.logsHistory.map((row, i) => {
+                               return <div key={i}>{row.status.author} - {row.status.text}</div>
+                            })
+                        }
                     </Row>
                 </Col>
             </div>
         )
     }
+
 }
+
+let mapStateToProps=(state)=>{
+    return {
+        logsHistory:state.websocket.logsHistory
+    }
+}
+
+export const Body = connect(mapStateToProps)(BodyClass);
