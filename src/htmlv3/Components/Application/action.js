@@ -7,10 +7,11 @@ export const SETAVAILABLESERVICES = "SETAVAILABLESERVICES";
 export const SETAVAILABLESERVICESERROR = "SETAVAILABLESERVICESERROR";
 export const STARTSERVICE = "STARTSERVICE";
 export const PINGSERVICE = "PINGSERVICE";
-export const PINGSERVICERECEIVED = "PINGSERVICERECEIVED";;
+export const PINGSERVICERECEIVED = "PINGSERVICERECEIVED";
 export const KILLSERVICE = "KILLSERVICE";
 export const HISTORYSERVICE = "HISTORYSERVICE";
-export const connectWebSocket = () => {
+export const ADDNEWSERVICE = "ADDNEWSERVICE";
+    export const connectWebSocket = () => {
     return (dispatch) => {
         dispatch({type: WEBSOCKETCONNECT})
     }
@@ -56,5 +57,13 @@ export const pingService = (obj, idx) => {
                 req:"pingService",
                 port:obj.Port
             }})
+    }
+};
+
+export const submitNewService = (formObj)=>{
+    return (dispatch)=>{
+        dispatch({type:ADDNEWSERVICE,payload:{
+            req:"saveConfig",
+            cmd:formObj}})
     }
 }

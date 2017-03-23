@@ -33,7 +33,21 @@ export const ApplicationReducer = (state = initialState, action) => {
             return Object.assign({}, state, {status: 'closed'});
 
         case SETAVAILABLESERVICES:
-            return Object.assign({}, state, {services: {items: action.payload}});
+            let newItems;
+            if(state.services && state.services.items){
+                let filterItems=action.payload
+                    .filter((item,idx)=> !state.services.items[idx] || item.id !== state.services.items[idx].id)
+                    .map((item,idx)=>item)
+                newItems = [...state.services.items, ...filterItems];
+                console.log(filterItems,state.services.items,newItems)
+                }
+            else{
+                newItems=action.payload;
+            }
+
+
+            return Object.assign({}, state, {services: {items: newItems}});
+
         case SETAVAILABLESERVICESERROR:
             return Object.assign({}, state, {services: {items: [], error: action.payload}});
         case STARTSERVICE:
