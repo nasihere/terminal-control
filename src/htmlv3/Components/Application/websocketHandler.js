@@ -25,6 +25,15 @@ export const socketConnect = (function () {
         store.dispatch({type: SETSTATECLOSED});
 
     };
+    // const onPing = (interval, store, payload) => {
+    //     const self = store;
+    //     const type = PINGRESET;
+    //     setTimeout(function(){
+    //         self.dispatch({type: type, payload: payload});
+    //         // pingService();
+    //     },interval);
+    //
+    // };
     const onMessage = (conn, store) => evt => {
 
         try {
@@ -79,10 +88,11 @@ export const socketConnect = (function () {
             case KILLSERVICE:
                 connection.send(payload);
                 break;
-            case PINGSERVICE:
-                //console.log(action.payload, 'StorePingService -> webSockethandler.js')
-                connection.send(payload);
-                break;
+            // case PINGSERVICE:
+            //     //console.log(action.payload, 'StorePingService -> webSockethandler.js')
+            //     connection.send(payload);
+            //     onPing(2000, store, payload);
+            //     break;
             case ADDNEWSERVICE:
                 connection.send(payload);
                 break;

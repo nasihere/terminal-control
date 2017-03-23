@@ -4,6 +4,8 @@ import {Tile} from '../Common/Tile/tile.jsx';
 import {ServiceColumn} from '../ServiceControllers'
 
 import {connect} from 'react-redux';
+import {TerminalTabs} from '../Tabs';
+
 export class BodyClass extends React.Component {
 
 
@@ -26,12 +28,9 @@ export class BodyClass extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Tile>5423</Tile>
-                        {
-                            this.props.logsHistory.map((row, i) => {
-                               return <div key={i}>{row.status.author} - {row.status.text}</div>
-                            })
-                        }
+                        <Col md={12}>
+                            <TerminalTabs {...this.props} />
+                        </Col>
                     </Row>
                 </Col>
             </div>
@@ -42,7 +41,8 @@ export class BodyClass extends React.Component {
 
 let mapStateToProps=(state)=>{
     return {
-        logsHistory:state.websocket.logsHistory
+        logsHistory:state.websocket.logsHistory,
+        services: state.websocket.services
     }
 }
 
