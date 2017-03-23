@@ -9,7 +9,8 @@ import {
     PINGSERVICE,
     PINGSERVICERECEIVED,
     KILLSERVICE,
-    HISTORYSERVICE
+    HISTORYSERVICE,
+    ADDNEWSERVICE
 } from './action.js';
 
 export const socketConnect = (function () {
@@ -43,6 +44,7 @@ export const socketConnect = (function () {
                     store.dispatch({type: dispatchType, payload: {status:response.data}});
                     break;
                 case "saveConfig":
+                    store.dispatch({type: SETAVAILABLESERVICES, payload: response.data.config.configService});
                     break;
                 case "readConfig":
                     dispatchType = SETAVAILABLESERVICES;
@@ -60,7 +62,6 @@ export const socketConnect = (function () {
     }
     return store => next => action => {
         let payload = action.payload ? JSON.stringify(action.payload) : null;
-
         switch (action.type) {
 
             case WEBSOCKETCONNECT:
@@ -80,6 +81,9 @@ export const socketConnect = (function () {
                 break;
             case PINGSERVICE:
                 //console.log(action.payload, 'StorePingService -> webSockethandler.js')
+                connection.send(payload);
+                break;
+            case ADDNEWSERVICE:
                 connection.send(payload);
                 break;
             default:
