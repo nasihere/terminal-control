@@ -80,7 +80,7 @@ export class configHandler {
 			if ( err ) {
 				console.log(err);
 			} else {
-				let fileData = JSON.parse(data);
+				let fileData = JSON.parse(data);console.log(100,isUndefined(this.configFile), this.configFile)
 				if ( isUndefined(this.configFile) ) {
 					for ( let i = 0; i < fileData.configService.length; i++ ) {
 						fileData.configService[ i ].id = (Math.random() * 1e32).toString(36);
