@@ -11,7 +11,6 @@ export class AppClass extends React.Component {
     componentDidMount () {
         this.props.connectWebSocket()
     }
-
     render () {
         return (
             <div>

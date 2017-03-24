@@ -13,10 +13,6 @@ export class ServiceColumnClass extends React.Component {
     handleSelect = (activeKey) => {
         this.setState({activeKey});
     };
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps, 'componentWillReceiveProps() -> Columns.jsx')
-
-    }
     render() {
 
         return (

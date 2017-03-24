@@ -20,7 +20,7 @@ export class ServiceItems extends React.Component {
                     <ListGroupItem key={idx.toString()}>{item.name}
                         <Button type="button" onClick={()=>this.startService(item)}>Start</Button>
                         <Button type="button" onClick={()=>this.pingService(item)}>Ping</Button>
-                        <span>ping: {(item.portStatus) ? "true" : "false"}</span>
+                        {/*<span>ping: {(item.portStatus) ? 'running...' : "not running"}</span>*/}
                         <Button type="button" onClick={()=>this.killService(item)}>Stop</Button>
 
                     </ListGroupItem>

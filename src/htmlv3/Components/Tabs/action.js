@@ -7,12 +7,12 @@ export const SETAVAILABLESERVICES = "SETAVAILABLESERVICES";
 export const SETAVAILABLESERVICESERROR = "SETAVAILABLESERVICESERROR";
 export const STARTSERVICE = "STARTSERVICE";
 export const PINGSERVICE = "PINGSERVICE";
-export const PINGRESET = "PINGRESET";
 export const PINGSERVICERECEIVED = "PINGSERVICERECEIVED";
 export const KILLSERVICE = "KILLSERVICE";
 export const HISTORYSERVICE = "HISTORYSERVICE";
 export const ADDNEWSERVICE = "ADDNEWSERVICE";
-    export const connectWebSocket = () => {
+
+export const connectWebSocket = () => {
     return (dispatch) => {
         dispatch({type: WEBSOCKETCONNECT})
     }
@@ -49,7 +49,6 @@ export const killService = (obj, idx) => {
                 cmd:`${msg}`}})
     }
 }
-
 export const pingService = (obj, idx) => {
     return (dispatch) => {
         dispatch({
@@ -61,6 +60,14 @@ export const pingService = (obj, idx) => {
             }})
     }
 };
+
+export const submitNewService = (formObj)=>{
+    return (dispatch)=>{
+        dispatch({type:ADDNEWSERVICE,payload:{
+            req:"saveConfig",
+            cmd:formObj}})
+    }
+}
 
 export const submitNewService = (formObj)=>{
     return (dispatch)=>{
