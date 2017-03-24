@@ -123,8 +123,10 @@ export class appCommand {
 			this.configHandler.readConfig(connection);
 		}
 		else if ( message.req=='deleteService') {
-
 			this.configHandler.deleteConfig(message, connection);
+		}
+		else if ( message.req=='editService') {
+			this.configHandler.editConfig(message, connection);
 		}
 		else if ( message.req === 'saveConfig'){
 
@@ -148,7 +150,7 @@ export class appCommand {
 		}
 	}
 }
-export type requestTypes = 'getConfigFile' | 'deleteService' | 'saveConfig' | 'pingService' | 'killService' |'startService';
+export type requestTypes = 'getConfigFile' | 'deleteService' | 'saveConfig' | 'pingService' | 'killService' |'startService' | 'editService'
 export interface IMessageIn{
 	cmd:string;
 	req:requestTypes

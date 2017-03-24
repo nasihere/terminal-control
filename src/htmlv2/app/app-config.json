@@ -1,1 +1,11 @@
-{"configService":[{"name":"Express App 1","Port":"3000","env":"export NODE_ENV=LOCAL; export NODE_PORT=3000;","command":"npm run start;","cd":"/Users/Nasz/GitHub/sampleExpressApps/express1/package.json"}]}
+{
+  "configService": [
+    {
+      "name": "Express App 1",
+      "Port": "3000",
+      "env": "export NODE_ENV=LOCAL; export NODE_PORT=3000;",
+      "command": "npm run start;",
+      "cd": "/Users/Nasz/GitHub/sampleExpressApps/express1/package.json"
+    }
+  ]
+}

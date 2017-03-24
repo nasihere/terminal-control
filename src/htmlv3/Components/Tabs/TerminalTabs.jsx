@@ -29,7 +29,6 @@ export class TerminalTabs extends React.Component {
                             this.getLogHistory().map((itemLog)=> {
                                 return  <DisplayLog {...itemLog} />})
                         }
-
                     </div>
                 </Tab>
                 {this.createTabs()}

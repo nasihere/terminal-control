@@ -9,7 +9,8 @@ class newServiceFormClass extends React.Component {
         name:"abc",
         Port:"",
         env:"",
-        cmd:""
+        command:"",
+        cd:""
     }
     handleChange=(event)=>{
 
@@ -55,14 +56,23 @@ class newServiceFormClass extends React.Component {
                         <HelpBlock className={"small"}>e.g: export NODE_ENV=LOCAL;</HelpBlock>
                         <ControlLabel>Package JSON</ControlLabel>
                         <FormControl
-                            id="cmd"
+                            id="command"
                             type="text"
-                            value={this.state.cmd}
+                            value={this.state.command}
                             placeholder=""
                             onChange={this.handleChange}
                         />
                         <HelpBlock className={"small"}>e.g 1: npm run start:local</HelpBlock>
                         <HelpBlock className={"small"}>e.g 2: node build/proxy.js</HelpBlock>
+                        <ControlLabel>Location</ControlLabel>
+                        <FormControl
+                            id="cd"
+                            type="text"
+                            value={this.state.cd}
+                            placeholder=""
+                            onChange={this.handleChange}
+                        />
+                        <HelpBlock className={"small"}>root directory of your package</HelpBlock>
                        <ButtonGroup>
                             <Button type="submit">Submit</Button>
                        </ButtonGroup>

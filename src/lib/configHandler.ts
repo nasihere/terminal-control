@@ -80,7 +80,7 @@ export class configHandler {
 			if ( err ) {
 				console.log(err);
 			} else {
-				let fileData = JSON.parse(data);console.log(100,isUndefined(this.configFile), this.configFile)
+				let fileData = JSON.parse(data);
 				if ( isUndefined(this.configFile) ) {
 					for ( let i = 0; i < fileData.configService.length; i++ ) {
 						fileData.configService[ i ].id = (Math.random() * 1e32).toString(36);
@@ -117,6 +117,36 @@ export class configHandler {
 			}
 		});
 	};
+	editConfig = (message,connection) =>{
+		let configItem = message.cmd;
+		if(this.configFile){
+			let _items=this.configFile.configService.map((item)=>{
+				if(item.id===configItem.id){
+					for(let key in item){
+						if(item[key]!== configItem[key]){item[key]=configItem[key]}
+					}
+					return item
+
+				}
+				else{return item};
+			})
+			this.configFile.configService=_items;
+			const writeJson = JSON.stringify(this.configFile); //convert it back to json
+				fs.writeFile(this.configSrc, writeJson, 'utf8', (data) => {
+					if ( data === null ) {
+						connection.sendUTF(JSON.stringify(
+							{
+								type: 'updateConfig',
+								data: {
+									success: true,
+									config:  this.configFile
+									}
+								}
+							));
+						}
+					}); // write it back
+				}
+	}
 	deleteConfig = (message, connection): void => {
 		let configItem = message.cmd;
 		if(this.configFile){

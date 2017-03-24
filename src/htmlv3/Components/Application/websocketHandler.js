@@ -11,7 +11,8 @@ import {
     KILLSERVICE,
     HISTORYSERVICE,
     ADDNEWSERVICE,
-    DELETESERVICE
+    DELETESERVICE,
+    EDITSERVICE
 } from './action.js';
 
 export const socketConnect = (function () {
@@ -56,6 +57,7 @@ export const socketConnect = (function () {
                 case "saveConfig":
                 case "readConfig":
                 case "deleteConfig":
+                case "updateConfig":
                     dispatchType = SETAVAILABLESERVICES;
                     store.dispatch({type: dispatchType, payload: response.data.config.configService})
                     break;
@@ -85,6 +87,7 @@ export const socketConnect = (function () {
             case STARTSERVICE:
             case ADDNEWSERVICE:
             case DELETESERVICE:
+            case EDITSERVICE:
                 //console.log(action.payload, `store ${action.type} -> webSockethandler.js`)
                 connection.send(payload);
                 break;

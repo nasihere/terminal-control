@@ -13,6 +13,7 @@ export const KILLSERVICE = "KILLSERVICE";
 export const HISTORYSERVICE = "HISTORYSERVICE";
 export const ADDNEWSERVICE = "ADDNEWSERVICE";
 export const DELETESERVICE = "DELETESERVICE";
+export const EDITSERVICE = "EDITSERVICE";
     export const connectWebSocket = () => {
     return (dispatch) => {
         dispatch({type: WEBSOCKETCONNECT})
@@ -74,6 +75,15 @@ export const deleteService = (item) => {
     return dispatch =>{
         dispatch({type:DELETESERVICE,payload:{
             req:'deleteService',
+            cmd:item
+        }})
+    }
+}
+export const editService = (item) => {
+
+    return dispatch =>{
+        dispatch({type:EDITSERVICE,payload:{
+            req:'editService',
             cmd:item
         }})
     }
