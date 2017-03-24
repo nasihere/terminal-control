@@ -10,7 +10,8 @@ import {
     PINGSERVICERECEIVED,
     KILLSERVICE,
     HISTORYSERVICE,
-    ADDNEWSERVICE
+    ADDNEWSERVICE,
+    DELETESERVICE
 } from './action.js';
 
 export const socketConnect = (function () {
@@ -53,9 +54,8 @@ export const socketConnect = (function () {
                     store.dispatch({type: dispatchType, payload: {status:response.data}});
                     break;
                 case "saveConfig":
-                    store.dispatch({type: SETAVAILABLESERVICES, payload: response.data.config.configService});
-                    break;
                 case "readConfig":
+                case "deleteConfig":
                     dispatchType = SETAVAILABLESERVICES;
                     store.dispatch({type: dispatchType, payload: response.data.config.configService})
                     break;
@@ -81,19 +81,11 @@ export const socketConnect = (function () {
                 connection.onopen = onOpen(connection, store);
                 connection.onmessage = onMessage(connection, store);
                 break;
-            case STARTSERVICE:
-                //console.log(action.payload, 'store startService -> webSockethandler.js')
-                connection.send(payload);
-                break;
             case KILLSERVICE:
-                connection.send(payload);
-                break;
-            // case PINGSERVICE:
-            //     //console.log(action.payload, 'StorePingService -> webSockethandler.js')
-            //     connection.send(payload);
-            //     onPing(2000, store, payload);
-            //     break;
+            case STARTSERVICE:
             case ADDNEWSERVICE:
+            case DELETESERVICE:
+                //console.log(action.payload, `store ${action.type} -> webSockethandler.js`)
                 connection.send(payload);
                 break;
             default:

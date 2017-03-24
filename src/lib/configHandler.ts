@@ -15,7 +15,7 @@ export class configHandler {
 		};
 		if(this.configFile){
 			let pushJson = Object.assign({},newConfig.cmd,{ id:(Math.random() * 1e32).toString(36)});
-			this.configFile.configService.push(pushJson);console.log(this.configFile)
+			this.configFile.configService.push(pushJson);
 			fs.writeFile(this.configSrc, JSON.stringify(this.configFile), 'utf8', (data) => {
 				if ( data === null ) {
 					connection.sendUTF(JSON.stringify(
@@ -31,7 +31,7 @@ export class configHandler {
 			});
 			return;
 		}
-		fs.readFile(this.configSrc, 'utf8', (err, data) => {
+/*		fs.readFile(this.configSrc, 'utf8', (err, data) => {
 			if ( err ) {
 				console.log(err);
 			}
@@ -71,7 +71,7 @@ export class configHandler {
 					}
 				}); // write it back
 			}
-		});
+		});*/
 	};
 	readConfig = (connection): void => {
 		// TODO : add validator to json strings and keys
@@ -117,11 +117,38 @@ export class configHandler {
 			}
 		});
 	};
-	deleteConfig = (index, connection): void => {
-		if ( index === undefined ) {
-			return;
+	deleteConfig = (message, connection): void => {
+		let configItem = message.cmd;
+		if(this.configFile){
+			let idx=this.configFile.configService.findIndex((item,idx)=>item.id ===configItem.id);
+			if(idx !== -1){
+				fs.readFile(this.configSrc, 'utf8', (err, data) => {
+					if ( err ) {
+						console.log(err);
+					}
+					else{
+						let fileData=JSON.parse(data)
+						fileData.configService.splice(idx,1);
+						this.configFile=fileData
+						const writeJson = JSON.stringify(this.configFile); //convert it back to json
+						fs.writeFile(this.configSrc, writeJson, 'utf8', (data) => {
+							if ( data === null ) {
+								connection.sendUTF(JSON.stringify(
+									{
+										type: 'deleteConfig',
+										data: {
+											success: true,
+											config:  this.configFile
+										}
+									}
+								));
+							}
+						}); // write it back
+					}
+				})
+			}
 		}
-		index = parseInt(index); // convert to string to number;
+/*
 		let obj = {
 			configService: []
 		};
@@ -153,6 +180,6 @@ export class configHandler {
 					}
 				}); // write it back
 			}
-		});
+		});*/
 	};
 }

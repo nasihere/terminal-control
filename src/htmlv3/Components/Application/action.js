@@ -12,6 +12,7 @@ export const PINGSERVICERECEIVED = "PINGSERVICERECEIVED";
 export const KILLSERVICE = "KILLSERVICE";
 export const HISTORYSERVICE = "HISTORYSERVICE";
 export const ADDNEWSERVICE = "ADDNEWSERVICE";
+export const DELETESERVICE = "DELETESERVICE";
     export const connectWebSocket = () => {
     return (dispatch) => {
         dispatch({type: WEBSOCKETCONNECT})
@@ -40,7 +41,7 @@ export const killService = (obj, idx) => {
 
     return (dispatch) => {
 
-        var msg = "lsof -t -i tcp:#PORT# | xargs kill;".replace('#PORT#',obj.Port); //*#*${obj.name} will add servicename for terminal logs
+        let msg = "lsof -t -i tcp:#PORT# | xargs kill;".replace('#PORT#',obj.Port); //*#*${obj.name} will add servicename for terminal logs
 
         dispatch({type: KILLSERVICE,
             payload: {
@@ -67,5 +68,13 @@ export const submitNewService = (formObj)=>{
         dispatch({type:ADDNEWSERVICE,payload:{
             req:"saveConfig",
             cmd:formObj}})
+    }
+}
+export const deleteService = (item) => {
+    return dispatch =>{
+        dispatch({type:DELETESERVICE,payload:{
+            req:'deleteService',
+            cmd:item
+        }})
     }
 }

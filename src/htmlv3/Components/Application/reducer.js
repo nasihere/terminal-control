@@ -7,7 +7,8 @@ import {
     WEBSOCKETCONNECT,
     STARTSERVICE,
     PINGSERVICERECEIVED,
-    HISTORYSERVICE
+    HISTORYSERVICE,
+
 } from './action.js';
 
 let initialState = {
@@ -24,7 +25,8 @@ let initialState = {
 }
 
 export const ApplicationReducer = (state = initialState, action) => {
-    console.log(action.payload, action.type, 'ApplicationReducer()')
+    console.log(action.payload, action.type, 'ApplicationReducer()');
+    let newItems;
     switch (action.type) {
         case SETSTATEOPEN:
             return Object.assign({}, state, {status: 'open'});
@@ -33,14 +35,19 @@ export const ApplicationReducer = (state = initialState, action) => {
             return Object.assign({}, state, {status: 'closed'});
 
         case SETAVAILABLESERVICES:
-            let newItems;
             if(state.services && state.services.items){
-                let filterItems=action.payload
-                    .filter((item,idx)=> !state.services.items[idx] || item.id !== state.services.items[idx].id)
-                    .map((item,idx)=>item)
-                newItems = [...state.services.items, ...filterItems];
-                console.log(filterItems,state.services.items,newItems)
+                if(state.services.items.length > action.payload.length){
+                    let filterItems=action.payload.map((item,idx)=>
+                        state.services.items.find((serviceItem)=> item.id === serviceItem.id ))
+                    newItems=filterItems;
                 }
+                else {
+                    let filterItems = action.payload
+                        .filter((item, idx) => !state.services.items[idx] || item.id !== state.services.items[idx].id)
+                        .map((item, idx) => item)
+                    newItems = [...state.services.items, ...filterItems];
+
+                }}
             else{
                 newItems=action.payload;
             }

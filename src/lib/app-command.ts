@@ -116,13 +116,13 @@ export class appCommand {
 			self.writeToHistory(obj, connection);
 		});
 	};
-	handleMessage = (message:IMessageIn, connection): void => {
+	handleMessage = (message:IMessageIn, connection): void => {console.log(message)
 		let copyMsg = stringifyHtml(message.cmd);
 		const appName = copyMsg.split('*#*')[ 1 ] || os.hostname();
 		if ( message.req === "getConfigFile" ) {
 			this.configHandler.readConfig(connection);
 		}
-		else if ( message.req=='deleteConfig') {
+		else if ( message.req=='deleteService') {
 
 			this.configHandler.deleteConfig(message, connection);
 		}
@@ -148,7 +148,7 @@ export class appCommand {
 		}
 	}
 }
-export type requestTypes = 'getConfigFile' | 'deleteConfig' | 'saveConfig' | 'pingService' | 'killService' |'startService';
+export type requestTypes = 'getConfigFile' | 'deleteService' | 'saveConfig' | 'pingService' | 'killService' |'startService';
 export interface IMessageIn{
 	cmd:string;
 	req:requestTypes
