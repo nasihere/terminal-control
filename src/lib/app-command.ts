@@ -35,7 +35,7 @@ export class appCommand {
 
 	};
 	private broadCastMsg = (obj, conn) => {
-
+console.log(conn.pid, obj)
 		// broadcast message to all connected clients
 		let json = JSON.stringify({type: 'message', data: obj});
 		for ( let i = 0; i < this.clients.length; i++ ) {
@@ -76,7 +76,7 @@ export class appCommand {
 		let oscmd= platform === "win32"? msg[0].replace(/;/g,"&") : msg[0];
 
 		let child = exec(oscmd, this.puts);
-
+		connection.sendUTF(JSON.stringify({type:'startService',data:{config:{id:message.id,pid:child.pid}}}))
 		child.stdout.on('data',  (data) => {
 			console.log('stdout: ' + data);
 			let obj = {

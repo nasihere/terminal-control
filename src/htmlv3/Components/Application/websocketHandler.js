@@ -54,6 +54,10 @@ export const socketConnect = (function () {
                     dispatchType = PINGSERVICERECEIVED;
                     store.dispatch({type: dispatchType, payload: {status:response.data}});
                     break;
+                case "startService":
+                    console.log(response.data);
+                    //TODO: finish dispatch to store with pid and finish kill with pid
+                    break;
                 case "saveConfig":
                 case "readConfig":
                 case "deleteConfig":
