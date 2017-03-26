@@ -1,7 +1,7 @@
 import React from 'react';
 import {PanelGroup, Panel, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
-import {ServiceItems} from './services.jsx';
+import {Services} from './services.jsx';
 import {startService, pingService, killService, deleteService, editService} from '../Application';
 import {NewServiceForm} from '../Tile_NewService';
 
@@ -19,7 +19,7 @@ export class ServiceColumnClass extends React.Component {
             <Row>
                 <PanelGroup activeKey={this.state.activeKey} onSelect={this.handleSelect.bind(this)} accordion>
                     <Panel header="Services" eventKey="1">
-                         <ServiceItems {...this.props}/>
+                         <Services {...this.props}/>
 
                     </Panel>
                     <Panel header="Add New Request" eventKey="2"> <NewServiceForm/></Panel>

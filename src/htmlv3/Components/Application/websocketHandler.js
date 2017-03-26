@@ -66,10 +66,10 @@ export const socketConnect = (function () {
                     store.dispatch({type: dispatchType, payload: {status:response.data}});
                     break;
                 case "status":
-                    console.log(response.data);
+                    //console.log(response.data);
                     //port,id,connected,pid
                     store.dispatch({type:SET_SERVICE_STATE,payload:response.data});
-                    //TODO: finish dispatch to store with pid and finish kill with pid
+
                     break;
                 case "saveConfig":
                 case "readConfig":

@@ -33,7 +33,7 @@ export const httpServer=http.createServer((request, response)=> {
 	if (request.url === '/favicon.ico') {
 		response.writeHead(200, {'Content-Type': 'image/x-icon'} );
 		response.end();
-		console.log('favicon requested');
+		//console.log('favicon requested');
 		return;
 	}
 	// console.log(`fetching ${request.url}`);

@@ -64,7 +64,7 @@ export class appCommand {
 
 		});
 		child.on('error', (e) => {
-			console.log(1, e)
+			console.log( e)
 		});
 		child.stderr.on('close', function (data) {
 			// console.log('close: ' + data);
@@ -91,7 +91,6 @@ export class appCommand {
 		return (type:string,obj:any)=>{
 			sendObj.type=type;
 			sendObj.data=Object.assign({},sendObj.data,obj);
-			console.log(sendObj);
 			connection.sendUTF(JSON.stringify(sendObj))
 		}
 	}
@@ -124,7 +123,7 @@ export class appCommand {
 		child.on('message',()=>{});*/
 
 		child.stdout.on('data', (data) => {
-			console.log('1 stdout: ' + data);
+			console.log('stdout: ' + data);
 			let obj = {
 				time:   (new Date()).getTime(),
 				text:   stringifyHtml(data),
@@ -185,7 +184,7 @@ export class appCommand {
 		}
 		else if ( message.req === 'killService' ) {
 			//Stop the service
-			psTree(message.pid, function (err, children) {console.log(children)
+			psTree(message.pid, function (err, children) {
 				childprocess.spawn('kill', ['-9'].concat(children.map(function (p) { return p.PID })));
 			});
 
