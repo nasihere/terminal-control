@@ -25,6 +25,7 @@ export class configHandler {
 	private readFile = (filePath): Promise<any> => {
 		return new Promise((resolve, reject) => {
 			fs.readFile(filePath, 'utf8', (err, data): void => {
+
 				if ( err ) {
 					reject(err)
 				}
@@ -159,16 +160,17 @@ export class configHandler {
 		let configItem = message.cmd;
 		if ( this.configFile ) {
 			let idx = this.configFile.configService.findIndex((item, idx) => item.id === configItem.id);
+
 			if ( idx !== -1 ) {
-				this.readFile(this.configFile).then((data)=>{
+				this.readFile(this.configSrc).then((data)=>{
 					try{
 						let fileData = JSON.parse(data)
 						fileData.configService.splice(idx, 1);
 						this.configFile = fileData
 						const writeJson = JSON.stringify(this.configFile);
 						this.writeFile(this.configSrc, writeJson).then(()=>{
-							this.sendSuccess(connection,'deleteConfig',this.configSrc)
-						}).catch((e)=>{throw e})
+							this.sendSuccess(connection,'deleteConfig',this.configFile)
+						})
 					}
 					catch(e){this.sendFail(e,connection,'deleteConfig')}
 				});

@@ -1,29 +1,43 @@
 import React from 'react';
-import {Modal, Table, Button, Form, FormGroup, ControlLabel, FormControl, HelpBlock, ButtonGroup} from 'react-bootstrap';
+import {
+    Modal,
+    Table,
+    Button,
+    Form,
+    FormGroup,
+    ControlLabel,
+    FormControl,
+    HelpBlock,
+    ButtonGroup
+} from 'react-bootstrap';
 
-export class EditModal extends React.Component{
-    state={}
+export class EditModal extends React.Component {
+    state = {}
 
-    componentWillReceiveProps=(nextprops)=>{
-        this.setState({
-            name:nextprops.item.name || '',
-            Port:nextprops.item.Port || '',
-            env:nextprops.item.env || '',
-            command:nextprops.item.command || '',
-            cd:nextprops.item.cd || '',
-            id:nextprops.item.id || ''
-        })
+    componentWillReceiveProps = (nextprops) => {
+
+            this.setState({
+                name: nextprops.item.name || '',
+                Port: nextprops.item.Port || '',
+                env: nextprops.item.env || '',
+                command: nextprops.item.command || '',
+                cd: nextprops.item.cd || '',
+                id: nextprops.item.id || ''
+            })
+    };
+    handleChange = (event) => {
+        this.setState({[event.target.id]: event.target.value})
     }
-    handleChange=(event)=>{
-        this.setState({[event.target.id]:event.target.value})
-    }
-    submitForm=(event)=>{
+    submitForm = (event) => {
         event.preventDefault();
         this.props.submit(this.state);
 
         //console.log(event)
     }
-    render() {
+
+
+    render () {
+        let ReadOnly=this.props.type === 'delete';
         return (
             <Modal show={this.props.show}>
                 <Modal.Header>
@@ -39,6 +53,7 @@ export class EditModal extends React.Component{
                                 type="text"
                                 value={this.state.name}
                                 placeholder=""
+                                readOnly={ReadOnly}
                                 onChange={this.handleChange}
                             />
                             <HelpBlock className={"small"}>e.g: USER MICROSERVICE</HelpBlock>
@@ -48,6 +63,7 @@ export class EditModal extends React.Component{
                                 type="text"
                                 value={this.state.Port}
                                 placeholder=""
+                                readOnly={ReadOnly}
                                 onChange={this.handleChange}
                             />
                             <HelpBlock className={"small"}>e.g: 3080</HelpBlock>
@@ -57,6 +73,7 @@ export class EditModal extends React.Component{
                                 type="text"
                                 value={this.state.env}
                                 placeholder=""
+                                readOnly={ReadOnly}
                                 onChange={this.handleChange}
                             />
                             <HelpBlock className={"small"}>e.g: export NODE_ENV=LOCAL;</HelpBlock>
@@ -66,6 +83,7 @@ export class EditModal extends React.Component{
                                 type="text"
                                 value={this.state.command}
                                 placeholder=""
+                                readOnly={ReadOnly}
                                 onChange={this.handleChange}
                             />
                             <HelpBlock className={"small"}>e.g 1: npm run start:local</HelpBlock>
@@ -76,11 +94,12 @@ export class EditModal extends React.Component{
                                 type="text"
                                 value={this.state.cd}
                                 placeholder=""
+                                readOnly={ReadOnly}
                                 onChange={this.handleChange}
                             />
                             <HelpBlock className={"small"}>root directory of your package</HelpBlock>
                             <ButtonGroup>
-                                <Button onClick={this.props.close} type="button" >Cancel</Button>
+                                <Button onClick={this.props.close} type="button">Cancel</Button>
                                 <Button type="submit">Submit</Button>
                             </ButtonGroup>
                         </FormGroup>
