@@ -10,7 +10,8 @@ module.exports = {
         ]},
     output:  {
         filename: '[name].bundle.js',
-        path:     path.resolve(__dirname, "build/htmlv3")
+        path:     path.resolve(__dirname, "build/htmlv3"),
+        publicPath:"/"
     },
     module:  {
         rules: [
@@ -26,7 +27,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 10000,
-                    name:"./fonts/[hash].ext"
+                    name:"css/fonts/[name].[hash].[ext]"
                 }
             },
             {
@@ -34,7 +35,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 10000,
-                    name:"./images/[hash].ext"
+                    name:"./images/[name].[hash].[ext]"
                 }
             },
             {

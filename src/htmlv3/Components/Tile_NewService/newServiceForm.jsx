@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Tile} from '../Common/Tile';
 import {FormGroup, Form, FormControl, ControlLabel, HelpBlock, Button, ButtonGroup} from 'react-bootstrap';
-import {submitNewService} from '../Application/action.js'
+import {submitNewService} from '../Application'
 
 class newServiceFormClass extends React.Component {
     state={

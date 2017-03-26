@@ -4,7 +4,7 @@ import {Route, Switch} from 'react-router-dom';
 
 import {ServicesBody} from '../Views/Services';
 import {NavBarInstance} from '../Components/NavBar';
-import {connectWebSocket} from '../Components/Application/action.js';
+import {connectWebSocket} from '../Components/Application';
 
 
 export class AppClass extends React.Component {

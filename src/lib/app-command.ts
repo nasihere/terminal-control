@@ -80,37 +80,51 @@ export class appCommand {
 		}
 		console.log('puts', stdout, stderr, error);
 	};
+	send = (message,connection) =>{
+		let sendObj={
+			type:'',
+			data: {
+				port: message.port,
+				id:   message.id
+			}
+		}
+		return (type:string,obj:any)=>{
+			sendObj.type=type;
+			sendObj.data=Object.assign({},sendObj.data,obj);
+			console.log(sendObj);
+			connection.sendUTF(JSON.stringify(sendObj))
+		}
+	}
 	serviceAction = (message, connection) => {
+		let send=this.send(message,connection)
 		let self = this;
 		let userColor = this.colors.shift();
 		const msg = message.cmd.split('*#*');
 		let oscmd = platform === "win32" ? msg[ 0 ].replace(/;/g, "&") : msg[ 0 ];
 
 		let child = spawn(oscmd,[], {shell:true});
-		console.log('childpid',child.pid)
-		child.on('close',(data)=>{console.log(123,data)
-			let obj = {
-				port: message.port,
-				id:   message.id,
-				pid:  child.pid,
-				ping: false
-			}
-			//connection.sendUTF(JSON.stringify({type: 'ping', data: obj}));
-		});
-		console.log(child.ref());
-		child.on('disconnect',()=>{console.log(2)})
-		child.on('error',()=>{console.log(3)})
-		child.on('edit',()=>{console.log(4)})
-		child.on('message',(m)=>{console.log(m)})
-		var obj = {
-			port: message.port,
-			id:   message.id,
+		let statusObj = {
+			connected: true,
 			pid:  child.pid,
-			ping: true
-		}
-		connection.sendUTF(JSON.stringify({type: 'ping', data: obj}));
+
+		};
+		send('status', statusObj);
+		child.on('close',(data)=>{
+			let obj = {
+				connected:false,
+				pid:  null,
+				status_code:data
+			};
+			send('status',obj)
+		});
+
+/*		child.on('disconnect',()=>{});
+		child.on('error',()=>{});
+		child.on('edit',()=>{});
+		child.on('message',()=>{});*/
+
 		child.stdout.on('data', (data) => {
-			console.log('stdout: ' + data);
+			console.log('1 stdout: ' + data);
 			let obj = {
 				time:   (new Date()).getTime(),
 				text:   stringifyHtml(data),

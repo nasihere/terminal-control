@@ -2,7 +2,7 @@ import React from 'react';
 import {PanelGroup, Panel, Row} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {ServiceItems} from './services.jsx';
-import {startService, pingService, killService, deleteService, editService} from '../Application/action.js';
+import {startService, pingService, killService, deleteService, editService} from '../Application';
 import {NewServiceForm} from '../Tile_NewService';
 
 export class ServiceColumnClass extends React.Component {

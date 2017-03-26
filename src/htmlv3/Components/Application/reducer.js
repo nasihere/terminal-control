@@ -1,15 +1,16 @@
 import React from 'react';
 import {
-    SETAVAILABLESERVICES,
-    SETAVAILABLESERVICESERROR,
-    SETSTATECLOSED,
-    SETSTATEOPEN,
-    WEBSOCKETCONNECT,
-    STARTSERVICE,
-    PINGSERVICERECEIVED,
-    HISTORYSERVICE,
+    CONNECT_WEBSOCKET,
+    SET_AVAILABLESERVICES,
+    SET_AVAILABLESERVICESERROR,
+    SET_STATECLOSED,
+    SET_STATEOPEN,
+    SET_SERVICE_STATE,
+    START_SERVICE,
+    PING_SERVICERECEIVED,
+    LOG_HISTORY_SERVICE
 
-} from './action.js';
+} from './dispatchTypes';
 
 let initialState = {
     status:     'closed',
@@ -23,18 +24,27 @@ let initialState = {
     },
     logsHistory: []
 }
-
+function mergeSingleObject(arr,obj,compKey){
+    return arr.map((item)=>{
+        if(item[compKey]===obj[compKey]){
+            return Object.assign({},item,obj)
+        }
+        else {return item}
+    })
+}
 export const ApplicationReducer = (state = initialState, action) => {
     //console.log(action.payload, action.type, 'ApplicationReducer()');
     let newItems;
     switch (action.type) {
-        case SETSTATEOPEN:
+        case SET_SERVICE_STATE:
+            newItems=mergeSingleObject(state.services.items,action.payload,'id');
+            return Object.assign({}, state, {services:{items:newItems}});
+            break;
+        case SET_STATEOPEN:
             return Object.assign({}, state, {status: 'open'});
-
-        case SETSTATECLOSED:
+        case SET_STATECLOSED:
             return Object.assign({}, state, {status: 'closed'});
-
-        case SETAVAILABLESERVICES:
+        case SET_AVAILABLESERVICES:
             if(state.services && state.services.items){
                 if(state.services.items.length > action.payload.length){
                     let filterItems=action.payload.map((item,idx)=>
@@ -61,14 +71,20 @@ export const ApplicationReducer = (state = initialState, action) => {
 
 
             return Object.assign({}, state, {services: {items: newItems}});
-
-        case SETAVAILABLESERVICESERROR:
-            return Object.assign({}, state, {services: {items: [], error: action.payload}});
-        case STARTSERVICE:
+        case SET_AVAILABLESERVICESERROR:
+            let items=state.services.items.map((item)=>{
+                if(item.id===action.payload.item.id){
+                    item.error=action.payload.error;
+                    return item
+                }
+                else{return item}
+            })
+            return Object.assign({}, state, {services: {items:items}});
+        case START_SERVICE:
             return Object.assign({}, state, {startedservices: action.payload});
-        case HISTORYSERVICE:
+        case LOG_HISTORY_SERVICE:
             return Object.assign({}, state, {logsHistory:[...state.logsHistory, action.payload]});
-        case PINGSERVICERECEIVED:
+        case PING_SERVICERECEIVED:
             return Object.assign({},
                 state,
                 {services:
@@ -79,7 +95,7 @@ export const ApplicationReducer = (state = initialState, action) => {
                     )
                     }
                 });
-        // case PINGRESET:
+        // case PING_RESET:
         //     return Object.assign({},
         //         state,
         //         {services:
