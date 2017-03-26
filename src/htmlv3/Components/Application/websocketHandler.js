@@ -92,6 +92,7 @@ export const socketConnect = (function () {
             case ADDNEWSERVICE:
             case DELETESERVICE:
             case EDITSERVICE:
+                console.log(action.type,payload)
                 //console.log(action.payload, `store ${action.type} -> webSockethandler.js`)
                 connection.send(payload);
                 break;

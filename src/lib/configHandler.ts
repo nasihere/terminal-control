@@ -89,17 +89,19 @@ export class configHandler {
 				}
 				else {
 					for ( let i = 0; i < fileData.configService.length; i++ ) {
-						let keyLength = Object.keys(fileData.configService[ i ]).length;
+						let currentItem=fileData.configService[i];
+						let keyLength = Object.keys(currentItem).length;
 						let testLength = 0;
-						for ( let key in fileData.configService[ i ] ) {
-							if ( fileData.configService[ i ][ key ] === this.configFile.configService[ i ][ key ] ) {
-								++testLength
+
+						for ( let key in currentItem ) {
+							if ( currentItem[ key ] === this.configFile.configService[ i ][ key ] ) {
+								testLength++;
 							}
 						}
-						let simpatico = keyLength == testLength;
-						if ( !simpatico ) {
-							fileData.configService[ i ].id = (Math.random() * 1e32).toString(36);
-							this.configFile.splice(i, 0, fileData.configService[ i ]);
+
+						if ( keyLength == testLength ) {
+							currentItem.id = (Math.random() * 1e32).toString(36);
+							this.configFile.splice(i, 0, currentItem);
 						}
 					}
 				}

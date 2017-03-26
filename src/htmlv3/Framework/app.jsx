@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Route, Switch} from 'react-router-dom';
 
 import {ServicesBody} from '../Views/Services';
-import {NavBarInstance} from '../Components/NavBar/index.jsx';
+import {NavBarInstance} from '../Components/NavBar';
 import {connectWebSocket} from '../Components/Application/action.js';
 
 

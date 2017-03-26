@@ -2,7 +2,12 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
-    entry:   {app: './src/htmlv3/app.js', "vendor": ['react', 'react-dom']},
+    entry:   {
+        app: './src/htmlv3/app.js',
+        "vendor": [
+            'react',
+            'react-dom'
+        ]},
     output:  {
         filename: '[name].bundle.js',
         path:     path.resolve(__dirname, "build/htmlv3")

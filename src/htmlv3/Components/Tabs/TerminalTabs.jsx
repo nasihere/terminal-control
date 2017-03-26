@@ -14,7 +14,7 @@ export class TerminalTabs extends React.Component {
             return <Tab key={i+1} eventKey={i+1} title={item.name}>
                 <div>
                     <DisplayServiceInfo {...item} />
-                    {logsHistory.map((itemLog)=> {return  <DisplayLog {...itemLog} />})}
+                    {logsHistory.map((itemLog, idx)=> {return  <DisplayLog {...itemLog} />})}
 
                 </div>
             </Tab>
