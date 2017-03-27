@@ -116,11 +116,14 @@ export class appCommand {
 			};
 			send('status',obj)
 		});
+		console.log(process.mainModule.children)
+console.log(child)
+
 
 /*		child.on('disconnect',()=>{});
 		child.on('error',()=>{});
-		child.on('edit',()=>{});
-		child.on('message',()=>{});*/
+		child.on('edit',()=>{});*/
+		child.on('message',(m)=>{console.log(m)});
 
 		child.stdout.on('data', (data) => {
 			console.log('stdout: ' + data);
