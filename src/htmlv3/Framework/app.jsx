@@ -1,9 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {NavBarInstance} from './NavBar/index.jsx';
-import {Body} from './Body/body.jsx';
-import {connectWebSocket} from './Application/action.js';
 import {Route, Switch} from 'react-router-dom';
+
+import {ServicesBody} from '../Views/Services';
+import {NavBarInstance} from '../Components/NavBar';
+import {connectWebSocket} from '../Components/Application';
+
 
 export class AppClass extends React.Component {
     state = {services: []};
@@ -16,9 +18,8 @@ export class AppClass extends React.Component {
             <div>
                 <NavBarInstance />
                 <Switch>
-                    <Route path="/Services" component={Body}/>
+                    <Route path="/Services" component={ServicesBody}/>
                     <Route path="/Home" render={() => (<div>Home</div>)}/>
-                    <Route path="/Import" render={() => ( <div>Import</div>)}/>
                 </Switch>
             </div>
         );

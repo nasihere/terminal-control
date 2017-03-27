@@ -33,15 +33,16 @@ export const httpServer=http.createServer((request, response)=> {
 	if (request.url === '/favicon.ico') {
 		response.writeHead(200, {'Content-Type': 'image/x-icon'} );
 		response.end();
-		console.log('favicon requested');
+		//console.log('favicon requested');
 		return;
 	}
 	// console.log(`fetching ${request.url}`);
 	//console.log(`${request.url}`)
 	// TODO: configure the file path to more current and viable syntax
+
 	let requestConfig = {
 		uri: url.parse(request.url).pathname,
-		filePath: /\.(css|js)$/.test(request.url) ?  'build/htmlv3/'+ request.url : 'build/htmlv3/index.html' ,
+		filePath: /\.\w{2,5}$/.test(request.url) ?  'build/htmlv3/'+ request.url : 'build/htmlv3/index.html' ,
 		get filename() {return path.join(process.cwd(), this.uri)},
 		get contentType(){return findContentType(path.extname(this.filePath))}
 	}

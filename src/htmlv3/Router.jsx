@@ -2,7 +2,7 @@ import React from 'react';
 //import {Router, Route} from 'react-router';
 import {BrowserRouter, Route, Switch, Layout, Router, Redirect} from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory'
-import {App} from './Components/app.jsx';
+import {App} from './Framework/app.jsx';
 import {Body} from './Components/Body/body.jsx' ;
 
 let history = createBrowserHistory();

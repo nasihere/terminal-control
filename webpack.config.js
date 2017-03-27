@@ -2,10 +2,16 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
-    entry:   {app: './src/htmlv3/app.js', "vendor": ['react', 'react-dom']},
+    entry:   {
+        app: './src/htmlv3/app.js',
+        "vendor": [
+            'react',
+            'react-dom'
+        ]},
     output:  {
         filename: '[name].bundle.js',
-        path:     path.resolve(__dirname, "build/htmlv3")
+        path:     path.resolve(__dirname, "build/htmlv3"),
+        publicPath:"/"
     },
     module:  {
         rules: [
@@ -21,7 +27,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 10000,
-                    name:"./fonts/[hash].ext"
+                    name:"css/fonts/[name].[hash].[ext]"
                 }
             },
             {
@@ -29,7 +35,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 10000,
-                    name:"./images/[hash].ext"
+                    name:"./images/[name].[hash].[ext]"
                 }
             },
             {

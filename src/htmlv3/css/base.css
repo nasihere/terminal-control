@@ -8,3 +8,7 @@
 /*List Reset*/
 .list-group{}
 .list-group-item{border:none;}
+
+
+/*txt*/
+.txt--error{color:red;}
