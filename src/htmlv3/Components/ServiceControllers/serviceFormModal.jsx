@@ -11,7 +11,7 @@ import {
     ButtonGroup
 } from 'react-bootstrap';
 
-export class EditModal extends React.Component {
+export class ServiceFormModal extends React.Component {
     state = {}
 
     componentWillReceiveProps = (nextprops) => {

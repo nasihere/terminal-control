@@ -1,16 +1,14 @@
 import React from 'react';
 import {ListGroup, ListGroupItem, Button, Alert, Glyphicon} from 'react-bootstrap';
-import {DeleteModal} from './deleteModal.jsx';
-import {EditModal} from './editModal.jsx';
+
+import {ServiceFormModal} from './ServiceFormModal.jsx';
 import {ServiceItems} from './serviceItems.jsx';
 
 export class Services extends React.Component {
     state = {
         modalItem: {},
-        showDeleteModal: false,
-        showEditModal: false,
-        submit: () => {
-        },
+        showConfigModal: false,
+        submit: () => {},
         type: ""
     }
     startService = (item, idx) => {
@@ -22,20 +20,20 @@ export class Services extends React.Component {
     killService = (item, idx) => {
         this.props.killService(item, idx)
     }
-    openDeleteModal = (item) => {
-        this.closeEditModal();
-        this.setState({modalItem: item, showDeleteModal: true})
+    addItem = (formItem) =>{
+        this.props.submitNewService(formItem);
+        this.closeConfigModal();
     }
-    closeDeleteModal = () => {
-
-        this.setState({modalItem: {}, showDeleteModal: false})
+    editItem = (newItem) => {
+        this.props.editService(newItem);
+        this.closeConfigModal()
     }
     deleteItem = () => {
         this.props.deleteService(this.state.modalItem);
-        this.closeEditModal()
+        this.closeConfigModal()
     }
-    openEditModal = (item, type) => {
-        this.closeDeleteModal();
+    openConfigModal = (item, type) => {
+
         switch (type) {
             case 'delete':
                 this.setState({modalItem: item, submit: this.deleteItem});
@@ -48,21 +46,14 @@ export class Services extends React.Component {
                     modalItem: {}, submit: this.addItem
                 })
         }
-        this.setState({showEditModal: true, type: type})
+        this.setState({showConfigModal: true, type: type})
 
     }
-    addItem = (formItem) =>{
-        this.props.submitNewService(formItem);
-        this.closeEditModal();
+
+    closeConfigModal = () => {
+        this.setState({modalItem: {}, showConfigModal: false})
     }
-    closeEditModal = () => {
-        this.closeDeleteModal();
-        this.setState({modalItem: {}, showEditModal: false})
-    }
-    editItem = (newItem) => {
-        this.props.editService(newItem);
-        this.closeEditModal()
-    }
+
 
     render () {
 
@@ -77,20 +68,16 @@ export class Services extends React.Component {
             <ListGroup>
                 {alert}
                 <ServiceItems services={this.props.services}
-                              openDeleteModal={this.openDeleteModal}
-                              openEditModal={this.openEditModal}
+
+                              openConfigModal={this.openConfigModal}
                               startService={this.startService}
                               killService={this.killService}
                               pingService={this.pingService}/>
-                <DeleteModal item={this.state.modalItem} show={this.state.showDeleteModal}
-                             close={this.closeDeleteModal}
-                             submit={this.deleteItem}
-                             type="delete"
-                />
-                <EditModal type={this.state.type}
-                           item={this.state.modalItem}
-                           show={this.state.showEditModal}
-                           close={this.closeEditModal} submit={this.state.submit}/>
+
+                <ServiceFormModal type={this.state.type}
+                                  item={this.state.modalItem}
+                                  show={this.state.showConfigModal}
+                                  close={this.closeConfigModal} submit={this.state.submit}/>
             </ListGroup>
         )
     }

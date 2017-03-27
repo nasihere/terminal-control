@@ -28,10 +28,10 @@ export class ServiceItems extends React.Component {
                             {item.name}
 
                            {/* <div className="btn" onClick={() => this.props.pingService(item)}>Ping</div>*/}
-                            <div className="btn pull-right" onClick={() => this.props.openEditModal(item,'delete')}>
+                            <div className="btn pull-right" onClick={() => this.props.openConfigModal(item,'delete')}>
                                 <Glyphicon glyph="remove-sign"/>
                             </div>
-                            <div className="btn pull-right" onClick={() => this.props.openEditModal(item,'edit')}>
+                            <div className="btn pull-right" onClick={() => this.props.openConfigModal(item,'edit')}>
                                 <Glyphicon glyph="edit"/>
                             </div>
                             {errorMsg}
@@ -41,7 +41,7 @@ export class ServiceItems extends React.Component {
         return (
             <div>
                 <ListGroupItem key={"btn#0"}>
-                <Button type="button" onClick={() => this.props.openEditModal(null, 'new')}>Add New
+                <Button type="button" onClick={() => this.props.openConfigModal(null, 'new')}>Add New
                     Service</Button>
                 </ListGroupItem>
                 {services}</div>)

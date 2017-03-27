@@ -169,7 +169,7 @@ export class appCommand {
 		if ( message.req === "getConfigFile" ) {
 			this.configHandler.readConfig(connection);
 		}
-		else if ( message.req == 'deleteService' ) {console.log(1)
+		else if ( message.req == 'deleteService' ) {
 			this.configHandler.deleteConfig(message, connection);
 		}
 		else if ( message.req == 'editService' ) {
