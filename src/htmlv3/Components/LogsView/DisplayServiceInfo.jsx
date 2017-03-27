@@ -10,7 +10,7 @@ export class DisplayServiceInfo extends React.Component {
                     <tbody>
                     <tr>
                         <th>Port</th>
-                        <th>Enviornment</th>
+                        <th>Environment</th>
                         <th>Package.json</th>
                     </tr>
                     <tr>

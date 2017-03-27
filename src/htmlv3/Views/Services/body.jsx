@@ -28,9 +28,7 @@ export class BodyClass extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={12}>
-                            <TerminalTabs {...this.props} />
-                        </Col>
+                        <TerminalTabs {...this.props} />
                     </Row>
                 </Col>
             </div>

@@ -13,13 +13,13 @@ export class TerminalTabs extends React.Component {
             const logsHistory = this.getLogHistory().filter((x)=> {return (x.status.author === item.name)});
             if(item.connected) {
                 return <Tab key={('logs_tab#' + (i + 1)).toString()} eventKey={i + 1} title={item.name}>
-                    <div>
+
                         <DisplayServiceInfo {...item} />
                         {logsHistory.map((itemLog, idx) => {
                             return <DisplayLog {...itemLog} key={"logs_inline#" + (i + 1) + "_" + idx}/>
                         })}
 
-                    </div>
+
                 </Tab>
             }
         })
@@ -28,12 +28,12 @@ export class TerminalTabs extends React.Component {
         return (
             <Tabs defaultActiveKey="0" id="logs-tab">
                 <Tab eventKey="0" key="0" title="Show Logs">
-                    <div>
+
                         {
                             this.getLogHistory().map((itemLog, idx)=> {
                                 return  <DisplayLog {...itemLog} key={"logs_inline#"+idx.toString()} />})
                         }
-                    </div>
+
                 </Tab>
                 {this.createTabs()}
             </Tabs>
