@@ -9,7 +9,8 @@ import { configHandler } from './configHandler';
 let platform = os.platform();
 let exec     = childprocess.exec,
 	userName = os.hostname(),
-	spawn    = childprocess.spawn;
+	spawn    = childprocess.spawn,
+	fork    = childprocess.fork;
 
 interface ChildProcess{
 	emit():void
@@ -100,15 +101,30 @@ export class appCommand {
 		let userColor = this.colors.shift();
 		const msg = message.cmd.split('*#*');
 		let oscmd = platform === "win32" ? msg[ 0 ].replace(/;/g, "&") : msg[ 0 ];
+		let forkedProcess = fork("./build/lib/spawnChild",[oscmd, userColor, msg[1], JSON.stringify(message)]);
 
-		let child = spawn(oscmd,[], {shell:true});
 		let statusObj = {
 			connected: true,
-			pid:  child.pid,
+			pid:  forkedProcess.pid,
 
 		};
 		send('status', statusObj);
-		child.on('close',(data)=>{
+		forkedProcess.on('disconnect',(a)=>{console.log(1,a)});
+		forkedProcess.on('error',(a)=>{console.log(2,a)});
+		forkedProcess.on('edit',(a)=>{console.log(3,a)});
+		forkedProcess.on('message',(msg)=>{
+			msg.payload.pid=forkedProcess.pid;
+			msg.payload.id=message.id;
+			switch(msg.type){
+				case 'data':
+					self.writeToHistory(msg.payload,connection);
+					break;
+				case 'memory_usage':
+					send('memory_usage',msg.payload);
+					break;
+			}
+		});
+		forkedProcess.on('close',(data)=>{
 			let obj = {
 				connected:false,
 				pid:  null,
@@ -116,54 +132,12 @@ export class appCommand {
 			};
 			send('status',obj)
 		});
-		console.log(process.mainModule.children)
-console.log(child)
+		setInterval(()=>{
+			forkedProcess.send("get_usage")
+		},2000)
 
 
-/*		child.on('disconnect',()=>{});
-		child.on('error',()=>{});
-		child.on('edit',()=>{});*/
-		child.on('message',(m)=>{console.log(m)});
 
-		child.stdout.on('data', (data) => {
-			console.log('stdout: ' + data);
-			let obj = {
-				time:   (new Date()).getTime(),
-				text:   stringifyHtml(data),
-				author: msg[ 1 ],
-				color:  userColor,
-				pid:    child.pid,
-				id:     message.id
-			};
-
-			self.writeToHistory(obj, connection);
-			//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
-		});
-		child.stderr.on('data', function (data) {
-			console.log('stderr: ' + data);
-			let obj = {
-				time:   (new Date()).getTime(),
-				text:   stringifyHtml(data),
-				author: msg[ 1 ],
-				color:  userColor,
-				pid:    child.pid,
-				id:     msg.id
-			};
-			self.writeToHistory(obj, connection);
-			//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
-		});
-		child.on('close', function (code) {
-			console.log('stdclose: ' + code);
-			let obj = {
-				time:   (new Date()).getTime(),
-				text:   stringifyHtml(code),
-				author: msg[ 1 ],
-				color:  userColor,
-				pid:    child.pid,
-				id:     msg.id
-			};
-			self.writeToHistory(obj, connection);
-		});
 	};
 	handleMessage = (message: IMessageIn, connection): void => {
 
