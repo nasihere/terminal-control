@@ -1,14 +1,14 @@
 import React from 'react';
-import {ListGroupItem, Button, Glyphicon} from 'react-bootstrap';
-
+import {ListGroupItem, Button, Glyphicon, Col} from 'react-bootstrap';
+import './serviceItems.css';
 export class ServiceItems extends React.Component {
     getAction = (item) => {
         let action;
         !item.connected ? action= (
-            <div className="btn" onClick={() => this.props.startService(item)}>
+            <div className="btn btn-sm" onClick={() => this.props.startService(item)}>
                 <Glyphicon glyph="play"/>
             </div>): action=
-        (<div className="btn" onClick={() => this.props.killService(item)}>
+        (<div className="btn btn-sm" onClick={() => this.props.killService(item)}>
             <Glyphicon glyph="stop"/>
         </div>)
         return action;
@@ -23,16 +23,20 @@ export class ServiceItems extends React.Component {
                         errorMsg = <p className="small txt--error">{item.error}</p>
                     }
                     return (
-                        <ListGroupItem key={idx.toString()}>
+                        <ListGroupItem key={idx.toString()} className="service-group">
+
                             {this.getAction(item)}
+
                             {item.name}
+                            <div className="pull-right">
 
                            {/* <div className="btn" onClick={() => this.props.pingService(item)}>Ping</div>*/}
-                            <div className="btn pull-right" onClick={() => this.props.openConfigModal(item,'delete')}>
+                            <div className="btn btn-sm" onClick={() => this.props.openConfigModal(item,'delete')}>
                                 <Glyphicon glyph="remove-sign"/>
                             </div>
-                            <div className="btn pull-right" onClick={() => this.props.openConfigModal(item,'edit')}>
+                            <div className="btn btn-sm" onClick={() => this.props.openConfigModal(item,'edit')}>
                                 <Glyphicon glyph="edit"/>
+                            </div>
                             </div>
                             {errorMsg}
                         </ListGroupItem>
