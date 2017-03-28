@@ -108,16 +108,20 @@ export class appCommand {
 			pid:  forkedProcess.pid,
 
 		};
+		console.log(statusObj)
 		send('status', statusObj);
 		forkedProcess.on('disconnect',(a)=>{console.log(1,a)});
 		forkedProcess.on('error',(a)=>{console.log(2,a)});
 		forkedProcess.on('edit',(a)=>{console.log(3,a)});
 		forkedProcess.on('message',(msg)=>{
-			msg.payload.pid=forkedProcess.pid;
+			//msg.payload.pid=forkedProcess.pid;
 			msg.payload.id=message.id;
 			switch(msg.type){
 				case 'data':
 					self.writeToHistory(msg.payload,connection);
+					break;
+				case 'close':
+					forkedProcess.kill()
 					break;
 				case 'memory_usage':
 					send('memory_usage',msg.payload);
@@ -125,6 +129,7 @@ export class appCommand {
 			}
 		});
 		forkedProcess.on('close',(data)=>{
+			clearInterval(memInterval)
 			let obj = {
 				connected:false,
 				pid:  null,
@@ -132,7 +137,7 @@ export class appCommand {
 			};
 			send('status',obj)
 		});
-		setInterval(()=>{
+		let memInterval=setInterval(()=>{
 			forkedProcess.send("get_usage")
 		},2000)
 

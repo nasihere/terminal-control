@@ -22,6 +22,7 @@ function spawnChild(){
 			text:   stringifyHtml(data),
 			author: msg,
 			color:  userColor,
+			pid: child.pid
 
 		};
 		process.send({type:'data',payload:obj})
@@ -35,6 +36,7 @@ function spawnChild(){
 			text:   stringifyHtml(data),
 			author: msg,
 			color:  userColor,
+			pid: child.pid
 
 		};
 		process.send({type:'data',payload:obj})
@@ -42,14 +44,16 @@ function spawnChild(){
 	});
 	child.on('close', function (code) {
 		console.log('stdclose: ' + code);
+
 		let obj = {
 			time:   (new Date()).getTime(),
 			text:   stringifyHtml(code),
 			author: msg,
 			color:  userColor,
+			pid: child.pid
 
 		};
-		process.send({type:'data',payload:obj})
+		process.send({type:'close',payload:obj})
 		//self.writeToHistory(obj, connection);
 	});
 }
