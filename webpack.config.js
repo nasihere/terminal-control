@@ -18,6 +18,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 use:  ExtractTextPlugin.extract({
+                    allChunks:true,
                     fallback: "style-loader",
                     use:      "css-loader"
                 })

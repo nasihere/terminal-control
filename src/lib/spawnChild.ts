@@ -1,15 +1,22 @@
 import * as cp from 'child_process';
 import { stringifyHtml, parseArgv } from '../utils';
+export interface IUsage extends NodeJS.MemoryUsage{
+	timeRunning?:number;
+}
 function spawnChild(){
 	let oscmd=process.argv[2];
 	let userColor=process.argv[3];
 	let msg=process.argv[4];
 	let message=JSON.parse(process.argv[5]);
 	let child = cp.spawn(oscmd,[],{shell:true});
+	let timeUp=0;
+	setInterval(()=>{++timeUp},1000)
 	process.on('message',(msg)=>{
 		switch(msg){
 			case "get_usage":
-				process.send({type:'memory_usage',payload:process.memoryUsage()});
+				let usage:IUsage=process.memoryUsage();
+				usage.timeRunning=timeUp;
+				process.send({type:'memory_usage',payload:usage});
 				break;
 			default:
 				return;

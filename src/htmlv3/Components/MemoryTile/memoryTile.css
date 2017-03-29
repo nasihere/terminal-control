@@ -1,0 +1,10 @@
+.memory-tile{}
+.memory-tile__col{text-align:center}
+.memory-tile__block{}
+.memory-tile__block__header{}
+.memory-tile__block__body{
+    font-size:3em;
+}
+.memory-tile__block__footer{
+    margin:10px 0;
+}

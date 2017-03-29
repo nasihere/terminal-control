@@ -14,6 +14,9 @@ class _HomeBody extends React.Component{
                     <Row>
                         <Jumbotron/>
                     </Row>
+                    <Row>
+
+                    </Row>
                 </Col>
                 <Col sm={4}>
                     <Row>
@@ -41,7 +44,7 @@ export let MTiles = (props) => {console.log(props)
     let items = services.filter((item)=>item.connected).map((item, idx)=>{
         console.log(memory)
         if(memory.hasOwnProperty(item.id)){
-            return <MemoryTile key={"memtile#"+idx} title={item.name} values={props.memory[item.id]}/>}
+            return <MemoryTile key={"memtile#"+idx} title={item.name} values={props.memory[item.id]} chartValues={props.memory[item.id+"_chart"]}/>}
     })
     return (
         <div>
