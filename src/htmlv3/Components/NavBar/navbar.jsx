@@ -4,7 +4,7 @@ import {NavLink, withRouter} from 'react-router-dom';
 export const NavBar = (props) => {
     function matchPath(path){return props.location.pathname.startsWith(path) ? 'active' : ''}
     return(
-        <Navbar>
+        <Navbar style={{"margin":"0px", "border-radius":"0px"}} >
             <Navbar.Header>
                 <Navbar.Brand>
                     <a href="#">Node Services</a>
@@ -15,11 +15,10 @@ export const NavBar = (props) => {
                 <li className={matchPath("/Services")}><NavLink  to="/Services" activeClassName={"active"}>Services</NavLink></li>
                 <li className={matchPath("/Import")}><NavLink  to="/Import" activeClassName={"active"} >Import</NavLink></li>
             </ul>
-            <Navbar.Form pullLeft>
+            <Navbar.Form pullRight>
                 <FormGroup>
-                    <FormControl type="text" placeholder="Search"/>
+                    <FormControl type="text" placeholder="Search" style={{"height":"31px"}}/>
                 </FormGroup>{' '}
-                <Button type="button">Search</Button>
             </Navbar.Form>
 
         </Navbar>

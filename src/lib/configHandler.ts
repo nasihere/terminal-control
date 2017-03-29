@@ -102,7 +102,9 @@ export class configHandler {
 
 						if ( keyLength == testLength ) {
 							currentItem.id = (Math.random() * 1e32).toString(36);
-							this.configFile.splice(i, 0, currentItem);
+							if (this.configFile.length) {
+								this.configFile.splice(i, 0, currentItem);
+							}
 						}
 					}
 				}
