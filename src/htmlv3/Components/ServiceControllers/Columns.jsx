@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, PanelGroup, Panel, Row} from 'react-bootstrap';
+import {Button, PanelGroup, Panel, Row, Glyphicon} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {Services} from './services.jsx';
 import {startService, pingService, killService, deleteService, editService, submitNewService} from '../Application';
@@ -33,20 +33,20 @@ export class ServiceColumnClass extends React.Component {
             <div>
                 <Row style={{"margin-left":"0px"}}>
                     <Button
-                        className="btn btn-sm"
+                        bsStyle="default"
                         onClick={this.handlePanelToggle}
                         style={{"padding":'4px 4px 0px 0px', "border-radius": "0px", "float": "left"}}>
                             <p style={verticalMode}>Project</p>
-                            <i className="glyphicon glyphicon-folder-open"></i>
+                            <Glyphicon glyph="folder-open"/>
                     </Button>
                     { (this.state.showPanel) ? this.panel() : null }
                   </Row>
                 <Row style={{"margin-left":"0px", "margin-top":"3px"}}>
                     <Button
-                        className="btn btn-sm"
+                        bsStyle="default"
                         style={{"padding":'4px 4px 0px 0px', "border-radius": "0px"}}>
                         <p style={verticalMode}>Add New Project</p>
-                        <i className="glyphicon glyphicon glyphicon-plus"></i>
+                        <Glyphicon glyph="plus"/>
                     </Button>
                 </Row>
             </div>

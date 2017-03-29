@@ -1,11 +1,11 @@
 import React from 'react';
-import {Table} from 'react-bootstrap/lib';
+import {Table,Well} from 'react-bootstrap/lib';
 
 export class DisplayServiceInfo extends React.Component {
 
     render () {
         return (
-            <div className="well">
+            <Well>
                 <Table responsive>
                     <tbody>
                     <tr>
@@ -26,7 +26,7 @@ export class DisplayServiceInfo extends React.Component {
                     </tr>
                     </tbody>
                 </Table>
-            </div>
+            </Well>
         );
     }
 }
