@@ -12,3 +12,22 @@
 
 /*txt*/
 .txt--error{color:red;}
+
+/*Body*/
+body {
+    font-size: 12px;
+}
+
+.panel-body,  .list-group > span.list-group-item {
+    padding: 0px!important;
+}
+
+#logs-tab > .tab-content {
+    padding: 10px;
+    background-color: #202a0d;
+}
+
+#terminal-logs > div{
+    width: 50%;
+    float: right;
+}

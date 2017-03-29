@@ -13,8 +13,7 @@ import {
     ADD_SERVICE_CONFIG,
     DELETE_SERVICE_CONFIG,
     EDIT_SERVICE_CONFIG,
-    SET_SERVICE_STATE,
-    SET_MEMORY_USAGE
+    SET_SERVICE_STATE
 } from './dispatchTypes';
 
 class EventError extends Error{
@@ -71,10 +70,6 @@ export const socketConnect = (function () {
                     //port,id,connected,pid
                     store.dispatch({type:SET_SERVICE_STATE,payload:response.data});
 
-                    break;
-                case 'memory_usage':
-                    //console.log(response.data);
-                    store.dispatch({type: SET_MEMORY_USAGE, payload: response.data})
                     break;
                 case "saveConfig":
                 case "readConfig":
