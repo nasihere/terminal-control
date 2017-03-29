@@ -1,6 +1,6 @@
 import React from 'react';
-import {ListGroupItem, Button, Glyphicon} from 'react-bootstrap';
-
+import {ListGroupItem, Button, Glyphicon, ButtonGroup} from 'react-bootstrap';
+import './serviceItems.css';
 export class ServiceItems extends React.Component {
     getAction = (item) => {
         let action;
@@ -23,17 +23,23 @@ export class ServiceItems extends React.Component {
                         errorMsg = <p className="small txt--error">{item.error}</p>
                     }
                     return (
-                        <ListGroupItem key={idx.toString()}>
-                            {this.getAction(item)}
-                            {item.name}
+                        <ListGroupItem key={idx.toString()} className="service-group">
 
+
+
+                            {item.name}
+                            <ButtonGroup bsStyle="small pull-right">
+                                {this.getAction(item)}
                            {/* <div className="btn" onClick={() => this.props.pingService(item)}>Ping</div>*/}
-                            <div className="btn pull-right" onClick={() => this.props.openConfigModal(item,'delete')}>
-                                <Glyphicon glyph="remove-sign"/>
-                            </div>
-                            <div className="btn pull-right" onClick={() => this.props.openConfigModal(item,'edit')}>
+
+                            <div className="btn" onClick={() => this.props.openConfigModal(item,'edit')}>
                                 <Glyphicon glyph="edit"/>
                             </div>
+                            <div className="btn" onClick={() => this.props.openConfigModal(item,'delete')}>
+                                <Glyphicon glyph="remove-sign"/>
+                            </div>
+
+                            </ButtonGroup>
                             {errorMsg}
                         </ListGroupItem>
                     )
@@ -41,7 +47,7 @@ export class ServiceItems extends React.Component {
         return (
             <div>
                 <ListGroupItem key={"btn#0"}>
-                <Button type="button" onClick={() => this.props.openConfigModal(null, 'new')}>Add New
+                <Button type="button" bsSize="small" className="pull-right" onClick={() => this.props.openConfigModal(null, 'new')}>Add New
                     Service</Button>
                 </ListGroupItem>
                 {services}</div>)

@@ -11,6 +11,11 @@ function runService() {
 
 	tempwsServer.httpserver.listen(1337, function () {
 		// console.log((new Date()) + " Server is listening on port " + 1337);
+		process.on('message',(m)=>{
+			console.log(101,m)
+			process.send({test:"test"})
+		})
+
 	});
 }
 runService();
