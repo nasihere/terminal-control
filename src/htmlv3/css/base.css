@@ -1,6 +1,7 @@
 .panel-group,
+
 .well{
-    margin:10px;
+
 }
 
 
@@ -17,9 +18,8 @@
 body {
     font-size: 14px;
 }
-
-.panel-body,  .list-group > span.list-group-item {
-    padding: 0px!important;
+.list-group > span.list-group-item {
+    padding: 0px !important;
 }
 
 #logs-tab > .tab-content {
@@ -30,4 +30,14 @@ body {
 #terminal-logs > div{
     width: 50%;
     float: right;
+}
+.memory-tile{}
+.memory-tile__col{text-align:center}
+.memory-tile__block{}
+.memory-tile__block__header{}
+.memory-tile__block__body{
+    font-size:3em;
+}
+.memory-tile__block__footer{
+    margin:10px 0;
 }

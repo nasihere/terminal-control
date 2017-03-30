@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {Panel, Col, Row} from 'react-bootstrap';
-import styles from './memoryTile.css';
 import {LineChart} from 'react-easy-chart'
 
 export class MemoryTile extends React.Component {
