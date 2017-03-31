@@ -57,6 +57,8 @@ export const socketConnect = (function () {
             // console.log(response.data, 'data -> websocketHandler')
             switch (response.type) {
                 case "history":
+                    dispatchType = LOG_HISTORY_SERVICE;
+                    store.dispatch({type: dispatchType, payload: {status:response.data}});
                     break;
                 case "message":
                     dispatchType = LOG_HISTORY_SERVICE;
@@ -110,8 +112,10 @@ export const socketConnect = (function () {
                 connection.onmessage = onMessage(connection, store);
                 break;
             case KILL_SERVICE:
+                connection.send(payload);
+                break;
             case START_SERVICE:
-                alert('test');
+                connection.send(payload);
                 break;
             case ADD_SERVICE_CONFIG:
             case DELETE_SERVICE_CONFIG:

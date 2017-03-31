@@ -3,6 +3,12 @@ import { stringifyHtml, parseArgv } from '../utils';
 export interface IUsage extends NodeJS.MemoryUsage{
 	timeRunning?:number;
 }
+function timeNow() {
+	var d = new Date(),
+		h = (d.getHours()<10?'0':'') + d.getHours(),
+		m = (d.getMinutes()<10?'0':'') + d.getMinutes();
+	return h + ':' + m;
+}
 function spawnChild(){
 	let oscmd=process.argv[2];
 	let userColor=process.argv[3];
@@ -25,7 +31,7 @@ function spawnChild(){
 	child.stdout.on('data', (data) => {
 		console.log('stdout: ' + data);
 		let obj = {
-			time:   (new Date()).getTime(),
+			time:   timeNow(),
 			text:   stringifyHtml(data),
 			author: msg,
 			color:  userColor,
@@ -39,7 +45,7 @@ function spawnChild(){
 	child.stderr.on('data', function (data) {
 		console.log('stderr: ' + data);
 		let obj = {
-			time:   (new Date()).getTime(),
+			time:   timeNow(),
 			text:   stringifyHtml(data),
 			author: msg,
 			color:  userColor,
@@ -53,7 +59,7 @@ function spawnChild(){
 		console.log('stdclose: ' + code);
 
 		let obj = {
-			time:   (new Date()).getTime(),
+			time:   timeNow(),
 			text:   stringifyHtml(code),
 			author: msg,
 			color:  userColor,

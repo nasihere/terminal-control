@@ -7,20 +7,34 @@ import {PackagePathPanel} from './Panel/PackagePath.jsx';
 import {StartStopButtonsPanel} from './Panel/StartStopButtons.jsx';
 import {MemoryPanel} from './Panel/Memory.jsx';
 import {GraphPanel} from './Panel/Graph.jsx';
-
-
-const wellInstance = (
-    <div>
-        <Col xs={12} md={12}>
-            <code>{'10:00 AM'}</code>
-            <Well bsSize="small">Connection from origin http://localhost:8080!</Well>
-            <hr />
-        </Col>
-    </div>
-);
+import Convert from 'ansi-to-html';
+let convert=new Convert({newline:true});
 
 export class TerminalClass extends React.Component {
+    constructor(props)
+    {
+        super(props);
+    }
 
+    createLogRow(){
+        if (this.props.logs === undefined) return;
+        const logs = this.props.logs;
+        let prevTime = '';
+        return logs.map((item,idx)=>{
+            let printTime = false;
+            if (prevTime !== item.time) {
+                prevTime = item.time;
+                printTime = true;
+            }
+            return <Row className="show-grid" key={"logs_inline#" + (idx + 1) + "_" + idx}>
+                <Col xs={12} md={12}>
+                    {(printTime) ? <code>{item.time}</code> : ''}
+                    <Well bsSize="small"><div dangerouslySetInnerHTML={{__html:(item) ? convert.toHtml(item.text) : ''}}/></Well>
+                    <hr />
+                </Col>
+            </Row>
+        });
+    }
 
     render() {
 
@@ -29,10 +43,7 @@ export class TerminalClass extends React.Component {
                 <Row className="show-grid ">
                     <Col xs={12} md={9} className="terminal">
                         <Panel bsStyle="default">
-                            { [1,2,3].map((item,index) => {return (
-                                <Row key={'logs'+index} className="show-grid">
-                                    {wellInstance}
-                                </Row>) })}
+                            {this.createLogRow()}
                         </Panel>
                     </Col>
 

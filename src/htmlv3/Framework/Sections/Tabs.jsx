@@ -11,8 +11,8 @@ export class TabsClass extends React.Component {
         this.createTabs     = this.createTabs.bind(this);
         this.createTerminal = this.createTerminal.bind(this);
     }
-    createTabs = (tabs) => {
-         return tabs.map((item, index) => {
+    createTabs = () => {
+         return this.props.tabs.map((item, index) => {
              return <NavItem
                         key={'NavItem'+item.id}
                         eventKey={'Tabs'+item.id}
@@ -22,13 +22,22 @@ export class TabsClass extends React.Component {
                     </NavItem>
          });
     };
-    createTerminal = (tabs) => {
-        return tabs.map((item, index) => {
+    createTerminal = () => {
+        if (this.props.tabs.length === 0) return;
+        return this.props.tabs.map((item, index) => {
+            let logsHistory = [];
+            if (this.props.logs) {
+                if (this.props.logs.status) {
+                    logsHistory = this.props.logs.status.filter((x)=> {return (x.author === item.name)});
+                }
+            }
+
             return  <Tab.Pane  key={'TabsPane'+item.id} eventKey={'Tabs'+item.id}>
                 <Terminal
                     env={item.env}
                     package={item.cd}
                     config={item}
+                    logs={logsHistory}
                 />
             </Tab.Pane>
         });
@@ -36,16 +45,16 @@ export class TabsClass extends React.Component {
     render() {
 
         return (
-            <Tab.Container id="tabs-with-dropdown" defaultActiveKey={'Tabs6pa6k0vivmskgoockgg84'}>
+            <Tab.Container id="tabs-with-dropdown" defaultActiveKey={'Tabs5bql8qz99y80o0g8g44co'}>
                 <Row className="clearfix">
                     <Col sm={12}>
                         <Nav bsStyle="tabs">
-                            {this.createTabs(this.props.tabs)}
+                            {this.createTabs()}
                         </Nav>
                     </Col>
                     <Col sm={12}>
                         <Tab.Content animation>
-                            {this.createTerminal(this.props.tabs)}
+                            {this.createTerminal()}
                         </Tab.Content>
                     </Col>
                 </Row>
@@ -58,7 +67,7 @@ export class TabsClass extends React.Component {
 let mapStateToProps=(state)=> {
     return {
         tabs: state.websocket.services.items,
-        logs: state.websocket.logsHistory
+        logs: state.websocket.logsHistory[0]
     }
 }
 export const Tabs = connect(mapStateToProps)(TabsClass);
