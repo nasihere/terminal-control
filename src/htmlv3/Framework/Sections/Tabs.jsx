@@ -13,20 +13,30 @@ export class TabsClass extends React.Component {
     }
     createTabs = (tabs) => {
          return tabs.map((item, index) => {
-             return <NavItem eventKey={'Tabs'+item.id}>{item.name}<span className="label label-default">(20)</span></NavItem>
+             return <NavItem
+                        key={'NavItem'+item.id}
+                        eventKey={'Tabs'+item.id}
+                        >
+                        {item.name}
+                        <span className="label label-default">(20)</span>
+                    </NavItem>
          });
     };
     createTerminal = (tabs) => {
         return tabs.map((item, index) => {
-            return  <Tab.Pane eventKey={'Tabs'+item.id}>
-                <Terminal />
+            return  <Tab.Pane  key={'TabsPane'+item.id} eventKey={'Tabs'+item.id}>
+                <Terminal
+                    env={item.env}
+                    package={item.cd}
+                    config={item}
+                />
             </Tab.Pane>
         });
     };
     render() {
 
         return (
-            <Tab.Container id="tabs-with-dropdown" defaultActiveKey={'Tabs2y1hb89eob40wgocwo4k0'}>
+            <Tab.Container id="tabs-with-dropdown" defaultActiveKey={'Tabs6pa6k0vivmskgoockgg84'}>
                 <Row className="clearfix">
                     <Col sm={12}>
                         <Nav bsStyle="tabs">
@@ -47,7 +57,8 @@ export class TabsClass extends React.Component {
 
 let mapStateToProps=(state)=> {
     return {
-        tabs: state.websocket.services.items
+        tabs: state.websocket.services.items,
+        logs: state.websocket.logsHistory
     }
 }
 export const Tabs = connect(mapStateToProps)(TabsClass);

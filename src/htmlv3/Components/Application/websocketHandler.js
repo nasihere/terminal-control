@@ -111,6 +111,8 @@ export const socketConnect = (function () {
                 break;
             case KILL_SERVICE:
             case START_SERVICE:
+                alert('test');
+                break;
             case ADD_SERVICE_CONFIG:
             case DELETE_SERVICE_CONFIG:
             case EDIT_SERVICE_CONFIG:

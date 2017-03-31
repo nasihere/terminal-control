@@ -10,7 +10,7 @@ export class MemoryPanelClass extends React.Component {
     render() {
 
         return (
-            <Panel collapsible defaultExpanded header="Memory" bsStyle="primary">
+            <Panel  key="memory-panel" collapsible defaultExpanded header="Memory" bsStyle="primary">
                 <Table striped bordered condensed hover>
                     <thead>
                     <tr>

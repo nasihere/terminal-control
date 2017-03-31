@@ -10,7 +10,7 @@ export class GraphPanelClass extends React.Component {
     render() {
 
         return (
-            <Panel header="Graph" bsStyle="primary">
+            <Panel  key="graph-panel" header="Graph" bsStyle="primary">
                 <img width={300} src="http://canvasjs.com/wp-content/uploads/2013/01/html5_multiseries_line_chart.jpg" />
             </Panel>
         )

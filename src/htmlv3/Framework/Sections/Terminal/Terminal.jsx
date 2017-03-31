@@ -26,25 +26,23 @@ export class TerminalClass extends React.Component {
 
         return (
             <div>
-                <Row className="show-grid " style_={{"background-color":"blue"}}>
+                <Row className="show-grid ">
                     <Col xs={12} md={9} className="terminal">
                         <Panel bsStyle="default">
-                            { [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map(item => {return (
-                                <Row className="show-grid">
+                            { [1,2,3].map((item,index) => {return (
+                                <Row key={'logs'+index} className="show-grid">
                                     {wellInstance}
                                 </Row>) })}
                         </Panel>
                     </Col>
 
                     <Col xs={12} md={3} className="terminalPanel">
-                        <EnviornmentPanel />
-                        <PackagePathPanel />
-                        <StartStopButtonsPanel />
+
+                        <EnviornmentPanel env={this.props.env}/>
+                        <PackagePathPanel package={this.props.package}/>
+                        <StartStopButtonsPanel config={this.props.config} />
                         <MemoryPanel />
                         <GraphPanel />
-
-
-
                     </Col>
                 </Row>
 
