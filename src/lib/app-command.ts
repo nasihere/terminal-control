@@ -168,6 +168,7 @@ export class appCommand {
 			//Stop the service
 			psTree(message.pid, function (err, children) {
 				childprocess.spawn('kill', ['-9'].concat(children.map(function (p) { return p.PID })));
+				//When this will be successfull then push msg to client service stopped.....
 			});
 
 			//let port = message.cmd.replace('lsof -t -i tcp:', '').replace(' | xargs kill;', '');
