@@ -14,7 +14,8 @@ import {
     DELETE_SERVICE_CONFIG,
     EDIT_SERVICE_CONFIG,
     SET_SERVICE_STATE,
-    SET_MEMORY_USAGE
+    SET_MEMORY_USAGE,
+    UPDATE_TERMINAL
 } from './dispatchTypes';
 
 class EventError extends Error{
@@ -56,27 +57,30 @@ export const socketConnect = (function () {
             // console.log(response.type, 'type -> websocketHandler')
             // console.log(response.data, 'data -> websocketHandler')
             switch (response.type) {
-                case "history":
-                    dispatchType = LOG_HISTORY_SERVICE;
-                    store.dispatch({type: dispatchType, payload: {status:response.data}});
-                    break;
+                // case "history":
+                //     dispatchType = LOG_HISTORY_SERVICE;
+                //     store.dispatch({type: dispatchType, payload: {status:response.data}});
+                //     break;
                 case "message":
-                    dispatchType = LOG_HISTORY_SERVICE;
-                    store.dispatch({type: dispatchType, payload: {status:response.data}});
-                    break;
-                case "ping":
-                    dispatchType = PING_SERVICERECEIVED;
-                    store.dispatch({type: dispatchType, payload: {status:response.data}});
-                    break;
+                    // dispatchType = LOG_HISTORY_SERVICE;
+                    // store.dispatch({type: dispatchType, payload: {status:response.data}});
+                    // break;
+                // case "ping":
+                //     dispatchType = PING_SERVICERECEIVED;
+                //     store.dispatch({type: dispatchType, payload: {status:response.data}});
+                //     break;
                 case "status":
                     //console.log(response.data);
                     //port,id,connected,pid
                     store.dispatch({type:SET_SERVICE_STATE,payload:response.data});
 
                     break;
-                case 'memory_usage':
-                    //console.log(response.data);
-                    store.dispatch({type: SET_MEMORY_USAGE, payload: response.data})
+                // case 'memory_usage':
+                //     //console.log(response.data);
+                //     store.dispatch({type: SET_MEMORY_USAGE, payload: response.data})
+                //     break;
+                case 'UPDATE_TERMINAL':
+                    store.dispatch({type: UPDATE_TERMINAL, payload: response.data.config})
                     break;
                 case "saveConfig":
                 case "readConfig":

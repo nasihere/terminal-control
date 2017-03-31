@@ -8,7 +8,7 @@ import {NavBarInstance} from '../Components/NavBar';
 import {connectWebSocket} from '../Components/Application';
 import {TemplateDemo} from '../Framework/template.jsx';
 import {Layout} from '../Framework/Layout.jsx';
-
+import {ReduxTest} from '../Framework/ReduxTest.jsx';
 export class AppClass extends React.Component {
     state = {services: []};
 
@@ -18,7 +18,8 @@ export class AppClass extends React.Component {
     render () {
         return (
             <div className="container-fluid">
-                <Layout />
+                <ReduxTest />
+                {/*<Layout />*/}
                 {/*<TemplateDemo />*/}
                 {/*<NavBarInstance />*/}
                 {/*<Switch>*/}

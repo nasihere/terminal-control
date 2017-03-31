@@ -16,20 +16,20 @@ function spawnChild(){
 	let message=JSON.parse(process.argv[5]);
 	let child = cp.spawn(oscmd,[],{shell:true});
 	let timeUp=0;
-	setInterval(()=>{++timeUp},1000)
-	process.on('message',(msg)=>{
-		switch(msg){
-			case "get_usage":
-				let usage:IUsage=process.memoryUsage();
-				usage.timeRunning=timeUp;
-				process.send({type:'memory_usage',payload:usage});
-				break;
-			default:
-				return;
-		}
-	})
+	// setInterval(()=>{++timeUp},1000)
+	// process.on('message',(msg)=>{
+	// 	switch(msg){
+	// 		case "get_usage":
+	// 			let usage:IUsage=process.memoryUsage();
+	// 			usage.timeRunning=timeUp;
+	// 			process.send({type:'memory_usage',payload:usage});
+	// 			break;
+	// 		default:
+	// 			return;
+	// 	}
+	// })
 	child.stdout.on('data', (data) => {
-		console.log('stdout: ' + data);
+		console.log('stdout: spawnchild ' + data);
 		let obj = {
 			time:   timeNow(),
 			text:   stringifyHtml(data),
@@ -43,7 +43,7 @@ function spawnChild(){
 		//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 	});
 	child.stderr.on('data', function (data) {
-		console.log('stderr: ' + data);
+		console.log('stderr: spawnchild' + data);
 		let obj = {
 			time:   timeNow(),
 			text:   stringifyHtml(data),
@@ -56,14 +56,14 @@ function spawnChild(){
 		//self.writeToHistory(obj, connection);
 	});
 	child.on('close', function (code) {
-		console.log('stdclose: ' + code);
+		console.log('stdclose: spawnchild' + code);
 
 		let obj = {
 			time:   timeNow(),
 			text:   stringifyHtml(code),
 			author: msg,
 			color:  userColor,
-			pid: child.pid
+			pid: null
 
 		};
 		process.send({type:'close',payload:obj})
