@@ -17,6 +17,17 @@ export class StartStopButtonsPanelClass extends React.Component {
     kill() {
         this.props.killService(this.config)
     }
+    restart() {
+        this.kill();
+        this.run();
+    }
+    remove() {
+        var r = confirm("Do you want to remove "+this.config.name+" service?");
+        if (r == true) {
+            this.props.deleteService(this.config)
+        }
+
+    }
     render() {
 
         return (
@@ -24,8 +35,8 @@ export class StartStopButtonsPanelClass extends React.Component {
                 <ButtonGroup>
                     <Button onClick={()=>{this.run()}} type="button" bsSize="xsmall" bsStyle="success"><Glyphicon glyph="play-circle"/>Run</Button>
                     <Button onClick={()=>{this.kill()}} type="button" bsSize="xsmall" bsStyle="info"><Glyphicon glyph="stop"/>Stop</Button>
-                    <Button type="button" bsSize="xsmall" bsStyle="warning"><Glyphicon glyph="repeat"/>Restart</Button>
-                    <Button type="button" bsSize="xsmall" bsStyle="danger"><Glyphicon glyph="remove-sign"/>Remove</Button>
+                    <Button onClick={()=>{this.restart()}} type="button" bsSize="xsmall" bsStyle="warning"><Glyphicon glyph="repeat"/>Restart</Button>
+                    <Button onClick={()=>{this.remove()}} type="button" bsSize="xsmall" bsStyle="danger"><Glyphicon glyph="remove-sign"/>Remove</Button>
                 </ButtonGroup>
             </Panel>
         )

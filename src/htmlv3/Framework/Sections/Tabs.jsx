@@ -12,10 +12,10 @@ export class TabsClass extends React.Component {
         this.createTerminal = this.createTerminal.bind(this);
     }
     createTabs = () => {
-         return this.props.tabs.map((item, index) => {
+         const serviceObj = this.props.services.items;
+         return serviceObj.map((item, index) => {
              return <NavItem
-                        key={'NavItem'+item.id}
-                        eventKey={'Tabs'+item.id}
+                        eventKey={'Tabs'+index}
                         >
                         {item.name}
                         <span className="label label-default">(20)</span>
@@ -23,29 +23,25 @@ export class TabsClass extends React.Component {
          });
     };
     createTerminal = () => {
-        if (this.props.tabs.length === 0) return;
-        return this.props.tabs.map((item, index) => {
-            let logsHistory = [];
-            if (this.props.logs) {
-                if (this.props.logs.status) {
-                    logsHistory = this.props.logs.status.filter((x)=> {return (x.author === item.name)});
-                }
-            }
+        if (this.props.services.items.length === 0) return;
+        const serviceObj = this.props.services.items;
+        return serviceObj.map((item, index) => {
 
-            return  <Tab.Pane  key={'TabsPane'+item.id} eventKey={'Tabs'+item.id}>
-                <Terminal
-                    env={item.env}
-                    package={item.cd}
-                    config={item}
-                    logs={logsHistory}
-                />
-            </Tab.Pane>
+            return  <Tab.Pane
+                        eventKey={'Tabs'+index}>
+                        <Terminal
+                            env={item.env}
+                            package={item.cd}
+                            config={item}
+                            logs={item.logsHistory}
+                        />
+                    </Tab.Pane>
         });
     };
     render() {
 
         return (
-            <Tab.Container id="tabs-with-dropdown" defaultActiveKey={'Tabs5bql8qz99y80o0g8g44co'}>
+            <Tab.Container id="tabs-with-dropdown" defaultActiveKey={'Tabs0'}>
                 <Row className="clearfix">
                     <Col sm={12}>
                         <Nav bsStyle="tabs">
@@ -66,8 +62,7 @@ export class TabsClass extends React.Component {
 
 let mapStateToProps=(state)=> {
     return {
-        tabs: state.websocket.services.items,
-        logs: state.websocket.logsHistory[0]
+        services: state.websocket.services
     }
 }
 export const Tabs = connect(mapStateToProps)(TabsClass);

@@ -9,7 +9,7 @@ export class ReduxLogClass extends React.Component {
 
     printLog()
     {
-        if (this.props.logsHistory.items === 0 ) return;
+        if (this.props.logsHistory.items.length === 0 ) return;
         return this.props.logsHistory.items.map((tabs)=>{
             return <pre>
                     <h7>{JSON.stringify(tabs)}</h7><br />
