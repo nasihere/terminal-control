@@ -19,17 +19,18 @@ export class NavBarClass extends React.Component {
                     <Nav>
                         <NavItem eventKey={1} href="#">Dashboard</NavItem>
                         <NavItem eventKey={2} href="#">Services</NavItem>
-                        <NavDropdown eventKey={3} title="Tools" id="basic-nav-dropdown">
-                            <MenuItem eventKey={3.1}>Action</MenuItem>
-                            <MenuItem eventKey={3.2}>Another action</MenuItem>
-                            <MenuItem eventKey={3.3}>Something else here</MenuItem>
-                            <MenuItem divider />
-                            <MenuItem eventKey={3.3}>Separated link</MenuItem>
-                        </NavDropdown>
                     </Nav>
                     <Nav pullRight>
-                        <NavItem eventKey={1} href="#"><Glyphicon glyph="search"/> Search</NavItem>
-                        <NavItem eventKey={2} href="#"></NavItem>
+                        <NavItem eventKey={3} href="#"><Glyphicon glyph="search"/>
+                            &nbsp; <input
+                                id="formControlsText"
+                                type="text"
+                                label="Text"
+                                placeholder=" Search"
+                            />
+                        </NavItem>
+                        <NavItem eventKey={4} href="#"><Glyphicon glyph="folder-open"/> Add Project</NavItem>
+                        <NavItem eventKey={5} href="#"></NavItem>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

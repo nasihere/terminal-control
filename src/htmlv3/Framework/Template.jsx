@@ -205,7 +205,7 @@ const tabsInstance = (
                         <MenuItem eventKey="3.4">Separated link</MenuItem>
                     </NavDropdown>
                     <NavItem pullRight={true} eventKey="NewProject">
-                        <Glyphicon glyph="folder-open"/> &nbsp;New Project
+                        <Glyphicon glyph="`"/> &nbsp;New Project
                     </NavItem>
                 </Nav>
             </Col>
