@@ -15,6 +15,7 @@ export class TabsClass extends React.Component {
          const serviceObj = this.props.services.items;
          return serviceObj.map((item, index) => {
              return <NavItem
+                        key={'NavItem'+index}
                         eventKey={'Tabs'+index}
                         >
                         {item.name}
@@ -28,6 +29,7 @@ export class TabsClass extends React.Component {
         return serviceObj.map((item, index) => {
 
             return  <Tab.Pane
+                        key={'TabPanel'+index}
                         eventKey={'Tabs'+index}>
                         <Terminal
                             env={item.env}

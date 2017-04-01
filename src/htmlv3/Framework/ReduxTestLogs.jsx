@@ -10,8 +10,8 @@ export class ReduxLogClass extends React.Component {
     printLog()
     {
         if (this.props.logsHistory.items.length === 0 ) return;
-        return this.props.logsHistory.items.map((tabs)=>{
-            return <pre>
+        return this.props.logsHistory.items.map((tabs,index)=>{
+            return <pre key={'ReduxTestlog'+index}>
                     <h7>{JSON.stringify(tabs)}</h7><br />
                     {tabs.logsHistory.map((log)=>{
                             return <code>{log.pid + log.text}</code>
