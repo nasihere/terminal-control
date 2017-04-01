@@ -1,13 +1,16 @@
 import * as React from 'react';
+import {removeByKey} from '../../Utils'
 import {
-    SET_MEMORY_USAGE
+    SET_MEMORY_USAGE,
+    CLEAR_MEMORY_USAGE
 } from './dispatchTypes';
 
 export const MemoryReducer = (state = {}, action) => {
+    let id;
     switch (action.type) {
         case SET_MEMORY_USAGE:
+            id = action.payload.id;
 
-            let id = action.payload.id;
             let newObj = {};
             let idHistory = [
                 action.payload.heapTotal,
@@ -34,6 +37,13 @@ export const MemoryReducer = (state = {}, action) => {
                 newObj[id] = [...state[id], idHistory]
             }
             return Object.assign({}, state, newObj);
+            break;
+        case CLEAR_MEMORY_USAGE:
+            id = action.payload.id;
+            let newState=removeByKey(state,id);
+                newState=removeByKey(newState,id+"_chart");
+
+            return newState;
             break;
         default:
             return state;

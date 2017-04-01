@@ -16,18 +16,18 @@ function spawnChild(){
 	let message=JSON.parse(process.argv[5]);
 	let child = cp.spawn(oscmd,[],{shell:true});
 	let timeUp=0;
-	// setInterval(()=>{++timeUp},1000)
-	// process.on('message',(msg)=>{
-	// 	switch(msg){
-	// 		case "get_usage":
-	// 			let usage:IUsage=process.memoryUsage();
-	// 			usage.timeRunning=timeUp;
-	// 			process.send({type:'memory_usage',payload:usage});
-	// 			break;
-	// 		default:
-	// 			return;
-	// 	}
-	// })
+	setInterval(()=>{++timeUp},1000)
+	process.on('message',(msg)=>{
+		switch(msg){
+			case "get_usage":
+				let usage:IUsage=process.memoryUsage();
+				usage.timeRunning=timeUp;
+				process.send({type:'memory_usage',payload:usage});
+				break;
+			default:
+				return;
+		}
+	})
 	child.stdout.on('data', (data) => {
 		console.log('stdout: spawnchild ' + data);
 		let obj = {

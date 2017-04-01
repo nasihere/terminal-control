@@ -5,5 +5,5 @@ node_modules/
 .DS_Store
 build/
 src/*.js
-src/lib/*.js
-src/utils/*.js
+src/Server/lib/*.js
+src/Server/utils/*.js

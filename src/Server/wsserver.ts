@@ -1,10 +1,10 @@
 // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
 "use strict";
-import { appCommand } from '../lib/app-command';
+import { appCommand } from './lib/app-command';
 import * as os from 'os';
 import * as http from 'http';
 import * as websocket from 'websocket';
-import { stringifyHtml } from '../utils';
+import { stringifyHtml } from './utils';
 let platform = os.platform();
 let webSocketServer = websocket.server;
 // Optional. You will see this name in eg. 'ps' or 'top' command
