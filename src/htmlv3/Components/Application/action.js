@@ -43,13 +43,13 @@ export const killService = (obj, idx) => {
     return (dispatch) => {
 
         //let msg = "lsof -t -i tcp:#PORT# | xargs kill;".replace('#PORT#',obj.Port); //*#*${obj.name} will add servicename for terminal logs
-        if (obj.pid === null) return;
         let msg = {
             pid: obj.pid
         }
         dispatch({
             type:    KILL_SERVICE,
             payload: {
+                id:  obj.id,
                 req: "killService",
                 pid: obj.pid
             }

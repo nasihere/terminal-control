@@ -17,6 +17,10 @@ margin-left:10px;
 /*txt*/
 .txt--error{color:red;}
 
+/*Body*/
+body {
+    font-size: 14px;
+}
 .list-group > span.list-group-item {
     padding: 0px !important;
 }
@@ -33,84 +37,10 @@ margin-left:10px;
 .memory-tile{}
 .memory-tile__col{text-align:center}
 .memory-tile__block{}
-.memory-tile__block__header{
-    font-size:1em;
-}
+.memory-tile__block__header{}
 .memory-tile__block__body{
-    font-size:1em;
+    font-size:3em;
 }
 .memory-tile__block__footer{
     margin:10px 0;
-}
-
-.panel-group,
-.well{
-    margin:10px;
-}
-
-
-
-/*Body*/
-body {
-    font-size: 12px;
-}
-
-.panel-body,  .list-group > span.list-group-item {
-    padding: 0px;
-}
-
-#logs-tab > .tab-content {
-    padding: 10px;
-    background-color: #202a0d;
-}
-
-#terminal-logs > div{
-    width: 50%;
-    float: right;
-}
-.terminalPanel {
-    margin-top: 10px;
-}
-.panel-title {
-    font-size: 12px;
-}
-.panel-heading {
-    padding: 5px 5px;
-}
-.panel-body {
-    padding: 5px 5px;
-}
-.panel-group, .well {
-    margin: 1px;
-    font-family: "Roboto Mono";
-    color: #00A379;
-    padding: 1px;
-}
-.container .jumbotron, .container-fluid .jumbotron{
-    padding: 20px;
-}
-.jumbotron h1, .jumbotron .h1{
-    font-size: 14px;
-}
-.jumbotron p {
-    font-size: 12px;
-}
-.jumbotron pre {
-    font-size: 12px;
-}
-hr {
-    margin: 0px;
-}
-#app{
-    background-color: #000;
-}
-.navbar {
-    background-color: #222;
-}
-.navbar{
-    margin-bottom: 5px;
-}
-.terminal {
-    overflow: scroll;
-    max-height: 500px;
 }

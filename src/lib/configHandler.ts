@@ -1,13 +1,12 @@
 import * as fs from 'fs';
 import { isUndefined } from "util";
-let dataStore:any = [];
+
 export class configHandler {
 	configSrc: string;
 	configFile: any;
 
 	constructor (configSrc) {
 		this.configSrc = configSrc;
-		dataStore = this.configFile
 	}
 
 	private writeFile = (filePath, str: string): Promise<any> => {
@@ -39,8 +38,6 @@ export class configHandler {
 	private setId = (items:Array<any>) => {
 		for ( let i = 0; i < items.length; i++ ) {
 			items[ i ].id = (Math.random() * 1e32).toString(36);
-			items[ i ].logsHistory = [];
-			items[ i ].pid = null;
 		}
 		return items;
 	}
@@ -55,7 +52,7 @@ export class configHandler {
 			}
 		));
 	}
-	public sendSuccess = (connection,type:string, data:any)=>{
+	private sendSuccess = (connection,type:string, data:any)=>{
 		connection.sendUTF(JSON.stringify(
 			{
 				type: type,
@@ -65,20 +62,6 @@ export class configHandler {
 				}
 			}
 		));
-	};
-	public getData(){
-		if (this.configFile)
-			return this.configFile.configService;
-		return [];
-	};
-	public appendLog(log) {
-		this.configFile.configService.map((item)=>{
-			if (item.name === log.author){
-				item.logsHistory.push(log);
-				item.pid = (item.pid) === null ? log.pid : null;
-				item.connected = ((item.pid) === null) ? false : true;
-			}
-		});
 	}
 	saveConfig = function (newConfig, connection) {
 		let obj = {
@@ -108,7 +91,6 @@ export class configHandler {
 				else {
 					for ( let i = 0; i < fileData.configService.length; i++ ) {
 						let currentItem=fileData.configService[i];
-
 						let keyLength = Object.keys(currentItem).length;
 						let testLength = 0;
 
@@ -120,7 +102,6 @@ export class configHandler {
 
 						if ( keyLength == testLength ) {
 							currentItem.id = (Math.random() * 1e32).toString(36);
-
 							if (this.configFile.length) {
 								this.configFile.splice(i, 0, currentItem);
 							}
