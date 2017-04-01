@@ -18,7 +18,7 @@ export class AppClass extends React.Component {
     render () {
         return (
             <div className="container-fluid">
-                <ReduxTest />
+                {/*<ReduxTest />*/}
                 <Layout />
                 {/*<TemplateDemo />*/}
                 {/*<NavBarInstance />*/}
