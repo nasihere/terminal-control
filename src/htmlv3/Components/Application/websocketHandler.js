@@ -20,7 +20,7 @@ class EventError extends Error{
     constructor(obj,message){
         super(message);
         this.message=message || 'Event Error';
-        this.name = "Event Error"
+        this.name = "Event Error";
         this.referenceObj=obj;
     }
 }

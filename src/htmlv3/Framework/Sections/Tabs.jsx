@@ -64,7 +64,8 @@ export class TabsClass extends React.Component {
 
 let mapStateToProps=(state)=> {
     return {
-        services: state.websocket.services
+        services: state.websocket.services,
+        // memory: state.memoryUsage
     }
 }
 export const Tabs = connect(mapStateToProps)(TabsClass);

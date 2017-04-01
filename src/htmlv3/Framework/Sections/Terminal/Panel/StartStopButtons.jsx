@@ -30,7 +30,7 @@ export class StartStopButtonsPanelClass extends React.Component {
         this.run();
     }
     remove() {
-        var r = confirm("Do you want to remove "+this.config.name+" service?");
+        const r = confirm("Do you want to remove "+this.config.name+" service?");
         if (r == true) {
             this.props.deleteService(this.config)
         }
@@ -51,10 +51,4 @@ export class StartStopButtonsPanelClass extends React.Component {
     }
 
 }
-let mapStateToProps=(state)=>{
-    return {
-        portStatus: state.websocket.portStatus
-    }
-}
-
-export const StartStopButtonsPanel = connect(mapStateToProps,{startService,killService})(StartStopButtonsPanelClass);
+export const StartStopButtonsPanel = connect(null,{startService,killService})(StartStopButtonsPanelClass);

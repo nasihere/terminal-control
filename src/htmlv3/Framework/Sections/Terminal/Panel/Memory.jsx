@@ -2,7 +2,7 @@ import React from 'react';
 import {Col, Row, Grid, Panel, PanelGroup} from 'react-bootstrap/lib';
 import {Glyphicon, ButtonGroup,ListGroup, ListGroupItem, Tooltip, OverlayTrigger, Well, Jumbotron, Button, Tab, Navbar, NavItem, Nav, MenuItem, NavDropdown} from 'react-bootstrap/lib';
 import {Table} from 'react-bootstrap/lib';
-
+import {MemoryTile} from './../../../../Components/MemoryTile';
 
 export class MemoryPanelClass extends React.Component {
 
@@ -11,25 +11,26 @@ export class MemoryPanelClass extends React.Component {
 
         return (
             <Panel  key="memory-panel" collapsible defaultExpanded header="Memory" bsStyle="primary">
-                <Table striped bordered condensed hover>
-                    <thead>
-                    <tr>
-                        <td>Free</td>
-                        <td>Usage</td>
-                        <td>Kilobytes</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1002092</td>
-                        <td>3493994</td>
-                        <td>20022</td>
-                    </tr>
-                    </tbody>
-                </Table>
+                {/*<MTiles {...this.props}/>*/}
             </Panel>
         )
     }
+
+}
+
+
+export let MTiles = (props) => {
+    let {services,memory} = props;
+    let items = services.filter((item)=>item.connected).map((item, idx)=>{
+        console.log(memory)
+        if(memory.hasOwnProperty(item.id)){
+            return <MemoryTile key={"memtile#"+idx} title={item.name} values={props.memory[item.id]} chartValues={props.memory[item.id+"_chart"]}/>}
+    })
+    return (
+        <div>
+            {items}
+        </div>
+    )
 
 }
 

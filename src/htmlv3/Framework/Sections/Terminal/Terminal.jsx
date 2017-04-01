@@ -52,7 +52,7 @@ export class TerminalClass extends React.Component {
                         <EnviornmentPanel env={this.props.env}/>
                         <PackagePathPanel package={this.props.package}/>
                         <StartStopButtonsPanel config={this.props.config} />
-                        <MemoryPanel />
+                        <MemoryPanel {...this.props}/>
                         <GraphPanel />
                     </Col>
                 </Row>
@@ -62,5 +62,6 @@ export class TerminalClass extends React.Component {
     }
 
 }
+
 
 export const Terminal = TerminalClass;
