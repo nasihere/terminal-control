@@ -6,6 +6,7 @@ import {
     SET_STATEOPEN,
     CONNECT_WEBSOCKET,
     START_SERVICE,
+    SET_MEMORY_USAGE,
     KILL_SERVICE,
     ADD_SERVICE_CONFIG,
     DELETE_SERVICE_CONFIG,
@@ -43,12 +44,18 @@ export const socketConnect = (function () {
             let response = JSON.parse(evt.data);
             let dispatchType;
             switch (response.type) {
+                case "history":
+                    break;
                 case "message":
                 case "status":
                     store.dispatch({type:SET_SERVICE_STATE,payload:response.data});
                     if(!response.data.connected){
-                        store.dispatch({type:CLEAR_MEMORY_USAGE,payload:response.data});
+                        store.dispatch({type:CLEAR_MEMORY_USAGE,payload: response.data});
                     }
+                    break;
+                case 'memory_usage':
+                    //console.log(response.data);
+                    store.dispatch({type: SET_MEMORY_USAGE, payload: response.data})
                     break;
                 case 'UPDATE_TERMINAL':
                     store.dispatch({type: UPDATE_TERMINAL, payload: response.data.config})

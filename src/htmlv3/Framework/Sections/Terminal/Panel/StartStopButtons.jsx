@@ -44,6 +44,7 @@ export class StartStopButtonsPanelClass extends React.Component {
                     <Button style={{'display':this.runVisible}} onClick={()=>{this.run()}} type="button" bsSize="xsmall" bsStyle="success"><Glyphicon glyph="play-circle"/>Run</Button>
                     <Button style={{'display':this.stopVisible}} onClick={()=>{this.kill()}} type="button" bsSize="xsmall" bsStyle="info"><Glyphicon glyph="stop"/>Stop</Button>
                     <Button onClick={()=>{this.restart()}} type="button" bsSize="xsmall" bsStyle="warning"><Glyphicon glyph="repeat"/>Restart</Button>
+                    <Button  type="button" bsSize="xsmall" bsStyle="danger"><Glyphicon glyph="remove-sign"/>Edit</Button>
                     <Button onClick={()=>{this.remove()}} type="button" bsSize="xsmall" bsStyle="danger"><Glyphicon glyph="remove-sign"/>Remove</Button>
                 </ButtonGroup>
             </Panel>

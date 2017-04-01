@@ -76,6 +76,7 @@ export class configHandler {
 			if (item.name === log.author){
 				item.logsHistory.push(log);
 				item.pid = (item.pid) === null ? log.pid : null;
+				item.connected = ((item.pid) === null) ? false : true;
 			}
 		});
 	}

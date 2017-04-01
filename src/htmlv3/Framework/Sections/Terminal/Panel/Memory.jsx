@@ -4,34 +4,45 @@ import {Glyphicon, ButtonGroup,ListGroup, ListGroupItem, Tooltip, OverlayTrigger
 import {Table} from 'react-bootstrap/lib';
 import {MemoryTile} from './../../../../Components/MemoryTile';
 
+import {connect} from 'react-redux';
 export class MemoryPanelClass extends React.Component {
 
 
     render() {
-
+        // const memory = this.props.memory;
+        // const memoryId = this.props.memoryId;
+        // const MTile = (memory.props && memory.props.values !== undefined) ? <MemoryTile
+        //     key={"memtile#"+memoryId}
+        //     title={'Memory'}
+        //     values={memory[memoryId]}
+        //     chartValues={memory[memoryId+"_chart"]}
+        // /> : <span>.....</span>;
         return (
             <Panel  key="memory-panel" collapsible defaultExpanded header="Memory" bsStyle="primary">
-                {/*<MTiles {...this.props}/>*/}
+                <MTiles {...this.props}/>
             </Panel>
         )
     }
 
 }
 
-
 export let MTiles = (props) => {
-    let {services,memory} = props;
-    let items = services.filter((item)=>item.connected).map((item, idx)=>{
-        console.log(memory)
-        if(memory.hasOwnProperty(item.id)){
-            return <MemoryTile key={"memtile#"+idx} title={item.name} values={props.memory[item.id]} chartValues={props.memory[item.id+"_chart"]}/>}
-    })
+    let {memoryId,memory} = props;
     return (
-        <div>
-            {items}
-        </div>
+        <MemoryTile
+            key={"memtile#"+memoryId}
+            title={'Memory'}
+            values={memory[memoryId]}
+            chartValues={memory[memoryId+"_chart"]}
+        />
     )
 
+};
+
+let mapStateToProps=(state)=>{
+    return {
+        memory: state.memoryUsage
+    }
 }
 
-export const MemoryPanel = MemoryPanelClass;
+export const MemoryPanel = connect(mapStateToProps)(MemoryPanelClass);

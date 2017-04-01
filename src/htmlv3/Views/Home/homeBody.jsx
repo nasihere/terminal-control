@@ -52,18 +52,18 @@ let mapStateToProp = (state) => {
 
 export let HomeBody = connect(mapStateToProp)(_HomeBody);
 
-
-export let MTiles = (props) => {
-    let {services,memory} = props;
-    let items = services.filter((item)=>item.connected).map((item, idx)=>{
-        console.log(memory)
-        if(memory.hasOwnProperty(item.id)){
-            return <MemoryTile key={"memtile#"+idx} title={item.name} values={props.memory[item.id]} chartValues={props.memory[item.id+"_chart"]}/>}
-    })
-    return (
-        <div>
-            {items}
-        </div>
-    )
-
-}
+//
+// export let MTiles = (props) => {
+//     let {services,memory} = props;
+//     let items = services.filter((item)=>item.connected).map((item, idx)=>{
+//         console.log(memory)
+//         if(memory.hasOwnProperty(item.id)){
+//             return <MemoryTile key={"memtile#"+idx} title={item.name} values={props.memory[item.id]} chartValues={props.memory[item.id+"_chart"]}/>}
+//     })
+//     return (
+//         <div>
+//             {items}
+//         </div>
+//     )
+//
+// }

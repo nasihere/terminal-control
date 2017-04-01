@@ -27,7 +27,7 @@ function spawnChild(){
 			default:
 				return;
 		}
-	})
+	});
 	child.stdout.on('data', (data) => {
 		console.log('stdout: spawnchild ' + data);
 		let obj = {
@@ -35,7 +35,8 @@ function spawnChild(){
 			text:   stringifyHtml(data),
 			author: msg,
 			color:  userColor,
-			pid: child.pid
+			pid: child.pid,
+			connected: true
 
 		};
 		process.send({type:'data',payload:obj})
@@ -49,21 +50,23 @@ function spawnChild(){
 			text:   stringifyHtml(data),
 			author: msg,
 			color:  userColor,
-			pid: child.pid
+			pid: child.pid,
+			connected: true
 
 		};
 		process.send({type:'data',payload:obj})
 		//self.writeToHistory(obj, connection);
 	});
 	child.on('close', function (code) {
-		console.log('stdclose: spawnchild' + code);
+		// console.log('stdclose: spawnchild' + code);
 
 		let obj = {
 			time:   timeNow(),
 			text:   stringifyHtml(code),
 			author: msg,
 			color:  userColor,
-			pid: null
+			pid: null,
+			connected: false
 
 		};
 		process.send({type:'close',payload:obj})

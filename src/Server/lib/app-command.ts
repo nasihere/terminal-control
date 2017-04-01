@@ -40,7 +40,7 @@ export class appCommand {
 			this.history = this.history.slice(-100);
 
 			this.appendLogs(log,conn);
-			this.broadCastMsg(log, conn);
+			this.broadCastMsg(log);
 		}
 
 	};
@@ -48,7 +48,7 @@ export class appCommand {
 		this.configHandler.appendLog(log);
 		this.configHandler.sendSuccess(conn,"UPDATE_TERMINAL",this.configHandler.getData())
 	};
-	private broadCastMsg = (obj, conn) => {
+	private broadCastMsg = (obj) => {
 
 		// broadcast message to all connected clients
 		let json = JSON.stringify({type: 'message', data: obj});
