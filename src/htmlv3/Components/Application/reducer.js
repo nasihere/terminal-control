@@ -8,7 +8,8 @@ import {
     SET_SERVICE_STATE,
     START_SERVICE,
     PING_SERVICERECEIVED,
-    LOG_HISTORY_SERVICE
+    LOG_HISTORY_SERVICE,
+    UPDATE_TERMINAL
 
 } from './dispatchTypes';
 
@@ -33,44 +34,46 @@ function mergeSingleObject(arr,obj,compKey){
     })
 }
 export const ApplicationReducer = (state = initialState, action) => {
-    //console.log(action.payload, action.type, 'ApplicationReducer()');
+    // console.log(action.payload,'ApplicationReducer()');
     let newItems;
     switch (action.type) {
         case SET_SERVICE_STATE:
-            newItems=mergeSingleObject(state.services.items,action.payload,'id');
-            return Object.assign({}, state, {services:{items:newItems}});
+            // newItems=mergeSingleObject(state.services.items,action.payload,'id');
+            // return Object.assign({}, state, {services:{items:newItems}});
             break;
         case SET_STATEOPEN:
             return Object.assign({}, state, {status: 'open'});
         case SET_STATECLOSED:
             return Object.assign({}, state, {status: 'closed'});
+        case UPDATE_TERMINAL:
+            return Object.assign({}, state, {services: {items: action.payload}});
         case SET_AVAILABLESERVICES:
-            if(state.services && state.services.items){
-                if(state.services.items.length > action.payload.length){
-                    let filterItems=action.payload.map((item,idx)=>
-                        state.services.items.find((serviceItem)=> item.id === serviceItem.id ))
-                    newItems=filterItems;
-                }
-                else if(state.services.items.length < action.payload.length) {
-                    let filterItems = action.payload
-                        .filter((item, idx) => !state.services.items[idx] || item.id !== state.services.items[idx].id)
-                        .map((item, idx) => item)
+            // if(state.services && state.services.items){
+            //     if(state.services.items.length > action.payload.length){
+            //         let filterItems=action.payload.map((item,idx)=>
+            //             state.services.items.find((serviceItem)=> item.id === serviceItem.id ))
+            //         newItems=filterItems;
+            //     }
+            //     else if(state.services.items.length < action.payload.length) {
+            //         let filterItems = action.payload
+            //             .filter((item, idx) => !state.services.items[idx] || item.id !== state.services.items[idx].id)
+            //             .map((item, idx) => item)
+            //
+            //         newItems = [...state.services.items, ...filterItems];
+            //
+            //
+            //     }
+            //     else{
+            //         let filterItems = action.payload.map((item, idx) => Object.assign({},state.services.items[idx],item))
+            //         newItems=filterItems
+            //     }
+            // }
+            // else{
+            //     newItems=action.payload;
+            // }
+            //
 
-                    newItems = [...state.services.items, ...filterItems];
-
-
-                }
-                else{
-                    let filterItems = action.payload.map((item, idx) => Object.assign({},state.services.items[idx],item))
-                    newItems=filterItems
-                }
-            }
-            else{
-                newItems=action.payload;
-            }
-
-
-            return Object.assign({}, state, {services: {items: newItems}});
+            return Object.assign({}, state, {services: {items: action.payload}});
         case SET_AVAILABLESERVICESERROR:
             let items=state.services.items.map((item)=>{
                 if(item.id===action.payload.item.id){

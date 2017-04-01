@@ -38,9 +38,15 @@ export class appCommand {
 		if ( this.skipLog.indexOf(log.text) === -1 ) {
 			this.history.push(log);
 			this.history = this.history.slice(-100);
+
+			this.appendLogs(log,conn);
 			this.broadCastMsg(log, conn);
 		}
 
+	};
+	private appendLogs = (log,conn) => {
+		this.configHandler.appendLog(log);
+		this.configHandler.sendSuccess(conn,"UPDATE_TERMINAL",this.configHandler.getData())
 	};
 	private broadCastMsg = (obj, conn) => {
 
@@ -115,13 +121,14 @@ export class appCommand {
 		forkedProcess.on('edit',(a)=>{console.log(3,a)});
 		forkedProcess.on('message',(msg)=>{
 			//msg.payload.pid=forkedProcess.pid;
-			msg.payload.id=message.id;
+			msg.payload.pid=forkedProcess.pid;
 			switch(msg.type){
 				case 'data':
 					self.writeToHistory(msg.payload,connection);
 					break;
 				case 'close':
-					forkedProcess.kill()
+					forkedProcess.kill();
+					self.writeToHistory(msg.payload,connection);
 					break;
 				case 'memory_usage':
 					send('memory_usage',msg.payload);
@@ -166,8 +173,10 @@ export class appCommand {
 		}
 		else if ( message.req === 'killService' ) {
 			//Stop the service
+			console.log(message.pid)
 			psTree(message.pid, function (err, children) {
 				childprocess.spawn('kill', ['-9'].concat(children.map(function (p) { return p.PID })));
+				//When this will be successfull then push msg to client service stopped.....
 			});
 
 			//let port = message.cmd.replace('lsof -t -i tcp:', '').replace(' | xargs kill;', '');
