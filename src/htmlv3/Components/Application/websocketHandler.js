@@ -6,16 +6,14 @@ import {
     SET_STATEOPEN,
     CONNECT_WEBSOCKET,
     START_SERVICE,
-    PING_SERVICE,
-    PING_SERVICERECEIVED,
+    SET_MEMORY_USAGE,
     KILL_SERVICE,
-    LOG_HISTORY_SERVICE,
     ADD_SERVICE_CONFIG,
     DELETE_SERVICE_CONFIG,
     EDIT_SERVICE_CONFIG,
     SET_SERVICE_STATE,
-    SET_MEMORY_USAGE,
-    CLEAR_MEMORY_USAGE
+    CLEAR_MEMORY_USAGE,
+    UPDATE_TERMINAL
 } from './dispatchTypes';
 
 class EventError extends Error{
@@ -23,7 +21,7 @@ class EventError extends Error{
     constructor(obj,message){
         super(message);
         this.message=message || 'Event Error';
-        this.name = "Event Error"
+        this.name = "Event Error";
         this.referenceObj=obj;
     }
 }
@@ -40,45 +38,27 @@ export const socketConnect = (function () {
         store.dispatch({type: SET_STATECLOSED});
 
     };
-    // const onPing = (interval, store, payload) => {
-    //     const self = store;
-    //     const type = PING_RESET;
-    //     setTimeout(function(){
-    //         self.dispatch({type: type, payload: payload});
-    //         // pingService();
-    //     },interval);
-    //
-    // };
     const onMessage = (conn, store) => evt => {
 
         try {
             let response = JSON.parse(evt.data);
             let dispatchType;
-            // console.log(response.type, 'type -> websocketHandler')
-            // console.log(response.data, 'data -> websocketHandler')
             switch (response.type) {
                 case "history":
                     break;
                 case "message":
-                    dispatchType = LOG_HISTORY_SERVICE;
-                    store.dispatch({type: dispatchType, payload: {status:response.data}});
-                    break;
-                case "ping":
-                    dispatchType = PING_SERVICERECEIVED;
-                    store.dispatch({type: dispatchType, payload: {status:response.data}});
-                    break;
                 case "status":
-                    //console.log(response.data);
-                    //port,id,connected,pid
-
                     store.dispatch({type:SET_SERVICE_STATE,payload:response.data});
                     if(!response.data.connected){
-                        store.dispatch({type:CLEAR_MEMORY_USAGE,payload:response.data});
+                        store.dispatch({type:CLEAR_MEMORY_USAGE,payload: response.data});
                     }
                     break;
                 case 'memory_usage':
                     //console.log(response.data);
                     store.dispatch({type: SET_MEMORY_USAGE, payload: response.data})
+                    break;
+                case 'UPDATE_TERMINAL':
+                    store.dispatch({type: UPDATE_TERMINAL, payload: response.data.config})
                     break;
                 case "saveConfig":
                 case "readConfig":
@@ -114,12 +94,14 @@ export const socketConnect = (function () {
                 connection.onmessage = onMessage(connection, store);
                 break;
             case KILL_SERVICE:
+                connection.send(payload);
+                break;
             case START_SERVICE:
+                connection.send(payload);
+                break;
             case ADD_SERVICE_CONFIG:
             case DELETE_SERVICE_CONFIG:
             case EDIT_SERVICE_CONFIG:
-                //console.log(action.type,payload)
-                //console.log(action.payload, `store ${action.type} -> webSockethandler.js`)
                 connection.send(payload);
                 break;
             default:

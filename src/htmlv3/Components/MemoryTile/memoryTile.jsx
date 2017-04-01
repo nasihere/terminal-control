@@ -20,11 +20,12 @@ export class MemoryTile extends React.Component {
         window.removeEventListener('resize', this.handleResize);
     }
     render () {
-        let header = (<h4>{this.props.title}</h4>)
+        {/*let header = (<h4>{this.props.title}</h4>)*/}
+        if (this.props.values === undefined) return (<span>...</span>);
         let item = this.props.values[this.props.values.length - 1];
         let pre = 'memory-tile';
         return (
-            <Panel header={header} className="memtile" >
+            <div>
                 <Row>
                     <Col xs={4} className={`${pre}__col`}>
                         <div className={`${pre}__block`}>
@@ -76,7 +77,7 @@ export class MemoryTile extends React.Component {
                     />
                     </div>
                 </Row>
-            </Panel>
+            </div>
         )
     }
 }
