@@ -1,1 +1,1 @@
-export {Body as ServicesBody} from './body.jsx'
+export {ServicesBody} from './serviceBody.jsx'

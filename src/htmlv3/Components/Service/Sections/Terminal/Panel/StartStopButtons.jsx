@@ -1,8 +1,7 @@
 import React from 'react';
-import {Col, Row, Grid, Panel, PanelGroup} from 'react-bootstrap/lib';
-import {Glyphicon, ButtonGroup,ListGroup, ListGroupItem, Tooltip, OverlayTrigger, Well, Jumbotron, Button, Tab, Navbar, NavItem, Nav, MenuItem, NavDropdown} from 'react-bootstrap/lib';
-import {Table} from 'react-bootstrap/lib';
-import {startService,killService} from './../../../../Components/Application/action.js';
+import {Glyphicon, ButtonGroup,Panel, Button} from 'react-bootstrap/lib';
+
+import {startService,killService} from './../../../../Application/action.js';
 import {connect} from 'react-redux';
 
 export class StartStopButtonsPanelClass extends React.Component {

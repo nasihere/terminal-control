@@ -1,6 +1,6 @@
 import React from 'react';
 import {Col, Row} from 'react-bootstrap/lib';
-import {Glyphicon, Tab, NavItem, Nav, MenuItem, NavDropdown} from 'react-bootstrap/lib';
+import {Tab, NavItem, Nav} from 'react-bootstrap/lib';
 import {Terminal} from './Terminal/Terminal.jsx';
 import {connect} from 'react-redux';
 
