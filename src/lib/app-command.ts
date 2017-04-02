@@ -38,17 +38,11 @@ export class appCommand {
 		if ( this.skipLog.indexOf(log.text) === -1 ) {
 			this.history.push(log);
 			this.history = this.history.slice(-100);
-
-			this.appendLogs(log,conn);
-			this.broadCastMsg(log);
+			this.broadCastMsg(log, conn);
 		}
 
 	};
-	private appendLogs = (log,conn) => {
-		this.configHandler.appendLog(log);
-		this.configHandler.sendSuccess(conn,"UPDATE_TERMINAL",this.configHandler.getData())
-	};
-	private broadCastMsg = (obj) => {
+	private broadCastMsg = (obj, conn) => {
 
 		// broadcast message to all connected clients
 		let json = JSON.stringify({type: 'message', data: obj});
@@ -107,7 +101,7 @@ export class appCommand {
 		let userColor = this.colors.shift();
 		const msg = message.cmd.split('*#*');
 		let oscmd = platform === "win32" ? msg[ 0 ].replace(/;/g, "&") : msg[ 0 ];
-		let forkedProcess = fork("./build/Server/lib/spawnChild",[oscmd, userColor, msg[1], JSON.stringify(message)]);
+		let forkedProcess = fork("./build/lib/spawnChild",[oscmd, userColor, msg[1], JSON.stringify(message)]);
 
 		let statusObj = {
 			connected: true,
@@ -121,14 +115,13 @@ export class appCommand {
 		forkedProcess.on('edit',(a)=>{console.log(3,a)});
 		forkedProcess.on('message',(msg)=>{
 			//msg.payload.pid=forkedProcess.pid;
-			msg.payload.pid=forkedProcess.pid;
+			msg.payload.id=message.id;
 			switch(msg.type){
 				case 'data':
 					self.writeToHistory(msg.payload,connection);
 					break;
 				case 'close':
-					forkedProcess.kill();
-					self.writeToHistory(msg.payload,connection);
+					forkedProcess.kill()
 					break;
 				case 'memory_usage':
 					send('memory_usage',msg.payload);
@@ -173,10 +166,8 @@ export class appCommand {
 		}
 		else if ( message.req === 'killService' ) {
 			//Stop the service
-			console.log(message.pid)
 			psTree(message.pid, function (err, children) {
 				childprocess.spawn('kill', ['-9'].concat(children.map(function (p) { return p.PID })));
-				//When this will be successfull then push msg to client service stopped.....
 			});
 
 			//let port = message.cmd.replace('lsof -t -i tcp:', '').replace(' | xargs kill;', '');

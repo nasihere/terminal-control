@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Microservices Port Remote</title>
+    <!--watch-http-server ./src/html!-->
+    <style>
+        * { font-family:monospace; font-size:16px; padding:0px; margin:0px; }
+        body {background-color: #efefef!important}
+        p { line-height:18px; }
+        div { width:1200px; margin-left:auto; margin-right:auto;}
+        #content {background:#2F4F4F; border-radius:8px; overflow-y: scroll;
+            border:1px solid #CCC; margin-top:10px; height: 660px; color:#AADD00; padding: 12px }
+        #input { border-radius:2px; border:1px solid #ccc;
+            margin-top:10px; padding:5px; width:400px;  }
+        #status { width:88px; display:block; float:left; margin-top:15px; }
+        .g_circle {
+            border-radius:50%; background: #AADD00;
+        }
+        .r_circle {
+            border-radius:50%; background: #FF5B09;
+        }
+        .w_circle {
+            border-radius:50%; background: yellow;
+        }
+    </style>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<div id="content">
+</div>
+<div class="hide">
+    <span id="status">Connecting...</span>
+    <input type="text" id="input" disabled="disabled" />
+</div>
+
+<div id="app">
+  <table class="table">
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Port</th>
+        <th>Status</th>
+        <th colspan="2">Command</th>
+    </tr>
+    <tr v-for="item in settings">
+        <td>{{item.key}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.Port}}</td>
+         <td><span class="r_circle" v-bind:id="item.Port">******</span></td>
+        <td><button v-on:click="startService(item)">Start</button></td>
+        <td><button v-on:click="stopService(item)">Stop</button></td>
+        
+    </tr>
+  </table>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/webServer.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="/js/root.js"></script>
+</body>
+</html>

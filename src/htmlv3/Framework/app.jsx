@@ -6,8 +6,7 @@ import {ServicesBody} from '../Views/Services';
 import {HomeBody} from '../Views/Home';
 import {NavBarInstance} from '../Components/NavBar';
 import {connectWebSocket} from '../Components/Application';
-import {TemplateDemo} from '../UX/Template.jsx';
-import {ReduxTest} from '../UX/ReduxTest.jsx';
+
 export class AppClass extends React.Component {
     state = {services: []};
 

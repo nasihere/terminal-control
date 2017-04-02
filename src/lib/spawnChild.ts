@@ -3,12 +3,6 @@ import { stringifyHtml, parseArgv } from '../utils';
 export interface IUsage extends NodeJS.MemoryUsage{
 	timeRunning?:number;
 }
-function timeNow() {
-	var d = new Date(),
-		h = (d.getHours()<10?'0':'') + d.getHours(),
-		m = (d.getMinutes()<10?'0':'') + d.getMinutes();
-	return h + ':' + m;
-}
 function spawnChild(){
 	let oscmd=process.argv[2];
 	let userColor=process.argv[3];
@@ -27,16 +21,15 @@ function spawnChild(){
 			default:
 				return;
 		}
-	});
+	})
 	child.stdout.on('data', (data) => {
-		console.log('stdout: spawnchild ' + data);
+		console.log('stdout: ' + data);
 		let obj = {
-			time:   timeNow(),
+			time:   (new Date()).getTime(),
 			text:   stringifyHtml(data),
 			author: msg,
 			color:  userColor,
-			pid: child.pid,
-			connected: true
+			pid: child.pid
 
 		};
 		process.send({type:'data',payload:obj})
@@ -44,29 +37,27 @@ function spawnChild(){
 		//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 	});
 	child.stderr.on('data', function (data) {
-		console.log('stderr: spawnchild' + data);
+		console.log('stderr: ' + data);
 		let obj = {
-			time:   timeNow(),
+			time:   (new Date()).getTime(),
 			text:   stringifyHtml(data),
 			author: msg,
 			color:  userColor,
-			pid: child.pid,
-			connected: true
+			pid: child.pid
 
 		};
 		process.send({type:'data',payload:obj})
 		//self.writeToHistory(obj, connection);
 	});
 	child.on('close', function (code) {
-		// console.log('stdclose: spawnchild' + code);
+		console.log('stdclose: ' + code);
 
 		let obj = {
-			time:   timeNow(),
+			time:   (new Date()).getTime(),
 			text:   stringifyHtml(code),
 			author: msg,
 			color:  userColor,
-			pid: null,
-			connected: false
+			pid: child.pid
 
 		};
 		process.send({type:'close',payload:obj})
