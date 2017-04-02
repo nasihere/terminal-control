@@ -61,7 +61,7 @@ export const socketConnect = (function () {
                     break;
                 case "message":
                     dispatchType = LOG_HISTORY_SERVICE;
-                    store.dispatch({type: dispatchType, payload: {status:response.data}});
+                    store.dispatch({type: dispatchType, payload: response.data});
                     break;
                 case "ping":
                     dispatchType = PING_SERVICERECEIVED;

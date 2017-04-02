@@ -22,7 +22,7 @@ let initialState = {
         port: 0,
         ping: false
     },
-    logsHistory: []
+    logsHistory: {}
 }
 function mergeSingleObject(arr,obj,compKey){
     return arr.map((item)=>{
@@ -83,7 +83,8 @@ export const ApplicationReducer = (state = initialState, action) => {
         case START_SERVICE:
             return Object.assign({}, state, {startedservices: action.payload});
         case LOG_HISTORY_SERVICE:
-            return Object.assign({}, state, {logsHistory:[...state.logsHistory, action.payload]});
+            let newMerge = state.logsHistory[action.payload.id] ? [...state.logsHistory[action.payload.id],action.payload] : action.payload;
+            return Object.assign({}, state, {logsHistory:{[action.payload.id]:newMerge}});
         case PING_SERVICERECEIVED:
             return Object.assign({},
                 state,
