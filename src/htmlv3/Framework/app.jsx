@@ -7,7 +7,6 @@ import {HomeBody} from '../Views/Home';
 import {NavBarInstance} from '../Components/NavBar';
 import {connectWebSocket} from '../Components/Application';
 
-
 export class AppClass extends React.Component {
     state = {services: []};
 

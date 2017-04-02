@@ -53,6 +53,7 @@ let mapStateToProp = (state) => {
 export let HomeBody = connect(mapStateToProp)(_HomeBody);
 
 
+
 export let MTiles = (props) => {
     let {services,memory} = props;
     let items = services.filter((item)=>item.connected).map((item, idx)=>{
@@ -67,3 +68,4 @@ export let MTiles = (props) => {
     )
 
 }
+

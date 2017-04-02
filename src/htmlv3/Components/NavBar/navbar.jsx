@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navbar, Nav, NavItem, FormGroup, FormControl, Button} from 'react-bootstrap/lib';
+import {Glyphicon, Navbar, Nav, NavItem, FormGroup, FormControl, Button} from 'react-bootstrap/lib';
 import {NavLink, withRouter} from 'react-router-dom';
 export const NavBar = (props) => {
     function matchPath(path){return props.location.pathname.startsWith(path) ? 'active' : ''}
@@ -19,6 +19,7 @@ export const NavBar = (props) => {
                 <FormGroup>
                     <FormControl type="text" placeholder="Search" style={{"height":"31px"}}/>
                 </FormGroup>{' '}
+                <NavItem eventKey={4} href="#"><Glyphicon glyph="folder-open"/> Add Project</NavItem>
             </Navbar.Form>
 
         </Navbar>
