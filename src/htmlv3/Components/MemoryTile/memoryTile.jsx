@@ -14,7 +14,8 @@ export class MemoryTile extends React.Component {
         window.addEventListener('resize', this.handleResize.bind(this));
     }
     handleResize() {
-        this.setState({windowWidth: this.refs.mem.offsetWidth });
+        if (this.refs.mem)
+            this.setState({windowWidth: this.refs.mem.offsetWidth });
     }
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
