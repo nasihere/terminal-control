@@ -7,16 +7,22 @@ export class MemoryPanelClass extends React.Component {
 
 
     render() {
+        let {memoryId,memory} = this.props;
         return (
-            <Panel  key="memory-panel" collapsible defaultExpanded header="Memory" bsStyle="primary">
-                <MTiles {...this.props}/>
-            </Panel>
+
+                <MemoryTile
+                    key={"memtile#"+memoryId}
+                    title={'Memory'}
+                    values={memory[memoryId]}
+                    chartValues={memory[memoryId+"_chart"]}
+                />
+
         )
     }
 
 }
 
-export let MTiles = (props) => {
+export let MTiles = (props) => {console.log(props)
     let {memoryId,memory} = props;
     return (
         <MemoryTile

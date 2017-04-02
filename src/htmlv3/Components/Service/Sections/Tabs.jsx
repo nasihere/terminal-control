@@ -27,6 +27,7 @@ export class TabsClass extends React.Component {
         if (this.props.services.items.length === 0) return;
         const serviceObj = this.props.services.items;
         let memoryItem = serviceObj.filter((item)=>item.connected).map((item, idx)=>{});
+
         return serviceObj.map((item, index) => {
 
             return  <Tab.Pane
@@ -36,7 +37,7 @@ export class TabsClass extends React.Component {
                             env={item.env}
                             package={item.cd}
                             config={item}
-                            logs={item.logsHistory}
+                            logs={this.props.logs[item.id]}
                             memoryId={item.id}
                         />
                     </Tab.Pane>
@@ -66,7 +67,8 @@ export class TabsClass extends React.Component {
 
 let mapStateToProps=(state)=> {
     return {
-        services: state.websocket.services
+        services: state.websocket.services,
+        logs:state.websocket.logsHistory
     }
 }
 export const Tabs = connect(mapStateToProps)(TabsClass);

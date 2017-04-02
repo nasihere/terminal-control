@@ -22,12 +22,14 @@ export class MemoryTile extends React.Component {
     }
     render () {
         let header = (<h4>{this.props.title}</h4>)
-        let item = this.props.values[this.props.values.length - 1];
+        let item = this.props.values ? this.props.values[this.props.values.length - 1]: [0,0,0,0,0];
         let pre = 'memory-tile';
+        let gridSize=this.state.windowWidth < 280 ? 12 : 4
         return (
-            <Panel header={header} className="memtile" >
+
+            <Panel header={header} className="memtile" bsStyle="primary" collapsible defaultExpanded>
                 <Row>
-                    <Col xs={4} className={`${pre}__col`}>
+                    <Col xs={gridSize} className={`${pre}__col`}>
                         <div className={`${pre}__block`}>
                             <h4 className={`${pre}__block__header`}>Total Heap</h4>
                             <div className={`${pre}__block__body`}>
@@ -37,7 +39,7 @@ export class MemoryTile extends React.Component {
 
                         </div>
                     </Col>
-                    <Col xs={4} className={`${pre}__col`}>
+                    <Col xs={gridSize} className={`${pre}__col`}>
                         <div className={`${pre}__block`}>
                             <h4 className={`${pre}__block__header`}>Used Heap</h4>
                             <div className={`${pre}__block__body`}>
@@ -47,7 +49,7 @@ export class MemoryTile extends React.Component {
 
                         </div>
                     </Col>
-                    <Col xs={4} className={`${pre}__col`}>
+                    <Col xs={gridSize} className={`${pre}__col`}>
                         <div className={`${pre}__block`}>
                             <h4 className={`${pre}__block__header`}>RSS</h4>
                             <div className={`${pre}__block__body`}>
@@ -72,7 +74,7 @@ export class MemoryTile extends React.Component {
                         lineColors={['red']}
                         margin={{top: 10, right: 10, bottom: 10, left: 10}}
 
-                        data={[this.props.chartValues]
+                        data={[this.props.chartValues || [{x:0,y:0}]]
                         }
                     />
                     </div>

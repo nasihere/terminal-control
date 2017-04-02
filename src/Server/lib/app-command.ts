@@ -101,7 +101,7 @@ export class appCommand {
 		let userColor = this.colors.shift();
 		const msg = message.cmd.split('*#*');
 		let oscmd = platform === "win32" ? msg[ 0 ].replace(/;/g, "&") : msg[ 0 ];
-		let forkedProcess = fork("./build/lib/spawnChild",[oscmd, userColor, msg[1], JSON.stringify(message)]);
+		let forkedProcess = fork("./build/Server/lib/spawnChild",[oscmd, userColor, msg[1], JSON.stringify(message)]);
 
 		let statusObj = {
 			connected: true,
