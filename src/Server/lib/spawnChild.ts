@@ -1,5 +1,6 @@
 import * as cp from 'child_process';
-import { stringifyHtml } from '../utils';
+import { stringifyHtml, HMTimeNow } from '../utils';
+
 export interface IUsage extends NodeJS.MemoryUsage{
 	timeRunning?:number;
 }
@@ -25,7 +26,7 @@ function spawnChild(){
 	child.stdout.on('data', (data) => {
 		console.log('stdout: ' + data);
 		let obj = {
-			time:   (new Date()).getTime(),
+			time:   HMTimeNow(),
 			text:   stringifyHtml(data),
 			author: msg,
 			color:  userColor,
@@ -39,7 +40,7 @@ function spawnChild(){
 	child.stderr.on('data', function (data) {
 		console.log('stderr: ' + data);
 		let obj = {
-			time:   (new Date()).getTime(),
+			time:   HMTimeNow(),
 			text:   stringifyHtml(data),
 			author: msg,
 			color:  userColor,
@@ -53,7 +54,7 @@ function spawnChild(){
 		console.log('stdclose: ' + code);
 
 		let obj = {
-			time:   (new Date()).getTime(),
+			time:   HMTimeNow(),
 			text:   stringifyHtml(code),
 			author: msg,
 			color:  userColor,
