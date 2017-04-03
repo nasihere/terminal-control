@@ -1,12 +1,13 @@
 import * as fs from 'fs';
 import { isUndefined } from "util";
+import { IParseArgv } from "./serverConfig";
 
 export class configHandler {
 	configSrc: string;
 	configFile: any;
 
-	constructor (configSrc) {
-		this.configSrc = configSrc;
+	constructor (config:IParseArgv) {
+		this.configSrc = config.configPath;
 	}
 
 	private writeFile = (filePath, str: string): Promise<any> => {

@@ -1,12 +1,10 @@
 // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
 "use strict";
-import { appCommand } from './lib/app-command';
-import * as os from 'os';
 import * as http from 'http';
+import { appCommand } from './lib/app-command';
 import * as websocket from 'websocket';
-import { stringifyHtml } from './utils';
 import { IMessage } from "websocket";
-let platform = os.platform();
+
 let webSocketServer = websocket.server;
 // Optional. You will see this name in eg. 'ps' or 'top' command
 process.title = 'node-service-agent';
@@ -17,11 +15,7 @@ export class wsServerClass extends appCommand {
 	httpserver = http.createServer(function (request, response) {
 		// Not important for us. We're writing WebSocket server, not HTTP server
 	});
-	wsServer = new webSocketServer({
-		// WebSocket server is tied to a HTTP server. WebSocket request is just
-		// an enhanced HTTP request. For more info http://tools.ietf.org/html/rfc6455#page-6
-		httpServer: this.httpserver
-	});
+	wsServer :websocket.server;
 	constructor () {
 		super();
 		this.init()

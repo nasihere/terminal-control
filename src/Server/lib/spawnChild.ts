@@ -1,5 +1,5 @@
 import * as cp from 'child_process';
-import { stringifyHtml, parseArgv } from '../utils';
+import { stringifyHtml } from '../utils';
 export interface IUsage extends NodeJS.MemoryUsage{
 	timeRunning?:number;
 }

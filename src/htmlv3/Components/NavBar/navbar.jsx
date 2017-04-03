@@ -4,7 +4,7 @@ import {NavLink, withRouter} from 'react-router-dom';
 export const NavBar = (props) => {
     function matchPath(path){return props.location.pathname.startsWith(path) ? 'active' : ''}
     return(
-        <Navbar style={{"border-radius":"0px"}} >
+        <Navbar style={{"borderRadius":"0px"}} >
             <Navbar.Header>
                 <Navbar.Brand>
                     <a href="#">Node Services</a>

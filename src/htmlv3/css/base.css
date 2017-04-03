@@ -30,6 +30,10 @@ body {
     background-color: #202a0d;
 }
 
+.terminal > .panel {
+    max-height: 958px;
+    overflow-y: auto;
+}
 #terminal-logs > div{
     width: 50%;
     float: right;

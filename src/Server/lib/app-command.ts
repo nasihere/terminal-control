@@ -3,35 +3,29 @@ import * as fs from 'fs';
 import * as os from "os";
 import * as childprocess from 'child_process';
 import * as rc from "rc";
-import { stringifyHtml, parseArgv } from '../utils';
+import { stringifyHtml } from '../utils';
 import * as psTree from 'ps-tree';
 import { configHandler } from './configHandler';
+import * as websocket from '@types/websocket';
+import { ServerConfig } from "./serverConfig";
 let platform = os.platform();
 let exec     = childprocess.exec,
 	userName = os.hostname(),
 	spawn    = childprocess.spawn,
 	fork    = childprocess.fork;
 
-interface ChildProcess{
-	emit():void
-}
 
-export class appCommand {
+
+export class appCommand extends ServerConfig {
 	colors: Array<string> = [ '#ffb2b2', 'DeepSkyBlue', 'gold', 'magenta', '#ADFF2F', 'plum', 'orange', 'aqua', 'BlanchedAlmond', '#00BFFF' ].sort();
-	configSrc: string;
 	history = [];
-	clients = [];
-	skipLog = [ 'readConfig://', 'deleteConfig://', 'saveConfig://', 'pingport://' ];
+	clients:Array<websocket.connection> = [];
+	skipLog = [ 'getConfigFile', 'deleteService', 'saveConfig', 'pingService' ];
 	configHandler: configHandler;
 
 	constructor () {
-		const {configPath} = parseArgv();
-		let rcConfig = {
-			configPath: configPath
-		};
-		const config = rc('dev-micro-dashboard', rcConfig);
-		this.configSrc = config.configPath;
-		this.configHandler = new configHandler(this.configSrc);
+		super();
+		this.configHandler = new configHandler(this.config);
 	}
 
 	public writeToHistory = (log, conn) => {

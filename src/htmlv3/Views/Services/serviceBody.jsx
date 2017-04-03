@@ -15,7 +15,7 @@ export class ServiceClass extends React.Component {
                     </Row>
 
                     <Row className="show-grid">
-                        <Col md={12}><ReadMe /></Col>
+                        <Col md={12}></Col>
                     </Row>
                 </Grid>
             </div>
