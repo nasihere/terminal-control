@@ -50,13 +50,14 @@ export const ApplicationReducer = (state = initialState, action) => {
                 return Object.assign({}, state, {services: {error: action.payload.error}});
             }
             if(state.services && state.services.items){
-                if(state.services.items.length > action.payload.length){
-                    let filterItems=action.payload.map((item,idx)=>
-                        state.services.items.find((serviceItem)=> item.id === serviceItem.id ))
+                let items=action.payload.config.configService;
+                if(state.services.items.length > items.length){
+                    let filterItems=items.map((item,idx)=>
+                                        state.services.items.find((serviceItem)=> item.id === serviceItem.id ));
                     newItems=filterItems;
                 }
-                else if(state.services.items.length < action.payload.length) {
-                    let filterItems = action.payload
+                else if(state.services.items.length < items.length) {
+                    let filterItems = items
                         .filter((item, idx) => !state.services.items[idx] || item.id !== state.services.items[idx].id)
                         .map((item, idx) => item)
 
@@ -65,7 +66,7 @@ export const ApplicationReducer = (state = initialState, action) => {
 
                 }
                 else{
-                    let filterItems = action.payload.map((item, idx) => Object.assign({},state.services.items[idx],item))
+                    let filterItems = items.map((item, idx) => Object.assign({},state.services.items[idx],item))
                     newItems=filterItems
                 }
             }

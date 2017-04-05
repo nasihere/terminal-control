@@ -86,8 +86,7 @@ export const socketConnect = (function () {
                 case "updateConfig":
 
                     dispatchType = SET_AVAILABLESERVICES;
-                    let payload=response.data.success?response.data.config.configService : response.data;
-                    store.dispatch({type: dispatchType, payload:payload})
+                    store.dispatch({type: dispatchType, payload:response.data})
                     break;
                 default:
                     throw new EventError(response.data,"Invalid Dispatch Type")
