@@ -1,16 +1,21 @@
 import * as cp from 'child_process';
 import { stringifyHtml, HMTimeNow } from '../utils';
+import { splitVars } from "../utils/splitVars";
 
 export interface IUsage extends NodeJS.MemoryUsage{
 	timeRunning?:number;
 }
 function spawnChild(){
-	let oscmd=process.argv[2];
-	let userColor=process.argv[3];
-	let msg=process.argv[4];
-	let message=JSON.parse(process.argv[5]);
-	let child = cp.spawn(oscmd,[],{
-		shell:true
+
+	let userColor=process.argv[2];
+	let message=JSON.parse(process.argv[3]);
+	let env = Object.create( process.env );
+	let envVars=splitVars(message.cmd.env);
+
+	let child = cp.spawn(message.cmd.cmd,[],{
+		shell:true,
+		env:Object.assign(env, envVars),
+		cwd:message.cmd.pwd
 	});
 	let timeUp=0;
 	setInterval(()=>{++timeUp},1000)
@@ -30,7 +35,7 @@ function spawnChild(){
 		let obj = {
 			time:   HMTimeNow(),
 			text:   stringifyHtml(data),
-			author: msg,
+			author: message.name,
 			color:  userColor,
 			pid: child.pid
 
@@ -44,7 +49,7 @@ function spawnChild(){
 		let obj = {
 			time:   HMTimeNow(),
 			text:   stringifyHtml(data),
-			author: msg,
+			author: message.name,
 			color:  userColor,
 			pid: child.pid
 
@@ -58,7 +63,7 @@ function spawnChild(){
 		let obj = {
 			time:   HMTimeNow(),
 			text:   stringifyHtml(`Child closed ${signal} -> code:${code}`),
-			author: msg,
+			author: message.name,
 			color:  userColor,
 			pid: child.pid
 

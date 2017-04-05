@@ -9,7 +9,6 @@ import {
     EDIT_SERVICE_CONFIG
 } from './dispatchTypes';
 
-
 export const connectWebSocket = () => {
     return (dispatch) => {
         dispatch({type: CONNECT_WEBSOCKET})
@@ -25,14 +24,14 @@ export const setWebSocketState = (status) => {
 export const startService = (obj, idx) => {
 
     return (dispatch) => {
-        let pwd = 'cd ' + obj.cd.replace('package.json', '') + ";"
+
         dispatch({
             type:    START_SERVICE,
             payload: {
                 id:   obj.id,
                 req:  "startService",
                 port: obj.Port,
-                cmd:  `${pwd}${obj.env}${obj.command}*#*${obj.name}`
+                cmd:  {pwd: obj.cd, env: obj.env, cmd: obj.command, name: obj.name}
             }
         })
     }
@@ -71,7 +70,8 @@ export const pingService = (obj, idx) => {
 };
 
 export const submitNewService = (formObj) => {
-    return (dispatch) => {console.log(formObj)
+    return (dispatch) => {
+        console.log(formObj)
         dispatch({
             type: ADD_SERVICE_CONFIG, payload: {
                 req: "saveConfig",

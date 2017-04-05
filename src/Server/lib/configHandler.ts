@@ -170,7 +170,7 @@ export class configHandler {
 						let fileData = JSON.parse(data)
 						fileData.configService.splice(idx, 1);
 						this.configFile = fileData
-						const writeJson = JSON.stringify(this.configFile);
+						const writeJson = JSON.stringify(this.configFile,null,"\t");
 						this.writeFile(this.configSrc, writeJson).then(()=>{
 							this.sendSuccess(connection,'deleteConfig',this.configFile)
 						})
