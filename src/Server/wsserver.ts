@@ -1,11 +1,10 @@
 // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
 "use strict";
-import { appCommand } from './lib/app-command';
-import * as os from 'os';
 import * as http from 'http';
+import { appCommand } from './lib/app-command';
 import * as websocket from 'websocket';
-import { stringifyHtml } from './utils';
-let platform = os.platform();
+import { IMessage } from "websocket";
+
 let webSocketServer = websocket.server;
 // Optional. You will see this name in eg. 'ps' or 'top' command
 process.title = 'node-service-agent';
@@ -16,51 +15,57 @@ export class wsServerClass extends appCommand {
 	httpserver = http.createServer(function (request, response) {
 		// Not important for us. We're writing WebSocket server, not HTTP server
 	});
-	wsServer = new webSocketServer({
-		// WebSocket server is tied to a HTTP server. WebSocket request is just
-		// an enhanced HTTP request. For more info http://tools.ietf.org/html/rfc6455#page-6
-		httpServer: this.httpserver
-	});
+	wsServer :websocket.server;
 	constructor () {
 		super();
-		this.setWsServer()
+		this.init()
 	}
-	private setWsServer = () => {
-		let self = this;
-		this.wsServer.on('request', function (request) {
-			request.on('requestResolved', () => {
-				console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
-			});
-			request.on('requestAccepted', (connection) => {
-				let index = self.clients.length;
-				console.log((new Date()) + ' Connection accepted.', index);
-				let userName = 'NODEUSER' + index;
-				let userColor = self.colors[ index ];
-				// send back logs history
-				if ( self.history.length > 0 ) {
-					connection.sendUTF(
-						JSON.stringify({
-							type: 'history',
-							data: self.history
-						})
-					)
-				}
-				connection.on('message', (msg) => {
-					let message = JSON.parse(msg.utf8Data);
-					self.handleMessage(message, connection);
-				});
-				// user disconnected
-				connection.on('close', (connection) => {
-					if ( userName && userColor ) {
-						// remove user from the list of connected clients
-						self.clients.splice(index, 1);
-					}
-				});
-
-			});
-			const connection = request.accept(null, request.origin);
-			self.clients.push(connection);
+	init=()=>{
+		let server:websocket.server=new webSocketServer({
+			// WebSocket server is tied to a HTTP server. WebSocket request is just
+			// an enhanced HTTP request. For more info http://tools.ietf.org/html/rfc6455#page-6
+			httpServer: this.httpserver
 		});
+		server.on('request',this.setRequestListeners)
+		this.wsServer=server;
 	};
+
+	private setRequestListeners = (request:websocket.request) =>{
+		request.on('requestResolved', ():void => {
+			console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
+		});
+		request.on('requestRejected', ():void => {
+			console.log((new Date()) + ' Rejected from origin ' + request.origin + '.');
+		});
+		request.on('requestAccepted',this.setConnectionListeners);
+		request.accept(null, request.origin);
+	}
+	private setConnectionListeners=(connection:websocket.connection)=>{
+		this.clients.push(connection);
+		let index:number = this.clients.length;
+		console.log((new Date()) + ' Connection accepted.', index);
+		let userColor = this.colors[ index ];
+		// send back logs history
+		if ( this.history.length > 0 ) {
+			connection.sendUTF(
+				JSON.stringify({
+					type: 'history',
+					data: this.history
+				})
+			)
+		}
+		connection.on('message', (msg:IMessage) => {
+			let message = JSON.parse(msg.utf8Data);
+			this.handleMessage(message, connection);
+		});
+		// user disconnected
+		connection.on('close', (code, desc) => {
+			if ( userColor ) {
+				// remove user from the list of connected clients
+				this.clients.splice(index, 1);
+			}
+		});
+	}
+
 }
 export const tempwsServer = new wsServerClass();

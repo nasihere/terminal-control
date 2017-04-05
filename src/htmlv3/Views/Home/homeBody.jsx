@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Row, Col, Jumbotron, Panel} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {MemoryTile} from '../../Components/MemoryTile';
+import {Tabs,ReadMe} from './../../Components/Service';
 
 
 class _HomeBody extends React.Component{
@@ -31,10 +32,8 @@ class _HomeBody extends React.Component{
                             <Panel header="Documentation"></Panel>
                         </Col>
                     </Row>
-                </Col>
-                <Col sm={4}>
                     <Row>
-                        <MTiles {...this.props}/>
+                        <ReadMe/>
                     </Row>
                 </Col>
             </div>
@@ -57,7 +56,7 @@ export let HomeBody = connect(mapStateToProp)(_HomeBody);
 export let MTiles = (props) => {
     let {services,memory} = props;
     let items = services.filter((item)=>item.connected).map((item, idx)=>{
-        console.log(memory)
+
         if(memory.hasOwnProperty(item.id)){
             return <MemoryTile key={"memtile#"+idx} title={item.name} values={props.memory[item.id]} chartValues={props.memory[item.id+"_chart"]}/>}
     })

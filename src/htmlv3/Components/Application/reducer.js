@@ -45,14 +45,19 @@ export const ApplicationReducer = (state = initialState, action) => {
         case SET_STATECLOSED:
             return Object.assign({}, state, {status: 'closed'});
         case SET_AVAILABLESERVICES:
+            if(!action.payload.success){
+
+                return Object.assign({}, state, {services: {error: action.payload.error}});
+            }
             if(state.services && state.services.items){
-                if(state.services.items.length > action.payload.length){
-                    let filterItems=action.payload.map((item,idx)=>
-                        state.services.items.find((serviceItem)=> item.id === serviceItem.id ))
+                let items=action.payload.config.configService;
+                if(state.services.items.length > items.length){
+                    let filterItems=items.map((item,idx)=>
+                                        state.services.items.find((serviceItem)=> item.id === serviceItem.id ));
                     newItems=filterItems;
                 }
-                else if(state.services.items.length < action.payload.length) {
-                    let filterItems = action.payload
+                else if(state.services.items.length < items.length) {
+                    let filterItems = items
                         .filter((item, idx) => !state.services.items[idx] || item.id !== state.services.items[idx].id)
                         .map((item, idx) => item)
 
@@ -61,15 +66,13 @@ export const ApplicationReducer = (state = initialState, action) => {
 
                 }
                 else{
-                    let filterItems = action.payload.map((item, idx) => Object.assign({},state.services.items[idx],item))
+                    let filterItems = items.map((item, idx) => Object.assign({},state.services.items[idx],item))
                     newItems=filterItems
                 }
             }
             else{
                 newItems=action.payload;
             }
-
-
             return Object.assign({}, state, {services: {items: newItems}});
         case SET_AVAILABLESERVICESERROR:
             let items=state.services.items.map((item)=>{
@@ -83,7 +86,7 @@ export const ApplicationReducer = (state = initialState, action) => {
         case START_SERVICE:
             return Object.assign({}, state, {startedservices: action.payload});
         case LOG_HISTORY_SERVICE:
-            let newMerge = state.logsHistory[action.payload.id] ? [...state.logsHistory[action.payload.id],action.payload] : action.payload;
+            let newMerge = state.logsHistory[action.payload.id] ? [action.payload,...state.logsHistory[action.payload.id]] : [action.payload];
             return Object.assign({}, state, {logsHistory:{[action.payload.id]:newMerge}});
         case PING_SERVICERECEIVED:
             return Object.assign({},
