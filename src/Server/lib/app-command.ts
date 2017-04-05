@@ -3,35 +3,28 @@ import * as fs from 'fs';
 import * as os from "os";
 import * as childprocess from 'child_process';
 import * as rc from "rc";
-import { stringifyHtml, parseArgv } from '../utils';
+import { stringifyHtml } from '../utils';
 import * as psTree from 'ps-tree';
 import { configHandler } from './configHandler';
+import * as websocket from '@types/websocket';
+import { ServerConfig } from "./serverConfig";
 let platform = os.platform();
 let exec     = childprocess.exec,
 	userName = os.hostname(),
 	spawn    = childprocess.spawn,
-	fork    = childprocess.fork;
+	fork     = childprocess.fork;
 
-interface ChildProcess{
-	emit():void
-}
 
-export class appCommand {
+export class appCommand extends ServerConfig {
 	colors: Array<string> = [ '#ffb2b2', 'DeepSkyBlue', 'gold', 'magenta', '#ADFF2F', 'plum', 'orange', 'aqua', 'BlanchedAlmond', '#00BFFF' ].sort();
-	configSrc: string;
 	history = [];
-	clients = [];
-	skipLog = [ 'readConfig://', 'deleteConfig://', 'saveConfig://', 'pingport://' ];
+	clients: Array<websocket.connection> = [];
+	skipLog = [ 'getConfigFile', 'deleteService', 'saveConfig', 'pingService' ];
 	configHandler: configHandler;
 
 	constructor () {
-		const {configPath} = parseArgv();
-		let rcConfig = {
-			configPath: configPath
-		};
-		const config = rc('dev-micro-dashboard', rcConfig);
-		this.configSrc = config.configPath;
-		this.configHandler = new configHandler(this.configSrc);
+		super();
+		this.configHandler = new configHandler(this.config);
 	}
 
 	public writeToHistory = (log, conn) => {
@@ -65,7 +58,7 @@ export class appCommand {
 
 		});
 		child.on('error', (e) => {
-			console.log( e)
+			console.log(e)
 		});
 		child.stderr.on('close', function (data) {
 			// console.log('close: ' + data);
@@ -81,109 +74,109 @@ export class appCommand {
 		}
 		console.log('puts', stdout, stderr, error);
 	};
-	send = (message,connection) =>{
-		let sendObj={
-			type:'',
+	send = (message, connection) => {
+		let sendObj = {
+			type: '',
 			data: {
 				port: message.port,
 				id:   message.id
 			}
 		}
-		return (type:string,obj:any)=>{
-			sendObj.type=type;
-			sendObj.data=Object.assign({},sendObj.data,obj);
+		return (type: string, obj: any) => {
+			sendObj.type = type;
+			sendObj.data = Object.assign({}, sendObj.data, obj);
 			connection.sendUTF(JSON.stringify(sendObj))
 		}
 	}
 	serviceAction = (message, connection) => {
-		let send=this.send(message,connection)
+		let send = this.send(message, connection)
 		let self = this;
 		let userColor = this.colors.shift();
-		const msg = message.cmd.split('*#*');
-		let oscmd = platform === "win32" ? msg[ 0 ].replace(/;/g, "&") : msg[ 0 ];
-		let forkedProcess = fork("./build/Server/lib/spawnChild",[oscmd, userColor, msg[1], JSON.stringify(message)]);
+		//const msg = message.cmd.split('*#*');
+		//let oscmd = platform === "win32" ? msg[ 0 ].replace(/;/g, "&") : msg[ 0 ];
+		let forkedProcess = fork("./build/Server/lib/spawnChild", [ userColor, JSON.stringify(message) ]);
 
 		let statusObj = {
 			connected: true,
-			pid:  forkedProcess.pid,
+			pid:       forkedProcess.pid,
 
 		};
-		console.log(statusObj)
 		send('status', statusObj);
-		forkedProcess.on('disconnect',(a)=>{console.log(1,a)});
-		forkedProcess.on('error',(a)=>{console.log(2,a)});
-		forkedProcess.on('edit',(a)=>{console.log(3,a)});
-		forkedProcess.on('message',(msg)=>{
+		forkedProcess.on('disconnect', (a) => {
+			console.log(1, a)
+		});
+		forkedProcess.on('error', (a) => {
+			console.log(2, a)
+		});
+		forkedProcess.on('edit', (a) => {
+			console.log(3, a)
+		});
+		forkedProcess.on('message', (msg) => {
 			//msg.payload.pid=forkedProcess.pid;
-			msg.payload.id=message.id;
-			switch(msg.type){
+			msg.payload.id = message.id;
+			switch ( msg.type ) {
 				case 'data':
-					self.writeToHistory(msg.payload,connection);
+					self.writeToHistory(msg.payload, connection);
 					break;
 				case 'close':
 					forkedProcess.kill()
 					break;
 				case 'memory_usage':
-					send('memory_usage',msg.payload);
+					send('memory_usage', msg.payload);
 					break;
 			}
 		});
-		forkedProcess.on('close',(data)=>{
+		forkedProcess.on('close', (data) => {
 			clearInterval(memInterval)
 			let obj = {
-				connected:false,
-				pid:  null,
-				status_code:data
+				connected:   false,
+				pid:         null,
+				status_code: data
 			};
-			send('status',obj)
+			send('status', obj)
 		});
-		let memInterval=setInterval(()=>{
+		let memInterval = setInterval(() => {
 			forkedProcess.send("get_usage")
-		},2000)
-
+		}, 2000)
 
 
 	};
 	handleMessage = (message: IMessageIn, connection): void => {
-
-		let copyMsg = stringifyHtml(message.cmd);
-		const appName = copyMsg.split('*#*')[ 1 ] || os.hostname();
-		if ( message.req === "getConfigFile" ) {
-			this.configHandler.readConfig(connection);
-		}
-		else if ( message.req == 'deleteService' ) {
-			this.configHandler.deleteConfig(message, connection);
-		}
-		else if ( message.req == 'editService' ) {
-			this.configHandler.editConfig(message, connection);
-		}
-		else if ( message.req === 'saveConfig' ) {
-
-			this.configHandler.saveConfig(message, connection);
-		}
-		else if ( message.req === 'pingService' ) {
-			this.pingPort(message, connection);
-		}
-		else if ( message.req === 'killService' ) {
-			//Stop the service
-			psTree(message.pid, function (err, children) {
-				childprocess.spawn('kill', ['-9'].concat(children.map(function (p) { return p.PID })));
-			});
-
-			//let port = message.cmd.replace('lsof -t -i tcp:', '').replace(' | xargs kill;', '');
-			//const msg = platform === "win32" ? 'FOR /F "tokens=5 delims= " %%P IN (\'netstat -a -n -o ^| findstr :' + port + '.*LISTENING\') DO TaskKill.exe /PID %%P' : message;
-			//console.log(msg)
-			// /this.serviceAction(message, connection);
-		}
-		else if ( message.req === 'startService' as string ) {
-			this.serviceAction(message, connection);
-		}
-		else {
-
-
+		switch ( message.req ) {
+			case "getConfigFile":
+				this.configHandler.readConfig(connection);
+				break;
+			case "deleteService":
+				this.configHandler.deleteConfig(message, connection);
+				break;
+			case "editService":
+				this.configHandler.editConfig(message, connection);
+				break;
+			case "saveConfig":
+				this.configHandler.saveConfig(message, connection);
+				break;
+			case "pingService":
+				this.pingPort(message, connection);
+				break;
+			case "killService":
+				//Stop the service
+				psTree(message.pid, (err, children) => {
+						childprocess
+							.spawn('kill', [ '-9' ]
+								.concat(
+									children.map(p => p.PID)
+								)
+							);
+					}
+				);
+				break;
+			case "startService":
+				this.serviceAction(message, connection);
+				break;
 		}
 	}
 }
+
 export type requestTypes =
 	'getConfigFile'
 	| 'deleteService'
@@ -196,6 +189,6 @@ export interface IMessageIn {
 	cmd: string;
 	req: requestTypes
 	id: string;
-	pid?:number
+	pid?: number
 }
 

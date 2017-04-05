@@ -2,6 +2,7 @@ import * as http from 'http';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
+import { ServerConfig } from "./lib/serverConfig";
 
 function findContentType (extname) {
 	switch (extname) {
@@ -28,47 +29,53 @@ function findContentType (extname) {
 	}
 
 }
-
-export const httpServer=http.createServer((request, response)=> {
-	if (request.url === '/favicon.ico') {
-		response.writeHead(200, {'Content-Type': 'image/x-icon'} );
-		response.end();
-		//console.log('favicon requested');
-		return;
+export class HttpServer extends ServerConfig{
+	server:http.Server;
+	constructor(){
+		super();
+		this.init();
 	}
-	// console.log(`fetching ${request.url}`);
-	//console.log(`${request.url}`)
-	// TODO: configure the file path to more current and viable syntax
-
-	let requestConfig = {
-		uri: url.parse(request.url).pathname,
-		filePath: /\.\w{2,5}$/.test(request.url) ?  'build/htmlv3/'+ request.url : 'build/htmlv3/index.html' ,
-		get filename() {return path.join(process.cwd(), this.uri)},
-		get contentType(){return findContentType(path.extname(this.filePath))}
+	init=()=>{
+		let server = http.createServer(this.handleRequests)
+		this.server=server;
 	}
-
-	fs.readFile(requestConfig.filePath, function (error, content) {
-		if (error) {
-			console.log(`error on ${request.url}`,error)
-			if (error.code == 'ENOENT') {
-				fs.readFile('./404.html', function (error, content) {
-					response.writeHead(200, {'Content-Type': requestConfig.contentType});
-					response.end(content, 'utf-8');
-				});
+	handleRequests=(request,response)=>{
+		if (request.url === '/favicon.ico') {
+			response.writeHead(200, {'Content-Type': 'image/x-icon'} );
+			response.end();
+			//console.log('favicon requested');
+			return;
+		}
+		let requestConfig = {
+			uri: url.parse(request.url).pathname,
+			filePath: /\.\w{2,5}$/.test(request.url) ?  'build/htmlv3/'+ request.url : 'build/htmlv3/index.html' ,
+			get filename() {return path.join(process.cwd(), this.uri)},
+			get contentType(){return findContentType(path.extname(this.filePath))}
+		}
+		fs.readFile(requestConfig.filePath, function (error, content) {
+			if (error) {
+				console.log(`error on ${request.url}`,error)
+				if (error.code == 'ENOENT') {
+					fs.readFile('./404.html', function (error, content) {
+						response.writeHead(200, {'Content-Type': requestConfig.contentType});
+						response.end(content, 'utf-8');
+					});
+				}
+				else {
+					response.writeHead(500);
+					response.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
+					response.end();
+				}
 			}
 			else {
-				response.writeHead(500);
-				response.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
-				response.end();
+				response.writeHead(200, {'Content-Type': requestConfig.contentType});
+				// console.log(`fetched ${request.url}`);
+				response.end(content, 'utf-8');
 			}
-		}
-		else {
-			response.writeHead(200, {'Content-Type': requestConfig.contentType});
-			// console.log(`fetched ${request.url}`);
-			response.end(content, 'utf-8');
-		}
-	});
+		});
+	}
 
-})
+}
+export const httpServer=new HttpServer();
 
 

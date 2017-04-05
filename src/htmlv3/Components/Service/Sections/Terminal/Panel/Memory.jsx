@@ -22,7 +22,7 @@ export class MemoryPanelClass extends React.Component {
 
 }
 
-export let MTiles = (props) => {console.log(props)
+export let MTiles = (props) => {
     let {memoryId,memory} = props;
     return (
         <MemoryTile

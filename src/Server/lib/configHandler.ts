@@ -1,12 +1,13 @@
 import * as fs from 'fs';
 import { isUndefined } from "util";
+import { IParseArgv } from "./serverConfig";
 
 export class configHandler {
 	configSrc: string;
 	configFile: any;
 
-	constructor (configSrc) {
-		this.configSrc = configSrc;
+	constructor (config:IParseArgv) {
+		this.configSrc = config.configPath;
 	}
 
 	private writeFile = (filePath, str: string): Promise<any> => {
@@ -70,7 +71,7 @@ export class configHandler {
 		if ( this.configFile ) {
 			let pushJson = Object.assign({}, newConfig.cmd, {id: (Math.random() * 1e32).toString(36)});
 			this.configFile.configService.push(pushJson);
-			this.writeFile(this.configSrc,JSON.stringify(this.configFile)).then(()=>{
+			this.writeFile(this.configSrc,JSON.stringify(this.configFile,null,"\t")).then(()=>{
 				this.sendSuccess(connection,'saveConfig',this.configFile)
 			}).catch((e)=>{
 				this.sendFail(e,connection,'saveConfig')
@@ -135,7 +136,7 @@ export class configHandler {
 				};
 			})
 			this.configFile.configService = _items;
-			const writeJson = JSON.stringify(this.configFile);
+			const writeJson = JSON.stringify(this.configFile,null,"\t");
 			this.writeFile(this.configSrc,writeJson).then((data)=>{
 				this.sendSuccess(connection,"updateConfig",this.configFile)
 			}).catch((e)=>{
@@ -169,7 +170,7 @@ export class configHandler {
 						let fileData = JSON.parse(data)
 						fileData.configService.splice(idx, 1);
 						this.configFile = fileData
-						const writeJson = JSON.stringify(this.configFile);
+						const writeJson = JSON.stringify(this.configFile,null,"\t");
 						this.writeFile(this.configSrc, writeJson).then(()=>{
 							this.sendSuccess(connection,'deleteConfig',this.configFile)
 						})
