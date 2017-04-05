@@ -71,7 +71,7 @@ export class configHandler {
 		if ( this.configFile ) {
 			let pushJson = Object.assign({}, newConfig.cmd, {id: (Math.random() * 1e32).toString(36)});
 			this.configFile.configService.push(pushJson);
-			this.writeFile(this.configSrc,JSON.stringify(this.configFile)).then(()=>{
+			this.writeFile(this.configSrc,JSON.stringify(this.configFile,null,"\t")).then(()=>{
 				this.sendSuccess(connection,'saveConfig',this.configFile)
 			}).catch((e)=>{
 				this.sendFail(e,connection,'saveConfig')
@@ -136,7 +136,7 @@ export class configHandler {
 				};
 			})
 			this.configFile.configService = _items;
-			const writeJson = JSON.stringify(this.configFile);
+			const writeJson = JSON.stringify(this.configFile,null,"\t");
 			this.writeFile(this.configSrc,writeJson).then((data)=>{
 				this.sendSuccess(connection,"updateConfig",this.configFile)
 			}).catch((e)=>{

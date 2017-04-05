@@ -1,5 +1,4 @@
 .panel-group,
-
 .row > .well,
 .row > .jumbotron,
 .row > .panel{
@@ -7,6 +6,10 @@ margin-left:10px;
     margin-right:10px;
 }
 
+.alert > pre{
+    background: inherit;
+    border:inherit;
+}
 
 
 /*List Reset*/

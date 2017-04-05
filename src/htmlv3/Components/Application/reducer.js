@@ -45,6 +45,10 @@ export const ApplicationReducer = (state = initialState, action) => {
         case SET_STATECLOSED:
             return Object.assign({}, state, {status: 'closed'});
         case SET_AVAILABLESERVICES:
+            if(!action.payload.success){console.log(action.payload.error);
+
+                return Object.assign({}, state, {services: {error: action.payload.error}});
+            }
             if(state.services && state.services.items){
                 if(state.services.items.length > action.payload.length){
                     let filterItems=action.payload.map((item,idx)=>
@@ -68,8 +72,6 @@ export const ApplicationReducer = (state = initialState, action) => {
             else{
                 newItems=action.payload;
             }
-
-
             return Object.assign({}, state, {services: {items: newItems}});
         case SET_AVAILABLESERVICESERROR:
             let items=state.services.items.map((item)=>{

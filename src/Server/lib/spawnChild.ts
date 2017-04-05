@@ -9,7 +9,9 @@ function spawnChild(){
 	let userColor=process.argv[3];
 	let msg=process.argv[4];
 	let message=JSON.parse(process.argv[5]);
-	let child = cp.spawn(oscmd,[],{shell:true});
+	let child = cp.spawn(oscmd,[],{
+		shell:true
+	});
 	let timeUp=0;
 	setInterval(()=>{++timeUp},1000)
 	process.on('message',(msg)=>{
@@ -37,7 +39,7 @@ function spawnChild(){
 		//self.writeToHistory(obj, connection);
 		//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 	});
-	child.stderr.on('data', function (data) {
+	child.stderr.on('data', (data)=> {
 		console.log('stderr: ' + data);
 		let obj = {
 			time:   HMTimeNow(),
@@ -50,12 +52,12 @@ function spawnChild(){
 		process.send({type:'data',payload:obj})
 		//self.writeToHistory(obj, connection);
 	});
-	child.on('close', function (code) {
-		console.log('stdclose: ' + code);
+	child.on('close', (code, signal) => {
+		console.log(`stdclose: ${signal} -> ${code}`);
 
 		let obj = {
 			time:   HMTimeNow(),
-			text:   stringifyHtml(code),
+			text:   stringifyHtml(`Child closed ${signal} -> code:${code}`),
 			author: msg,
 			color:  userColor,
 			pid: child.pid

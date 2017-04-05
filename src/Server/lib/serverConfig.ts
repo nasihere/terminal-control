@@ -15,7 +15,7 @@ export class ServerConfig {
 
 	constructor () {
 
-		let config = rc('dev-micro-dashboard', this.defaults)
+		let config = rc('nodeagents', this.defaults)
 		// cmd line config
 		if ( process.argv.length > 2 ) {
 			process.argv.slice(2).forEach(x => {
