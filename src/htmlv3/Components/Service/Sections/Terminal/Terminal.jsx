@@ -16,7 +16,7 @@ export class TerminalClass extends React.Component {
 
     createLogRow(){
         if (this.props.logs === undefined) return;
-        const logs = this.props.logs;console.log(logs)
+        const logs = this.props.logs;
         let prevTime = '';
         return logs.map((item,idx)=>{
             let printTime = false;

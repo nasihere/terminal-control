@@ -71,7 +71,7 @@ export const pingService = (obj, idx) => {
 
 export const submitNewService = (formObj) => {
     return (dispatch) => {
-        console.log(formObj)
+
         dispatch({
             type: ADD_SERVICE_CONFIG, payload: {
                 req: "saveConfig",

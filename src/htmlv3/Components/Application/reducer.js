@@ -45,7 +45,7 @@ export const ApplicationReducer = (state = initialState, action) => {
         case SET_STATECLOSED:
             return Object.assign({}, state, {status: 'closed'});
         case SET_AVAILABLESERVICES:
-            if(!action.payload.success){console.log(action.payload.error);
+            if(!action.payload.success){
 
                 return Object.assign({}, state, {services: {error: action.payload.error}});
             }
@@ -86,7 +86,7 @@ export const ApplicationReducer = (state = initialState, action) => {
         case START_SERVICE:
             return Object.assign({}, state, {startedservices: action.payload});
         case LOG_HISTORY_SERVICE:
-            let newMerge = state.logsHistory[action.payload.id] ? [...state.logsHistory[action.payload.id],action.payload] : [action.payload];
+            let newMerge = state.logsHistory[action.payload.id] ? [action.payload,...state.logsHistory[action.payload.id]] : [action.payload];
             return Object.assign({}, state, {logsHistory:{[action.payload.id]:newMerge}});
         case PING_SERVICERECEIVED:
             return Object.assign({},
