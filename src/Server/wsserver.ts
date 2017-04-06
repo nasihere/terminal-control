@@ -26,7 +26,7 @@ export class wsServerClass extends appCommand {
 			// an enhanced HTTP request. For more info http://tools.ietf.org/html/rfc6455#page-6
 			httpServer: this.httpserver
 		});
-		server.on('request',this.setRequestListeners)
+		server.on('request',this.setRequestListeners);
 		this.wsServer=server;
 	};
 

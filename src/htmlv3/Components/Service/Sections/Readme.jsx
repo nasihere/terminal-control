@@ -33,7 +33,7 @@ If you have any RC config available in the system. &#x60;nsa&#x60; will hook up 
 
     &#x60;&#x60;&#x60;
     $ cd ~/
-    $ vim .dev-micro-dashboardrc
+    $ vim .nodeagentsrc
 
     pathConfig = &#x22;&#x3C;Path to json config file&#x3E;&#x22;
 
