@@ -48,7 +48,7 @@ export class HttpServer extends ServerConfig{
 		}
 		let requestConfig = {
 			uri: url.parse(request.url).pathname,
-			filePath: /\.\w{2,5}$/.test(request.url) ?  'build/htmlv3/'+ request.url : 'build/htmlv3/index.html' ,
+			filePath: /\.\w{2,5}$/.test(request.url) ?  path.resolve(__dirname,'../htmlv3/'+ request.url ): path.resolve(__dirname,'../htmlv3/index.html') ,
 			get filename() {return path.join(process.cwd(), this.uri)},
 			get contentType(){return findContentType(path.extname(this.filePath))}
 		}

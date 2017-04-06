@@ -1,9 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
-node_modules/
+node_modules
 *.log
 .DS_Store
-build/
+build
 src/*.js
-src/Server/lib/*.js
-src/Server/utils/*.js
+src/Server/**/*.js
