@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Row, Col, Jumbotron, Panel} from 'react-bootstrap';
+import {Row, Col, Jumbotron, Panel, ListGroup,ListGroupItem} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {MemoryTile} from '../../Components/MemoryTile';
 import {Tabs,ReadMe} from './../../Components/Service';
@@ -22,14 +22,31 @@ class _HomeBody extends React.Component{
                     <Row>
                         <Col xs={12} md={4}>
                             <Panel header="Coming Soon">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nec rutrum enim. Integer egestas nibh eu tristique tempus. Quisque dapibus quis tortor eget mattis. Integer hendrerit eu augue vitae eleifend. Cras gravida felis vel diam sollicitudin malesuada. In hac habitasse platea dictumst. In dictum enim ultricies suscipit pretium. Curabitur erat nibh, commodo sed auctor vitae, accumsan ut sapien. In et facilisis augue. Nullam aliquet gravida imperdiet.
+                                <ListGroup>
+                                    <ListGroupItem>
+                                        Validation for Service Forms
+                                    </ListGroupItem>
+                                    <ListGroupItem>
+                                        Enable use of package.json script commands
+                                    </ListGroupItem>
+                                    <ListGroupItem>
+                                        Better Handling of the Start and Stop Services
+                                    </ListGroupItem>
+                                    <ListGroupItem>
+                                        DASHBOARD!
+                                    </ListGroupItem>
+                                </ListGroup>
                             </Panel>
                         </Col>
                         <Col xs={12} md={4}>
-                            <Panel header="Visit Github!"></Panel>
+                            <Panel header="Visit Github!">
+                                <p>Our Content is currently stored on github however it is in a private repository. When we release the code it will be referenced here</p>
+                            </Panel>
                         </Col>
                         <Col xs={12} md={4}>
-                            <Panel header="Documentation"></Panel>
+                            <Panel header="Documentation">
+
+                            </Panel>
                         </Col>
                     </Row>
                     <Row>
