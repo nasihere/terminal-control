@@ -1,6 +1,7 @@
 // http://nodejs.org/api.html#_child_processes
 import * as fs from 'fs';
 import * as os from "os";
+import * as path from 'path';
 import * as childprocess from 'child_process';
 import * as rc from "rc";
 import { stringifyHtml } from '../utils';
@@ -94,7 +95,7 @@ export class appCommand extends ServerConfig {
 		let userColor = this.colors.shift();
 		//const msg = message.cmd.split('*#*');
 		//let oscmd = platform === "win32" ? msg[ 0 ].replace(/;/g, "&") : msg[ 0 ];
-		let forkedProcess = fork("./build/Server/lib/spawnChild", [ userColor, JSON.stringify(message) ]);
+		let forkedProcess = fork(path.resolve(__dirname,"spawnChild"), [ userColor, JSON.stringify(message) ]);
 
 		let statusObj = {
 			connected: true,

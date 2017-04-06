@@ -1,5 +1,5 @@
 {
-  "compileOnSave": true,
+  "compileOnSave": false,
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
@@ -10,12 +10,18 @@
     "declaration": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "isolatedModules": true,
     "jsx": "react",
     "allowJs": true
   },
+  "include": [
+    "./src/Server",
+    "./src/index.ts",
+    "./src/bin"
+  ],
   "exclude":[
-    "node_modules",
-    "build",
+    "node_modules/",
+    "build/",
     "sandbox",
     "*.js",
     "./src/html*"

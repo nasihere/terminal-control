@@ -1,7 +1,8 @@
+.idea
 .*.swp
 ._*
 .DS_Store
-.git
+.git/
 .hg
 .npmrc
 .lock-wscript

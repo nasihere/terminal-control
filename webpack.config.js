@@ -4,7 +4,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
     entry:   {
         app:      './src/htmlv3/app.js',
-        "vendor": [
+        vendor: [
             'react',
             'react-dom'
         ]
@@ -55,8 +55,8 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('./src/htmlv3/base.css'),
-        new ExtractTextPlugin('./src/htmlv3/bootstrap.darkly.min.css'),
+        new ExtractTextPlugin('./css/base.css'),
+        new ExtractTextPlugin('./css/bootstrap.darkly.min.css'),
         new HtmlWebpackPlugin({title: 'Tree-Shaking', template: "./src/htmlv3/index.html"})
     ],
     devtool: "inline-source-map",

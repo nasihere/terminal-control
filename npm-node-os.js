@@ -4,12 +4,12 @@ let npm = require("child_process"),
     flags = {};
 
 let winCmds = {
-    copy: "robocopy src\\htmlv2 build\\htmlv2 /e",
+    //copy: "robocopy src\\htmlv2 build\\htmlv2 /e",
     clean:"rmdir build /s/q"
 };
 let linCmds = {
-    copy:"cp -R ./src/htmlv2 ./build/htmlv2;",
-    clean:"rm -rf ./build; tsc; "
+    //copy:"cp -R ./src/htmlv2 ./build/htmlv2;",
+    clean:"rm -rf ./build; "
 };
 
 let cmds = platform === "win32" ? winCmds : linCmds;
