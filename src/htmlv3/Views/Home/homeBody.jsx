@@ -3,6 +3,7 @@ import {Row, Col, Jumbotron, Panel, ListGroup,ListGroupItem} from 'react-bootstr
 import {connect} from 'react-redux';
 import {MemoryTile} from '../../Components/MemoryTile';
 import {Tabs,ReadMe} from './../../Components/Service';
+import {Project} from './../../Components/Dashboard';
 
 
 class _HomeBody extends React.Component{
@@ -11,7 +12,7 @@ class _HomeBody extends React.Component{
         let {services, memory} = this.props;
         return(
             <div>
-                <Col sm={8}>
+                <Col sm={8}  lg={12}>
                     <Row>
                         <Jumbotron>
                             <h1>Welcome!</h1>
@@ -20,7 +21,7 @@ class _HomeBody extends React.Component{
                         </Jumbotron>
                     </Row>
                     <Row>
-                        <Col xs={12} md={4}>
+                        <Col xs={12} md={4} lg={4}>
                             <Panel header="Coming Soon">
                                 <ListGroup>
                                     <ListGroupItem>
@@ -38,14 +39,14 @@ class _HomeBody extends React.Component{
                                 </ListGroup>
                             </Panel>
                         </Col>
-                        <Col xs={12} md={4}>
-                            <Panel header="Visit Github!">
-                                <p>Our Content is currently stored on github however it is in a private repository. When we release the code it will be referenced here</p>
-                            </Panel>
-                        </Col>
-                        <Col xs={12} md={4}>
-                            <Panel header="Documentation">
 
+                        <Col xs={12} md={8} lg={8}>
+                            <Project />
+
+                        </Col>
+                        <Col xs={12} md={4}  lg={4}>
+                            <Panel header="Visit Github!">
+                            <p>Our Content is currently stored on github however it is in a private repository. When we release the code it will be referenced here</p>
                             </Panel>
                         </Col>
                     </Row>

@@ -9,17 +9,22 @@ export class NavBar extends React.Component {
         modalItem: {},
         showConfigModal: false,
         submit: submitNewService,
-        type: ""
+        type: "",
+        searchLog: ''
     }
     closeConfigModal = () => {
         this.setState({modalItem: {}, showConfigModal: false})
     }
+
     openConfigModal = (item,type) => {
         this.setState({
-            modalItem: {}, submit: this.addItem
+            modalItem: {},
+            submit: this.addItem
         })
         this.setState({showConfigModal: true, type: type})
     }
+
+
     matchPath (path) {
         return this.props.location.pathname.startsWith(path) ? 'active' : ''
     }
@@ -46,13 +51,13 @@ export class NavBar extends React.Component {
                     </li>
 
                 </ul>
-                <Navbar.Form pullRight>
-                    <FormGroup>
-                        <FormControl type="text" placeholder="Search" />
-                    </FormGroup>
-                    {' '}
-
-                </Navbar.Form>
+                {/*<Navbar.Form pullRight>*/}
+                    {/*<FormGroup>*/}
+                        {/*<FormControl value={this.state.searchLog} onChange={this.handleChange} type="text" placeholder="Search" />*/}
+                    {/*</FormGroup>*/}
+                    {/*{' '}*/}
+                    {/*{this.state.searchLog}*/}
+                {/*</Navbar.Form>*/}
                 <Nav pullRight>
 
 
