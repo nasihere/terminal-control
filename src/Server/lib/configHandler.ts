@@ -8,6 +8,7 @@ export class configHandler {
 
 	constructor (config:IParseArgv) {
 		this.configSrc = config.configPath;
+		this.defaultConfig();
 	}
 
 	private writeFile = (filePath, str: string): Promise<any> => {
@@ -63,7 +64,14 @@ export class configHandler {
 				}
 			}
 		));
-	}
+	};
+	private defaultConfig = function() {
+		if (!fs.existsSync(this.configSrc)) {
+			console.log('Setting default config', this.configSrc);
+			this.writeFile(this.configSrc, '{"configService": []}');
+
+		}
+	};
 	saveConfig = function (newConfig, connection) {
 		let obj = {
 			configService: []
@@ -116,6 +124,7 @@ export class configHandler {
 			}
 		}).catch((e) => {
 			this.sendFail(e, connection, 'readConfig')
+
 		})
 	};
 	editConfig = (message, connection):void => {

@@ -50,12 +50,12 @@ export class ServiceFormModal extends React.Component {
                     break;
                 case 'new':
                     titleText=this.state.name;
-                    buttonText="SUBMIT";
-                    desc=`New Item`;
+                    buttonText="ADD";
+                    desc=`Add New Project`;
                     break;
                 case 'edit':
                     titleText=this.props.item.name;
-                    buttonText="SUBMIT";
+                    buttonText="UPDATE";
                     desc=`You are now editing ${this.props.item.name}`
             }
 
@@ -77,7 +77,7 @@ export class ServiceFormModal extends React.Component {
                                 readOnly={ReadOnly}
                                 onChange={this.handleChange}
                             />
-                            <HelpBlock className={"small"}>e.g: USER MICROSERVICE</HelpBlock>
+                            <HelpBlock className={"small"}>e.g: User App</HelpBlock>
                             <ControlLabel>PORT</ControlLabel>
                             <FormControl
                                 id="Port"
@@ -88,7 +88,7 @@ export class ServiceFormModal extends React.Component {
                                 onChange={this.handleChange}
                             />
                             <HelpBlock className={"small"}>e.g: 3080</HelpBlock>
-                            <ControlLabel>Startup Variables</ControlLabel>
+                            <ControlLabel>Startup Variables <span>*</span></ControlLabel>
                             <FormControl
                                 id="env"
                                 type="text"
@@ -97,7 +97,7 @@ export class ServiceFormModal extends React.Component {
                                 readOnly={ReadOnly}
                                 onChange={this.handleChange}
                             />
-                            <HelpBlock className={"small"}>e.g: NODE_ENV=LOCAL;NODE_ENC=AsasfdWDEW</HelpBlock>
+                            <HelpBlock className={"small"}>e.g: NODE_ENV=LOCAL;NODE_ENC=SXXX2334X22Z</HelpBlock>
                             <ControlLabel>Command to Run</ControlLabel>
                             <FormControl
                                 id="command"
@@ -119,6 +119,7 @@ export class ServiceFormModal extends React.Component {
                                 onChange={this.handleChange}
                             />
                             <HelpBlock className={"small"}>Root directory of your package (absolute)</HelpBlock>
+                            <HelpBlock className={"small"}>e.g: /user/john/jokerapp</HelpBlock>
                             <ButtonGroup>
                                 <Button onClick={this.props.close} type="button">Cancel</Button>
                                 <Button type="submit">{buttonText}</Button>

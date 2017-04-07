@@ -10,7 +10,7 @@ export class ServerConfig {
 	private defaults = {
 		port:       8125,
 		wsport:     1337,
-		configPath: "build/htmlv2/app/app-config.json"
+		configPath: "build/app-config.json"
 	}
 
 	constructor () {

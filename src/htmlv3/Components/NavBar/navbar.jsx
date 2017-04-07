@@ -61,7 +61,7 @@ export class NavBar extends React.Component {
                 <Nav pullRight>
 
 
-                    <NavItem title="Add Service To Icon" onClick={() => this.openConfigModal(null, 'new')}><Glyphicon glyph="folder-open"/> </NavItem>
+                    <NavItem title="Add Service To Icon" onClick={() => this.openConfigModal(null, 'new')}><Glyphicon glyph="folder-open"/>&nbsp; Add Project </NavItem>
                 </Nav>
                 <ServiceFormModal type={this.state.type}
                                   item={this.state.modalItem}
