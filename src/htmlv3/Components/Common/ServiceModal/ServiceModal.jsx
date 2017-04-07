@@ -38,13 +38,34 @@ export class ServiceFormModal extends React.Component {
 
     render () {
         let ReadOnly=this.props.type === 'delete';
+        let titleText="";
+        let buttonText="";
+        let desc="";
+
+            switch(this.props.type){
+                case 'delete':
+                    titleText=this.props.item.name;
+                    buttonText="DELETE";
+                    desc=`Are you sure you want to delete ${this.props.item.name}?`;
+                    break;
+                case 'new':
+                    titleText=this.state.name;
+                    buttonText="SUBMIT";
+                    desc=`New Item`;
+                    break;
+                case 'edit':
+                    titleText=this.props.item.name;
+                    buttonText="SUBMIT";
+                    desc=`You are now editing ${this.props.item.name}`
+            }
+
         return (
             <Modal show={this.props.show}>
                 <Modal.Header>
-                    <Modal.Title>{this.props.item.name}</Modal.Title>
+                    <Modal.Title>{titleText}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h4>You are now editing {this.props.item.name}</h4>
+                    <h4>{desc}</h4>
                     <Form action="" onSubmit={this.submitForm}>
                         <FormGroup id="newForm">
                             <ControlLabel>Service Name</ControlLabel>
@@ -67,7 +88,7 @@ export class ServiceFormModal extends React.Component {
                                 onChange={this.handleChange}
                             />
                             <HelpBlock className={"small"}>e.g: 3080</HelpBlock>
-                            <ControlLabel>Startup Variable</ControlLabel>
+                            <ControlLabel>Startup Variables</ControlLabel>
                             <FormControl
                                 id="env"
                                 type="text"
@@ -76,8 +97,8 @@ export class ServiceFormModal extends React.Component {
                                 readOnly={ReadOnly}
                                 onChange={this.handleChange}
                             />
-                            <HelpBlock className={"small"}>e.g: export NODE_ENV=LOCAL;</HelpBlock>
-                            <ControlLabel>Package JSON</ControlLabel>
+                            <HelpBlock className={"small"}>e.g: NODE_ENV=LOCAL;NODE_ENC=AsasfdWDEW</HelpBlock>
+                            <ControlLabel>Command to Run</ControlLabel>
                             <FormControl
                                 id="command"
                                 type="text"
@@ -88,7 +109,7 @@ export class ServiceFormModal extends React.Component {
                             />
                             <HelpBlock className={"small"}>e.g 1: npm run start:local</HelpBlock>
                             <HelpBlock className={"small"}>e.g 2: node build/proxy.js</HelpBlock>
-                            <ControlLabel>Location</ControlLabel>
+                            <ControlLabel>Project Directory</ControlLabel>
                             <FormControl
                                 id="cd"
                                 type="text"
@@ -97,10 +118,10 @@ export class ServiceFormModal extends React.Component {
                                 readOnly={ReadOnly}
                                 onChange={this.handleChange}
                             />
-                            <HelpBlock className={"small"}>root directory of your package</HelpBlock>
+                            <HelpBlock className={"small"}>Root directory of your package (absolute)</HelpBlock>
                             <ButtonGroup>
                                 <Button onClick={this.props.close} type="button">Cancel</Button>
-                                <Button type="submit">Submit</Button>
+                                <Button type="submit">{buttonText}</Button>
                             </ButtonGroup>
                         </FormGroup>
                     </Form>
