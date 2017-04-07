@@ -3,6 +3,7 @@ import {Col, Row, Alert} from 'react-bootstrap/lib';
 import {Tab, NavItem, Nav} from 'react-bootstrap/lib';
 import {Terminal} from './Terminal/Terminal.jsx';
 import {connect} from 'react-redux';
+import {StatusPanel} from './Terminal/Panel/Status.jsx';
 
 export class TabsClass extends React.Component {
 
@@ -10,8 +11,8 @@ export class TabsClass extends React.Component {
         super(props);
         this.createTabs = this.createTabs.bind(this);
         this.createTerminal = this.createTerminal.bind(this);
-    }
 
+    }
     createTabs = () => {
         const serviceObj = this.props.services.items;
         return serviceObj.map((item, index) => {
@@ -19,15 +20,17 @@ export class TabsClass extends React.Component {
                 key={'NavItem' + index}
                 eventKey={'Tabs' + index}
             >
+                <StatusPanel config={item} />
                 {item.name}
-                <span className="label label-default">(20)</span>
+               <span className="label label-default"></span>
+
             </NavItem>
         });
     };
     createTerminal = () => {
         if (this.props.services.items.length === 0) return;
         const serviceObj = this.props.services.items;
-        let memoryItem = serviceObj.filter((item) => item.connected).map((item, idx) => {
+        let memoryItaem = serviceObj.filter((item) => item.connected).map((item, idx) => {
         });
 
         return serviceObj.map((item, index) => {

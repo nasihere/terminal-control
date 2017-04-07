@@ -11,16 +11,18 @@ export class StartStopButtonsPanelClass extends React.Component {
         submit: () => {},
         type: ""
     }
+    setStatus(config) {
+        this.runVisible = (config.pid === null || config.pid === undefined) ? 'block' : 'none';
+        this.stopVisible = (config.pid === null || config.pid === undefined) ? 'none' : 'block';
+    }
     constructor(props){
         super(props);
         this.config = this.props.config;
-        this.runVisible = 'block';
-        this.stopVisible = 'none';
+        this.setStatus(this.props.config);
     }
     componentWillReceiveProps(nextProps){
         this.config = nextProps.config;
-        this.runVisible = (this.config.pid === null) ? 'block' : 'none';
-        this.stopVisible = (this.config.pid === null) ? 'none' : 'block';
+        this.setStatus(nextProps.config);
     }
     run() {
         this.props.startService(this.config)
@@ -60,8 +62,8 @@ export class StartStopButtonsPanelClass extends React.Component {
     render() {
 
         return (
-            <Panel  key="startStop-panel" header="Joker App" bsStyle="primary">
-                <ButtonGroup>
+               <div>
+                   <ButtonGroup>
                     <Button style={{'display':this.runVisible}} onClick={()=>{this.run()}} type="button" bsSize="xsmall" bsStyle="success"><Glyphicon glyph="play-circle"/>Run</Button>
                     <Button style={{'display':this.stopVisible}} onClick={()=>{this.kill()}} type="button" bsSize="xsmall" bsStyle="info"><Glyphicon glyph="stop"/>Stop</Button>
                     <Button onClick={()=>{this.restart()}} type="button" bsSize="xsmall" bsStyle="warning"><Glyphicon glyph="repeat"/>Restart</Button>
@@ -71,8 +73,9 @@ export class StartStopButtonsPanelClass extends React.Component {
                 <ServiceFormModal type={this.state.type}
                                   item={this.config}
                                   show={this.state.showConfigModal}
-                                  close={this.closeConfigModal} submit={this.state.submit}/>
-            </Panel>
+                                  close={this.closeConfigModal} submit={this.state.submit}
+                />
+               </div>
         )
     }
 
