@@ -71,3 +71,9 @@ hr {
     margin-top: 6px;
     margin-bottom: -8px;
 }
+.help-block {
+    color: darkgray;
+}
+.form-group .form-control{
+    height: 30px;
+}

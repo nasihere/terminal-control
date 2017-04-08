@@ -9,6 +9,7 @@ import * as psTree from 'ps-tree';
 import { configHandler } from './configHandler';
 import * as websocket from '@types/websocket';
 import { ServerConfig } from "./serverConfig";
+import { stat } from "fs";
 let platform = os.platform();
 let exec     = childprocess.exec,
 	userName = os.hostname(),
@@ -27,7 +28,6 @@ export class appCommand extends ServerConfig {
 		super();
 		this.configHandler = new configHandler(this.config);
 	}
-
 	public writeToHistory = (log, conn) => {
 		if ( this.skipLog.indexOf(log.text) === -1 ) {
 			this.history.push(log);
@@ -87,7 +87,11 @@ export class appCommand extends ServerConfig {
 			sendObj.type = type;
 			sendObj.data = Object.assign({}, sendObj.data, obj);
 			connection.sendUTF(JSON.stringify(sendObj))
+			for ( let i = 0; i < this.clients.length; i++ ) {
+				this.clients[ i ].sendUTF(JSON.stringify(sendObj));
+			}
 		}
+
 	}
 	serviceAction = (message, connection) => {
 		let send = this.send(message, connection)
@@ -100,8 +104,10 @@ export class appCommand extends ServerConfig {
 		let statusObj = {
 			connected: true,
 			pid:       forkedProcess.pid,
+			id: 		message.id
 
 		};
+		this.configHandler.extraConfig(statusObj);
 		send('status', statusObj);
 		forkedProcess.on('disconnect', (a) => {
 			console.log(1, a)
@@ -132,9 +138,11 @@ export class appCommand extends ServerConfig {
 			let obj = {
 				connected:   false,
 				pid:         null,
-				status_code: data
+				status_code: data,
+				id:message.id
 			};
 			send('status', obj)
+			this.configHandler.extraConfig(obj);
 		});
 		let memInterval = setInterval(() => {
 			forkedProcess.send("get_usage")

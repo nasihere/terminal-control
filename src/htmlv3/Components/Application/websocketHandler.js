@@ -40,22 +40,11 @@ export const socketConnect = (function () {
         store.dispatch({type: SET_STATECLOSED});
 
     };
-    // const onPing = (interval, store, payload) => {
-    //     const self = store;
-    //     const type = PING_RESET;
-    //     setTimeout(function(){
-    //         self.dispatch({type: type, payload: payload});
-    //         // pingService();
-    //     },interval);
-    //
-    // };
     const onMessage = (conn, store) => evt => {
 
         try {
             let response = JSON.parse(evt.data);
             let dispatchType;
-            // console.log(response.type, 'type -> websocketHandler')
-            // console.log(response.data, 'data -> websocketHandler')
             switch (response.type) {
                 case "history":
                     break;
@@ -68,8 +57,6 @@ export const socketConnect = (function () {
                     store.dispatch({type: dispatchType, payload: {status:response.data}});
                     break;
                 case "status":
-                    //console.log(response.data);
-                    //port,id,connected,pid
 
                     store.dispatch({type:SET_SERVICE_STATE,payload:response.data});
                     if(!response.data.connected){
@@ -84,7 +71,6 @@ export const socketConnect = (function () {
                 case "readConfig":
                 case "deleteConfig":
                 case "updateConfig":
-
                     dispatchType = SET_AVAILABLESERVICES;
                     store.dispatch({type: dispatchType, payload:response.data})
                     break;
@@ -95,6 +81,7 @@ export const socketConnect = (function () {
         }
         catch (e) {
             if(e instanceof EventError) {
+
                 store.dispatch({type: SET_AVAILABLESERVICESERROR, payload: {item: e.referenceObj, error: e.message}})
             }
             else{console.log(e)}
