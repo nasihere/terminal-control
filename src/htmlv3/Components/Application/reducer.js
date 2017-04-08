@@ -100,20 +100,6 @@ export const ApplicationReducer = (state = initialState, action) => {
                     )
                     }
                 });
-        // case PING_RESET:
-        //     return Object.assign({},
-        //         state,
-        //         {services:
-        //             {items:state.services.items.map( (item, idx) => {
-        //                     let portStatus = JSON.parse(action.payload);
-        //                     portStatus.ping = false;
-        //                     item.Port === portStatus.port ?
-        //                         Object.assign({}, item, {portStatus: portStatus}) :
-        //                         item
-        //                 }
-        //             )
-        //             }
-        //         });
 
         default:
             return state;

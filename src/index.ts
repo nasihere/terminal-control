@@ -1,9 +1,6 @@
 import { httpServer } from './Server/httpServer';
 import { tempwsServer } from './Server/wsserver';
 
-
-
-// console.log(port, config);
 function runService() {
 
 	httpServer.server.listen(httpServer.config.port, () => {
