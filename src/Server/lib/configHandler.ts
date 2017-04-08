@@ -67,7 +67,7 @@ export class configHandler {
 	};
 	private defaultConfig = function() {
 		if (!fs.existsSync(this.configSrc)) {
-			console.log('Default config created', this.configSrc);
+			console.info('Default config created', this.configSrc);
 			this.writeFile(this.configSrc, '{"configService": []}');
 
 		}
