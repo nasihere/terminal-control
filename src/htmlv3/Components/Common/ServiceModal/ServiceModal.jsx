@@ -13,7 +13,6 @@ import {
 
 export class ServiceFormModal extends React.Component {
     state = {}
-
     componentWillReceiveProps = (nextprops) => {
 
         this.setState({
