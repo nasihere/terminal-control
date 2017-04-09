@@ -77,16 +77,16 @@ export class ServiceFormModal extends React.Component {
                                 onChange={this.handleChange}
                             />
                             <HelpBlock className={"small"}>e.g: User App</HelpBlock>
-                            <ControlLabel>PORT</ControlLabel>
-                            <FormControl
-                                id="Port"
-                                type="text"
-                                value={this.state.Port}
-                                placeholder=""
-                                readOnly={ReadOnly}
-                                onChange={this.handleChange}
-                            />
-                            <HelpBlock className={"small"}>e.g: 3080</HelpBlock>
+                            {/*<ControlLabel>PORT</ControlLabel>*/}
+                            {/*<FormControl*/}
+                                {/*id="Port"*/}
+                                {/*type="text"*/}
+                                {/*value={this.state.Port}*/}
+                                {/*placeholder=""*/}
+                                {/*readOnly={ReadOnly}*/}
+                                {/*onChange={this.handleChange}*/}
+                            {/*/>*/}
+                            {/*<HelpBlock className={"small"}>e.g: 3080</HelpBlock>*/}
                             <ControlLabel>Startup Variables <span>*</span></ControlLabel>
                             <FormControl
                                 id="env"
@@ -117,7 +117,7 @@ export class ServiceFormModal extends React.Component {
                                 readOnly={ReadOnly}
                                 onChange={this.handleChange}
                             />
-                            <HelpBlock className={"small"}>Root directory of your package (absolute)</HelpBlock>
+                            <HelpBlock className={"small"}>Root directory of your project (absolute)</HelpBlock>
                             <HelpBlock className={"small"}>e.g: /user/john/jokerapp</HelpBlock>
                             <ButtonGroup>
                                 <Button onClick={this.props.close} type="button">Cancel</Button>
