@@ -31,7 +31,7 @@ function spawnChild(){
 		}
 	})
 	child.stdout.on('data', (data) => {
-		console.log('stdout: ' + data);
+		// console.log('stdout: ' + data);
 		let obj = {
 			time:   HMTimeNow(),
 			text:   stringifyHtml(data),
@@ -45,7 +45,7 @@ function spawnChild(){
 		//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 	});
 	child.stderr.on('data', (data)=> {
-		console.log('stderr: ' + data);
+		// console.log('stderr: ' + data);
 		let obj = {
 			time:   HMTimeNow(),
 			text:   stringifyHtml(data),
@@ -58,7 +58,7 @@ function spawnChild(){
 		//self.writeToHistory(obj, connection);
 	});
 	child.on('close', (code, signal) => {
-		console.log(`stdclose: ${signal} -> ${code}`);
+		// console.log(`stdclose: ${signal} -> ${code}`);
 
 		let obj = {
 			time:   HMTimeNow(),
