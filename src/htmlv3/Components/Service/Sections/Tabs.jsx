@@ -54,6 +54,10 @@ export class TabsClass extends React.Component {
         if (this.props.services.error) {
             return (<Alert bsStyle="danger"><pre>{JSON.stringify(this.props.services.error,null,"\t")}</pre></Alert>)
         }
+        else if (this.props.services.items.length === 0) {
+            return (<Alert bsStyle="success"><h3>Welcome to Node-Service-Agent!</h3> <i>To add new project please click 'Add New Project' on right top corner</i></Alert>)
+        }
+
         else {
             return (
                 <Tab.Container id="tabs-with-dropdown" defaultActiveKey={'Tabs0'}>
