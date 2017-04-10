@@ -1,5 +1,7 @@
-
 import * as rc from "rc";
+import * as path from 'path';
+
+
 export interface IParseArgv {
 	port: number;
 	wsport:number;
@@ -10,7 +12,7 @@ export class ServerConfig {
 	private defaults = {
 		port:       8125,
 		wsport:     1337,
-		configPath: "build/app-config.json"
+		configPath: path.resolve(__dirname,'../app-config.json' )
 	}
 
 	constructor () {
