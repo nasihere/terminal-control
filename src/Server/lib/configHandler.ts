@@ -40,7 +40,7 @@ export class configHandler {
 	private setId = (items:Array<any>) => {
 		for ( let i = 0; i < items.length; i++ ) {
 			items[ i ].id = (Math.random() * 1e32).toString(36);
-			items[i].pid = null;
+			items[ i ].pid = null;
 		}
 		return items;
 	}
