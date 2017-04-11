@@ -115,6 +115,7 @@ export class configHandler {
 					let fileData = JSON.parse(data);
 					if ( isUndefined(this.configFile) ) {
 						fileData.configService=this.setId(fileData.configService);
+
 						this.configFile = fileData
 					}
 					else {
@@ -131,6 +132,7 @@ export class configHandler {
 
 							if ( keyLength == testLength ) {
 								currentItem.id = (Math.random() * 1e32).toString(36);
+								Object.defineProperty(currentItem,'npm',{get:function(){}})
 								if (this.configFile.length) {
 									this.configFile.splice(i, 0, currentItem);
 								}
