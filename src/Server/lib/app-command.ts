@@ -59,7 +59,7 @@ export class appCommand extends ServerConfig {
 
 		});
 		child.on('error', (e) => {
-			console.log(e)
+			console.error(e)
 		});
 		child.stderr.on('close', function (data) {
 			// console.log('close: ' + data);
@@ -68,12 +68,12 @@ export class appCommand extends ServerConfig {
 	puts = (error, stdout, stderr): void => {
 		//TODO: Handle Errors More Elegantly
 		if ( error ) {
-			console.log("exec closed with error")
+			console.error("exec closed with error:",error)
 		}
 		else {
-			console.log("exec closed without error")
+			console.info("exec closed without error")
 		}
-		console.log('puts', stdout, stderr, error);
+		//console.log('puts', stdout, stderr, error);
 	};
 	send = (message, connection) => {
 		let sendObj = {
@@ -110,13 +110,13 @@ export class appCommand extends ServerConfig {
 		this.configHandler.extraConfig(statusObj);
 		send('status', statusObj);
 		forkedProcess.on('disconnect', (a) => {
-			console.log(1, a)
+			console.info(1, a)
 		});
-		forkedProcess.on('error', (a) => {
-			console.log(2, a)
+		forkedProcess.on('error', (err) => {
+			console.error(2, err)
 		});
-		forkedProcess.on('edit', (a) => {
-			console.log(3, a)
+		forkedProcess.on('edit', (_) => {
+			console.info(3, _)
 		});
 		forkedProcess.on('message', (msg) => {
 			//msg.payload.pid=forkedProcess.pid;

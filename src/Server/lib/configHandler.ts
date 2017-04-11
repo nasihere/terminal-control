@@ -1,12 +1,13 @@
 import * as fs from 'fs';
 import { isUndefined } from "util";
 import { IParseArgv } from "./serverConfig";
+import { getNpmScripts } from "./ReadFiles";
 
 export class configHandler {
 	configSrc: string;
 	configFile: any;
 
-	constructor (config:IParseArgv) {
+	constructor (config: IParseArgv) {
 		this.configSrc = config.configPath;
 		this.defaultConfig();
 	}
@@ -37,25 +38,38 @@ export class configHandler {
 			})
 		})
 	};
-	private setId = (items:Array<any>) => {
+	private setId = (items: Array<any>) => {
+		return new Promise((resolve, reject) => {
+			let newItems = items.map(item => {
+				item.id = (Math.random() * 1e32).toString(36);
+				item.pid = null;
+				return item;
+			});
+			resolve(newItems);
+		})
+
+	};
+
+	private async setNpmScripts (items: Array<any>): Promise<Array<any>> {
 		for ( let i = 0; i < items.length; i++ ) {
-			items[ i ].id = (Math.random() * 1e32).toString(36);
-			items[ i ].pid = null;
+			let npm = await getNpmScripts(items[ i ].cd)
+			items[ i ].npm = npm;
 		}
 		return items;
 	}
-	private sendFail = (e:Error, connection, type:string) => {
+
+	private sendFail = (e: Error, connection, type: string) => {
 		connection.sendUTF(JSON.stringify(
 			{
 				type: type,
 				data: {
 					success: false,
-					error: e
+					error:   e
 				}
 			}
 		));
 	}
-	private sendSuccess = (connection,type:string, data:any)=>{
+	private sendSuccess = (connection, type: string, data: any) => {
 		connection.sendUTF(JSON.stringify(
 			{
 				type: type,
@@ -66,16 +80,16 @@ export class configHandler {
 			}
 		));
 	};
-	private defaultConfig = function() {
-		if (!fs.existsSync(this.configSrc)) {
-			console.log('Default config created', this.configSrc);
+	private defaultConfig = function () {
+		if ( !fs.existsSync(this.configSrc) ) {
+			console.info('Default config created', this.configSrc);
 			this.writeFile(this.configSrc, '{"configService": []}');
 
 		}
 	};
-	extraConfig = function(statusObj) {
+	extraConfig = function (statusObj) {
 		this.configFile.configService = this.configFile.configService.map((item) => {
-			if (item.id === statusObj.id) {
+			if ( item.id === statusObj.id ) {
 				return {
 					...item,
 					...statusObj
@@ -94,10 +108,10 @@ export class configHandler {
 		if ( this.configFile ) {
 			let pushJson = Object.assign({}, newConfig.cmd, {id: (Math.random() * 1e32).toString(36)});
 			this.configFile.configService.push(pushJson);
-			this.writeFile(this.configSrc,JSON.stringify(this.configFile,null,"\t")).then(()=>{
-				this.sendSuccess(connection,'saveConfig',this.configFile)
-			}).catch((e)=>{
-				this.sendFail(e,connection,'saveConfig')
+			this.writeFile(this.configSrc, JSON.stringify(this.configFile, null, "\t")).then(() => {
+				this.sendSuccess(connection, 'saveConfig', this.configFile)
+			}).catch((e) => {
+				this.sendFail(e, connection, 'saveConfig')
 			});
 			return;
 		}
@@ -105,21 +119,28 @@ export class configHandler {
 	};
 	readConfig = (connection): void => {
 		// TODO : add validator to json strings and keys
-		if (this.configFile)
-		{
-			this.sendSuccess(connection,"readConfig",this.configFile)
+		if ( this.configFile ) {
+			this.sendSuccess(connection, "readConfig", this.configFile)
 		}
 		else {
 			this.readFile(this.configSrc).then((data) => {
 				try {
 					let fileData = JSON.parse(data);
 					if ( isUndefined(this.configFile) ) {
-						fileData.configService=this.setId(fileData.configService);
-						this.configFile = fileData
+						this.setId(fileData.configService)
+							.then(this.setNpmScripts)
+							.then((configService) => {
+								fileData.configService=configService
+								this.configFile = fileData;
+								this.sendSuccess(connection, "readConfig", this.configFile)
+							})
+							.catch((e) => {
+								console.error(e)
+							});
 					}
 					else {
 						for ( let i = 0; i < fileData.configService.length; i++ ) {
-							let currentItem=fileData.configService[i];
+							let currentItem = fileData.configService[ i ];
 							let keyLength = Object.keys(currentItem).length;
 							let testLength = 0;
 
@@ -131,13 +152,14 @@ export class configHandler {
 
 							if ( keyLength == testLength ) {
 								currentItem.id = (Math.random() * 1e32).toString(36);
-								if (this.configFile.length) {
+								if ( this.configFile.length ) {
 									this.configFile.splice(i, 0, currentItem);
 								}
 							}
 						}
+						this.sendSuccess(connection, "readConfig", this.configFile)
 					}
-					this.sendSuccess(connection,"readConfig",this.configFile)
+
 				}
 				catch ( e ) {
 					throw e
@@ -148,7 +170,7 @@ export class configHandler {
 			})
 		}
 	};
-	editConfig = (message, connection):void => {
+	editConfig = (message, connection): void => {
 		let configItem = message.cmd;
 
 		if ( this.configFile ) {
@@ -163,29 +185,30 @@ export class configHandler {
 				}
 				else {
 					return item;
-				};
+				}
+				;
 			})
 			this.configFile.configService = _items;
-			const writeJson = JSON.stringify(this.configFile,null,"\t");
-			this.writeFile(this.configSrc,writeJson).then((data)=>{
-				this.sendSuccess(connection,"updateConfig",this.configFile)
-			}).catch((e)=>{
-				this.sendFail(e,connection,'updateConfig');
+			const writeJson = JSON.stringify(this.configFile, null, "\t");
+			this.writeFile(this.configSrc, writeJson).then((data) => {
+				this.sendSuccess(connection, "updateConfig", this.configFile)
+			}).catch((e) => {
+				this.sendFail(e, connection, 'updateConfig');
 			})
 		}
-		else{
-			this.readFile(this.configSrc).then((data)=>{
+		else {
+			this.readFile(this.configSrc).then((data) => {
 				try {
 					let fileData = JSON.parse(data);
-					fileData.configService=this.setId(fileData.configService);
-					this.configFile=fileData;
-					this.sendSuccess(connection,'updateConfig',this.configFile)
+					fileData.configService = this.setId(fileData.configService);
+					this.configFile = fileData;
+					this.sendSuccess(connection, 'updateConfig', this.configFile)
 				}
-				catch(e){
+				catch ( e ) {
 					throw e
 				}
-			}).catch((e)=>{
-				this.sendFail(e,connection,'updateConfig')
+			}).catch((e) => {
+				this.sendFail(e, connection, 'updateConfig')
 			})
 		}
 	}
@@ -195,17 +218,19 @@ export class configHandler {
 			let idx = this.configFile.configService.findIndex((item, idx) => item.id === configItem.id);
 
 			if ( idx !== -1 ) {
-				this.readFile(this.configSrc).then((data)=>{
-					try{
+				this.readFile(this.configSrc).then((data) => {
+					try {
 						let fileData = JSON.parse(data)
 						fileData.configService.splice(idx, 1);
 						this.configFile = fileData
-						const writeJson = JSON.stringify(this.configFile,null,"\t");
-						this.writeFile(this.configSrc, writeJson).then(()=>{
-							this.sendSuccess(connection,'deleteConfig',this.configFile)
+						const writeJson = JSON.stringify(this.configFile, null, "\t");
+						this.writeFile(this.configSrc, writeJson).then(() => {
+							this.sendSuccess(connection, 'deleteConfig', this.configFile)
 						})
 					}
-					catch(e){this.sendFail(e,connection,'deleteConfig')}
+					catch ( e ) {
+						this.sendFail(e, connection, 'deleteConfig')
+					}
 				});
 			}
 		}
