@@ -1,27 +1,35 @@
 import * as fs from "fs";
 import * as path from "path";
 
-export module ReadFiles{
-	export function getNpmcripts(filePath){
-		let filePathStr=filePath+'package.json';
-		return new Promise((resolve,reject)=>{
-			fs.readFile(filePathStr,(err, data)=>{
-				if (err){reject(err)}
+
+export function getNpmScripts (filePath) {
+	let filePathStr = path.resolve(filePath ,'package.json');
+	return new Promise((resolve, reject) => {
+		fs.readFile(filePathStr, (err, data) => {
+			if ( err ) {
+				if ( err.code === 'ENOENT' ) {
+
+					console.info(`Package.json was not found at ${path.resolve(__dirname, filePath)} continuing...`);
+					resolve({});
+				}
 				else{
-					try{
-						let file=JSON.parse(data.toString());
-						if(file.hasOwnProperty("scripts")){
-							resolve(file.scripts);
-						}
+				reject(err)}
+			}
+			else {
+				try {
+					let file = JSON.parse(data.toString());
+					if ( file.hasOwnProperty("scripts") ) {
+						resolve(file.scripts);
 					}
-					catch(e){
-						reject(e);
+					else{
+						resolve({})
 					}
 				}
-			})
+				catch ( e ) {
+						reject(e);
+				}
+			}
 		})
-	}
+	})
 }
-ReadFiles.getNpmcripts("../../../../")
-	.then((v)=>{console.log(v)})
-	.catch((e)=>{console.log(e)})
+

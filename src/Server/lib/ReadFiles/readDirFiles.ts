@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-export  module ReadFiles {
+
 	interface IDirFilesObj {
 		[ext: string]: {
 			[filename: string]: {
@@ -42,6 +42,6 @@ export  module ReadFiles {
 					resolve(obj)
 				})
 		})
-	}
+
 }
 
