@@ -90,6 +90,8 @@ export const ApplicationReducer = (state = initialState, action) => {
         case LOG_HISTORY_SERVICE:
             let newMerge = state.logsHistory[action.payload.id] ? [action.payload,...state.logsHistory[action.payload.id]] : [action.payload];
             let logsMerge={...state.logsHistory,[action.payload.id]:newMerge};
+             if (logsMerge[action.payload.id].length > 100)
+                 logsMerge[action.payload.id]  = logsMerge[[action.payload.id]].slice(50);
             return Object.assign({...state, logsHistory:logsMerge});
         case PING_SERVICERECEIVED:
             return Object.assign({},
