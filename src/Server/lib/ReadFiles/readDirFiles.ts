@@ -26,7 +26,7 @@ import * as path from 'path';
 						(file, idx) => {
 							return extensions.indexOf(path.extname(file)) !== -1
 						})
-						.map((file) => {console.log(file)
+						.map((file) => {
 							let ext = path.extname(file);
 							let fileName = path.basename(file);
 

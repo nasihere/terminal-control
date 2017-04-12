@@ -15,7 +15,9 @@ margin-left:10px;
 /*List Reset*/
 .list-group{}
 .list-group-item{border:none;}
-
+/*.list-group > span.list-group-item {
+    padding: 0px !important;
+}*/
 
 /*txt*/
 .txt--error{color:red;}
@@ -24,9 +26,7 @@ margin-left:10px;
 body {
     font-size: 14px;
 }
-.list-group > span.list-group-item {
-    padding: 0px !important;
-}
+
 
 #logs-tab > .tab-content {
     padding: 10px;
@@ -51,6 +51,10 @@ body {
 .memory-tile__block__footer{
     margin:10px 0;
 }
+.commandlist{}
+.commandlist > div:first-child{ line-height: 30px;height: 30px;}
+.commandlist .list-group-item > div:first-child{width:50px; margin-right:10px}
+
 .alert-status {
     padding: 0px;
     margin-right: 7px;

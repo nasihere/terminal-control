@@ -10,6 +10,12 @@ import { configHandler } from './configHandler';
 import * as websocket from '@types/websocket';
 import { ServerConfig } from "./serverConfig";
 import { stat } from "fs";
+
+declare module "child_process"{
+	interface ChildProcess{
+		spawnargs:Array<any>
+	}
+}
 let platform = os.platform();
 let exec     = childprocess.exec,
 	userName = os.hostname(),
@@ -109,8 +115,8 @@ export class appCommand extends ServerConfig {
 		};
 		this.configHandler.extraConfig(statusObj);
 		send('status', statusObj);
-		forkedProcess.on('disconnect', (a) => {
-			console.info(1, a)
+		forkedProcess.on('disconnect', () => {
+			console.info(`DISCONNECT : ChildProcess, PID=${forkedProcess.pid}, SPAWNARGS=${JSON.stringify(forkedProcess.spawnargs)}`)
 		});
 		forkedProcess.on('error', (err) => {
 			console.error(2, err)

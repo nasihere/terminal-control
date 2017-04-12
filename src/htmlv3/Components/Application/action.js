@@ -21,7 +21,7 @@ export const setWebSocketState = (status) => {
         })
     }
 };
-export const startService = (obj, idx) => {
+export const startService = (obj, altCmd) => {
 
     return (dispatch) => {
 
@@ -31,7 +31,11 @@ export const startService = (obj, idx) => {
                 id:   obj.id,
                 req:  "startService",
                 port: obj.Port,
-                cmd:  {pwd: obj.cd, env: obj.env, cmd: obj.command, name: obj.name}
+                cmd:  {
+                    pwd: obj.cd,
+                    env: obj.env,
+                    cmd: altCmd || obj.command,
+                    name: obj.name}
             }
         })
     }
