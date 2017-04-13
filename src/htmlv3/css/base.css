@@ -81,3 +81,6 @@ hr {
 .form-group .form-control{
     height: 30px;
 }
+.btn-group {
+    display: inline;
+}

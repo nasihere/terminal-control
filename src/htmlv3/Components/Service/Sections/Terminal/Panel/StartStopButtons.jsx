@@ -1,5 +1,5 @@
 import React from 'react';
-import {Glyphicon, ButtonGroup, Panel, Button, ListGroup, ListGroupItem} from 'react-bootstrap/lib';
+import {DropdownButton, MenuItem, Glyphicon, ButtonGroup, Panel, Button, ListGroup, ListGroupItem} from 'react-bootstrap/lib';
 import {ServiceFormModal} from "../../../../Common/ServiceModal/ServiceModal.jsx";
 import {startService, killService, editService, deleteService} from './../../../../Application/action.js';
 import {NpmCommands} from './NpmCommands.jsx';
@@ -91,34 +91,42 @@ export class StartStopButtonsPanelClass extends React.Component {
 
             return list;
         };
+
         return (
             <div className="commandlist">
-                <div>{this.state.cmd && this.stopVisible === 'block' ? `Running -> ${this.state.cmd}` : ""}</div>
+                <div>{this.state.cmd && this.stopVisible === 'block' ? `Running: ${this.state.cmd}` : ""}</div>
                  <ButtonGroup>
+                     <div  style={{'display': this.runVisible}}>
+                         <DropdownButton
 
+                             title="Scripts"
+                             bsSize="xsmall"
+                             id="bg-nested-dropdown">
+                             <NpmCommands runVisible={this.runVisible}
+                                          run={this.run}
+                                          key={"cmdList0"}
+                                          command={this.config.command}
+                                          cmdText={"Default"}/>
+                             {getList()}
+                         </DropdownButton>
+                     </div>
+                     <Button style={{'display': this.stopVisible}} onClick={() => {
+                         this.kill()
+                     }} type="button" bsSize="xsmall" bsStyle="info"><Glyphicon glyph="stop"/>Stop</Button>
                     {/* <Button onClick={() => {
                         this.restart()
                     }} type="button" bsSize="xsmall" bsStyle="warning"><Glyphicon glyph="repeat"/>Restart</Button>
-                   */} <Button onClick={() => {
+                   */
+                    } <Button onClick={() => {
                         this.openConfigModal(this.config, "edit")
                     }} type="button" bsSize="xsmall" bsStyle="primary"><Glyphicon glyph="edit"/>Edit</Button>
                     <Button onClick={() => {
                         this.openConfigModal(this.config, "delete")
                     }} type="button" bsSize="xsmall" bsStyle="danger"><Glyphicon glyph="remove-sign"/>Remove</Button>
-                     <Button style={{'display': this.stopVisible}} onClick={() => {
-                         this.kill()
-                     }} type="button" bsSize="xsmall" bsStyle="info"><Glyphicon glyph="stop"/>Stop</Button>
+
+
 
                  </ButtonGroup>
-                <ListGroup className>
-                        <NpmCommands runVisible={this.runVisible}
-                                 run={this.run}
-                                     key={"cmdList0"}
-                                 command={this.config.command}
-                                 cmdText={"Default"}/>
-
-                        {getList()}
-                </ListGroup>
                 <ServiceFormModal type={this.state.type}
                                   item={this.config}
                                   show={this.state.showConfigModal}
