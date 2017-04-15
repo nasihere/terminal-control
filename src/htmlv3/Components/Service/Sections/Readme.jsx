@@ -66,14 +66,17 @@ EXAMPLE: RC Config parameter
 `;
 
 export class ReadMeClass extends React.Component {
-
+    constructor(props){
+        super(props);
+        console.log(props)
+    }
 
     render() {
 
         return (
             <Jumbotron>
                 <h6>Readme</h6>
-                <ReactMarkdown source={input} />
+                <ReactMarkdown source={this.props.readMe} />
 
             </Jumbotron>
         )

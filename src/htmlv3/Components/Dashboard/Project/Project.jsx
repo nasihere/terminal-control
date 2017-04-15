@@ -14,16 +14,14 @@ export class ProjectClass extends React.Component {
     createProject = () => {
         const serviceObj = this.props.services.items;
         return serviceObj.map((item, index) => {
-            return <ListGroupItem
+            return <div
                 key={'NavItem' + index}
                 eventKey={'Project' + index}
             >
-                <div>
-                    {item.name}
+                    <span>{item.name}</span>
                     <StartStopButtonsPanel config={item} />
-                    <hr />
-                </div>
-            </ListGroupItem>
+
+            </div>
 
 
         });
@@ -37,11 +35,9 @@ export class ProjectClass extends React.Component {
         }
         else {
             return (
-
-                    <ListGroup>
-                        {this.createProject()}
-                    </ListGroup>
-
+                    <div>
+                    {this.createProject()}
+                    </div>
 
 
             )

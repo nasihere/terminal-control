@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { isUndefined } from "util";
 import { IParseArgv } from "./serverConfig";
-import { getNpmScripts } from "./ReadFiles";
+import { getNpmScripts, getReadme } from "./ReadFiles";
 
 export class configHandler {
 	configSrc: string;
@@ -57,6 +57,15 @@ export class configHandler {
 		}
 		return items;
 	}
+	private async getReadMeContent (items: Array<any>): Promise<Array<any>> {
+		for ( let i = 0; i < items.length; i++ ) {
+			let readMe = await getReadme(items[ i ].cd)
+			items[ i ].readMe = readMe;
+			console.log(items[ i ]);
+		}
+		return items;
+	}
+
 
 	private sendFail = (e: Error, connection, type: string) => {
 		connection.sendUTF(JSON.stringify(
@@ -125,10 +134,12 @@ export class configHandler {
 		else {
 			this.readFile(this.configSrc).then((data) => {
 				try {
+					console.log('Reading Config from:', this.configSrc);
 					let fileData = JSON.parse(data);
 					if ( isUndefined(this.configFile) ) {
 						this.setId(fileData.configService)
 							.then(this.setNpmScripts)
+							.then(this.getReadMeContent)
 							.then((configService) => {
 								fileData.configService=configService
 								this.configFile = fileData;
