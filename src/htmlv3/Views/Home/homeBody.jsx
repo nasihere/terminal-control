@@ -50,9 +50,6 @@ class _HomeBody extends React.Component{
                             </Panel>
                         </Col>
                     </Row>
-                    <Row>
-                        <ReadMe/>
-                    </Row>
                 </Col>
             </div>
         )

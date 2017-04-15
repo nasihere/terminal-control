@@ -44,6 +44,7 @@ export class TabsClass extends React.Component {
                     config={item}
                     logs={this.props.logs[item.id]}
                     memoryId={item.id}
+                    readMe={item.readMe}
                 />
             </Tab.Pane>
         });

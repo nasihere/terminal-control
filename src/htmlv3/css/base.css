@@ -84,3 +84,9 @@ hr {
 .btn-group {
     display: inline;
 }
+.jumbotron h1 {
+    font-size: 27px;
+}
+.jumbotron h2 {
+    font-size: 18px;
+}

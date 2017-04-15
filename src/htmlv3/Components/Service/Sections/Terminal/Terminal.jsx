@@ -6,6 +6,8 @@ import {PackagePathPanel} from './Panel/PackagePath.jsx';
 import {StartStopButtonsPanel} from './Panel/StartStopButtons.jsx';
 import {MemoryPanel} from './Panel/Memory.jsx';
 import {SearchLogPanel} from './Panel/SearchLog.jsx';
+import {ReadMe} from './../ReadMe.jsx';
+
 
 import Convert from 'ansi-to-html';
 let convert=new Convert({newline:true});
@@ -60,19 +62,30 @@ export class TerminalClass extends React.Component {
                     </Col>
 
                     <Col xs={12} md={3} className="terminalPanel">
-                        <Panel  key="search-panel" header='Search' bsStyle="primary">
+                        <Col xs={4} md={12}>
                             <SearchLogPanel
-                                handleLog={this.handleLog}
-                                searchLog={this.props.searchLog} />
-                        </Panel>
-                        <EnviornmentPanel env={this.props.env}/>
-                        <PackagePathPanel package={this.props.package}/>
-                        <Panel  key="startStop-panel" header={this.props.config.name} bsStyle="primary">
-                            <StartStopButtonsPanel config={this.props.config} />
-                        </Panel>
-                        <MemoryPanel memoryId={this.props.memoryId}/>
+                            handleLog={this.handleLog}
+                            searchLog={this.props.searchLog} />
 
+                        </Col>
+                        <Col xs={4} md={12}>
+                            <EnviornmentPanel env={this.props.env}/>
+                        </Col>
+                        <Col xs={4} md={12}>
+                            <PackagePathPanel package={this.props.package}/>
+                        </Col>
+                        <Col xs={4} md={12}>
+                            <Panel  key="startStop-panel" header={this.props.config.name} bsStyle="primary">
+                                <StartStopButtonsPanel config={this.props.config} />
+                            </Panel>
+                        </Col>
+                        <Col xs={4} md={12}>
+                            <MemoryPanel memoryId={this.props.memoryId}/>
+                        </Col>
                     </Col>
+                </Row>
+                <Row>
+                    <ReadMe readMe={this.props.readMe} />
                 </Row>
 
             </div>

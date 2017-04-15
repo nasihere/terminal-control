@@ -37,7 +37,7 @@ export class appCommand extends ServerConfig {
 	public writeToHistory = (log, conn) => {
 		if ( this.skipLog.indexOf(log.text) === -1 ) {
 			this.history.push(log);
-			this.history = this.history.slice(-100);
+			this.history = this.history.slice	(-100);
 			this.broadCastMsg(log, conn);
 		}
 
@@ -70,6 +70,15 @@ export class appCommand extends ServerConfig {
 		child.stderr.on('close', function (data) {
 			// console.log('close: ' + data);
 		});
+	};
+	readme = (message, connection) => {
+		fs.readFile(message.readmePath, 'utf8', function (err,data) {
+			if (err) {
+				return console.log(err);
+			}
+			connection.sendUTF(JSON.stringify({type: 'readme', data: data}));
+		});
+
 	};
 	puts = (error, stdout, stderr): void => {
 		//TODO: Handle Errors More Elegantly
@@ -173,6 +182,9 @@ export class appCommand extends ServerConfig {
 			case "pingService":
 				this.pingPort(message, connection);
 				break;
+			case "readme":
+				this.readme(message, connection);
+				break;
 			case "killService":
 				//Stop the service
 				psTree(message.pid, (err, children) => {
@@ -200,6 +212,7 @@ export type requestTypes =
 	| 'killService'
 	| 'startService'
 	| 'editService'
+	| 'readme'
 export interface IMessageIn {
 	cmd: string;
 	req: requestTypes
