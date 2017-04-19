@@ -61,7 +61,7 @@ export class configHandler {
 		for ( let i = 0; i < items.length; i++ ) {
 			let readMe = await getReadme(items[ i ].cd)
 			items[ i ].readMe = readMe;
-			console.log(items[ i ]);
+			//console.log(items[ i ]);
 		}
 		return items;
 	}

@@ -82,7 +82,7 @@ export class StartStopButtonsPanelClass extends React.Component {
                     <NpmCommands runVisible={this.runVisible}
                                  run={this.run}
                                  key={"cmdList" + i}
-                                 command={key + ":" + this.config.npm[key]}
+                                 command={key}
                                  altCmd={this.config.npm[key]}
                                  cmdText={key}
                     />

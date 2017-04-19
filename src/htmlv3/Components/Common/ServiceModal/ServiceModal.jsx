@@ -119,13 +119,15 @@ export class ServiceFormModal extends React.Component {
                             />
                             <HelpBlock className={"small"}>Root directory of your project (absolute)</HelpBlock>
                             <HelpBlock className={"small"}>e.g: /user/john/jokerapp</HelpBlock>
-                            <ButtonGroup>
-                                <Button onClick={this.props.close} type="button">Cancel</Button>
-                                <Button type="submit">{buttonText}</Button>
-                            </ButtonGroup>
                         </FormGroup>
                     </Form>
                 </Modal.Body>
+                <Modal.Footer>
+                    <ButtonGroup>
+                        <Button bsStyle="danger" onClick={this.props.close} type="button">Cancel</Button>
+                        <Button type="submit">{buttonText}</Button>
+                    </ButtonGroup>
+                </Modal.Footer>
 
             </Modal>
         );

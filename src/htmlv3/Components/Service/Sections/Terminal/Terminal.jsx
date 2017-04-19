@@ -6,7 +6,7 @@ import {PackagePathPanel} from './Panel/PackagePath.jsx';
 import {StartStopButtonsPanel} from './Panel/StartStopButtons.jsx';
 import {MemoryPanel} from './Panel/Memory.jsx';
 import {SearchLogPanel} from './Panel/SearchLog.jsx';
-import {ReadMe} from './../ReadMe.jsx';
+import {ReadMe} from './../Readme.jsx';
 
 
 import Convert from 'ansi-to-html';
