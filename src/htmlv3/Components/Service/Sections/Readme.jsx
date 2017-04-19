@@ -68,7 +68,7 @@ EXAMPLE: RC Config parameter
 export class ReadMeClass extends React.Component {
     constructor(props){
         super(props);
-        console.log(props)
+        //console.log(props)
     }
 
     render() {
