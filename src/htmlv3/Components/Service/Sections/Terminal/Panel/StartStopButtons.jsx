@@ -102,11 +102,13 @@ export class StartStopButtonsPanelClass extends React.Component {
                              title="Scripts"
                              bsSize="xsmall"
                              id="bg-nested-dropdown">
-                             <NpmCommands runVisible={this.runVisible}
-                                          run={this.run}
-                                          key={"cmdList0"}
-                                          command={this.config.command}
-                                          cmdText={"Default"}/>
+                             <MenuItem
+                                 runVisible={this.runVisible}
+                                 key={"cmdList0"}
+                                 onClick={() => {this.run(this.config.command)}}>
+								 {"Default"}
+                             </MenuItem>
+
                              {getList()}
                          </DropdownButton>
                      </div>
