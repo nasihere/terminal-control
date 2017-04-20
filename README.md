@@ -1,5 +1,5 @@
 # NodeServicesAgent 
-Version 0.0.7
+Version 0.1.6
 
 NodeServices Agent is a terminal on browser to start/stop all the node application by one click. It has feature to view NODE Application console.logs directly on webview. Ability to search logs and append new node service application. It easy to manage all running instance in one single interface.”
 
@@ -10,40 +10,80 @@ It easy and fast for development purpose. To get all information of your apps in
 You can install this package with npm.
     
 `npm install -g nodeserviceagent`
-Then go to the terminal and type `nsa` to run the application. 
+Then go to the terminal and type `nsa` to run the application.
 
-Default port 8125. If you wish to choose own port 
-e.g 1: `nsa --port=8125`
+Cmd Line options
 
-You can also set RC config path
-e.g 2: `nsa --port=8125 --config=/user/document/project/projectconfig.json`
+    port   -> sets the port of the web application default=8125
+    config -> sets the path of the json file that will contain your settings. Defaults to internal json file
+    wsport -> sets the port of the the websocket listener if there is a conflict
+
+    e.g 1: `nsa --port=8125`
+    e.g 2: `nsa --port=8125 --config=/user/document/project/projectconfig.json`
 
 
 #### RC Config (Optional)
 ---------
 If you have any RC config available in the system. `nsa` will hook up to that config by automatically. That generally will be helpful for big organizations.
 
+Options
+    pathConfig
+    port
+    wsport
 
-    ```
+##### EXAMPLE: RC Config parameters
+---------
+Bash
+```
     $ cd ~/
-    $ vim .dev-micro-dashboardrc
+    $ vim .nodeagentsrc
 
-    pathConfig = "<Path to json config file>"
+    configPath = "/Users/myusername/myfile.json"
+    port = 3080 // optional
+    wsport = 1234 // optional
 
     hit Esc
     type :wq
     hit Enter
 
-    $ cd <your package.json path>
-    $ run 'npm run start`
-    ```
-
-run the `nsa`
-
-EXAMPLE: RC Config parameter 
----------
 
 ```
+
+Windows
+
+```
+    C:\> cd C:\Users\myusername
+    C:\> copy null > .nodeagentsrc
+    C:\> open .nodeagentsrc //otherwise open in notepad
+
+
+    configPath = "C:\Users\myusername\myfile.json"
+    port = 3080 // optional
+    wsport = 1234 // optional
+
+    Save File
+
+
+```
+
+run the `nsa` command
+
+EXAMPLE: JSON intial object parameter
+-------------------------------------
+
+To start all the as required in the json file is this.
+
+```javascript
+{
+    "configService":[]
+}
+```
+
+the application will add entries as you click on the new start button.
+
+If you so choose, add your objects yourself.
+
+```javascript
 {
     "configService":[
         {
@@ -55,4 +95,36 @@ EXAMPLE: RC Config parameter
         }
     ]
 }    
+```
+
+Bash Example
+
+```javascript
+{
+    "configService":[
+        {
+            "name": My Service,
+            "Port": 3080,
+            "env":NODE_ENV=LOCAL;NODE_ENC=ABC;
+            "command":"npm run start",
+            "cd": "/MyProjects/MyServiceProject"
+        }
+    ]
+}
+```
+
+Windows
+
+```javascript
+{
+    "configService":[
+        {
+            "name": My Service,
+            "Port": 3080,
+            "env":NODE_ENV=LOCAL;NODE_ENC=ABC;
+            "command":"npm run start",
+            "cd": "C:\\MyProjects\\MyServiceProject"
+        }
+    ]
+}
 ```
