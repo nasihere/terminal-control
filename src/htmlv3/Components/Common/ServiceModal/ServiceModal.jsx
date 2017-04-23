@@ -63,9 +63,10 @@ export class ServiceFormModal extends React.Component {
                 <Modal.Header>
                     <Modal.Title>{titleText}</Modal.Title>
                 </Modal.Header>
+                <Form action="" onSubmit={this.submitForm.bind(this)}>
                 <Modal.Body>
                     <h4>{desc}</h4>
-                    <Form action="" onSubmit={this.submitForm}>
+
                         <FormGroup id="newForm">
                             <ControlLabel>Service Name</ControlLabel>
                             <FormControl
@@ -120,7 +121,7 @@ export class ServiceFormModal extends React.Component {
                             <HelpBlock className={"small"}>Root directory of your project (absolute)</HelpBlock>
                             <HelpBlock className={"small"}>e.g: /user/john/jokerapp</HelpBlock>
                         </FormGroup>
-                    </Form>
+
                 </Modal.Body>
                 <Modal.Footer>
                     <ButtonGroup>
@@ -128,7 +129,7 @@ export class ServiceFormModal extends React.Component {
                         <Button type="submit">{buttonText}</Button>
                     </ButtonGroup>
                 </Modal.Footer>
-
+                </Form>
             </Modal>
         );
 
