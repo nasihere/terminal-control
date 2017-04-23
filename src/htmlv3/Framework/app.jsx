@@ -6,6 +6,8 @@ import {ServicesBody} from '../Views/Services';
 import {HomeBody} from '../Views/Home';
 import {NavBarInstance} from '../Components/NavBar';
 import {connectWebSocket} from '../Components/Application';
+import {ReadMe} from '../Components/Service';
+
 
 export class AppClass extends React.Component {
     state = {services: []};
@@ -18,7 +20,8 @@ export class AppClass extends React.Component {
             <div className="container-fluid">
                 <NavBarInstance />
                 <Switch>
-                    <Route path="/Services" component={ServicesBody}/>
+                    <Route path="/Services" component={ServicesBody} exact />
+                    <Route path="/Services/readme/:service" component={ReadMe} />
                     <Route path="/Home" component={HomeBody}/>
                 </Switch>
             </div>

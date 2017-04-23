@@ -6,7 +6,8 @@ import {PackagePathPanel} from './Panel/PackagePath.jsx';
 import {StartStopButtonsPanel} from './Panel/StartStopButtons.jsx';
 import {MemoryPanel} from './Panel/Memory.jsx';
 import {SearchLogPanel} from './Panel/SearchLog.jsx';
-import {ReadMe} from './../Readme.jsx';
+
+import {ConfigDashboard} from './Panel/ConfigDashboard.jsx';
 
 
 import Convert from 'ansi-to-html';
@@ -62,10 +63,16 @@ export class TerminalClass extends React.Component {
                     </Col>
 
                     <Col xs={12} md={3} className="terminalPanel">
-                        <Col xs={4} md={12}>
+
+                        <Col xs={12} md={12}>
                             <SearchLogPanel
                             handleLog={this.handleLog}
                             searchLog={this.props.searchLog} />
+
+                        </Col>
+                        <Col xs={4} md={12}>
+                            <ConfigDashboard {...this.props}/>
+
 
                         </Col>
                         <Col xs={4} md={12}>
@@ -79,13 +86,10 @@ export class TerminalClass extends React.Component {
                                 <StartStopButtonsPanel config={this.props.config} />
                             </Panel>
                         </Col>
-                        <Col xs={4} md={12}>
+                        <Col xs={8} md={12}>
                             <MemoryPanel memoryId={this.props.memoryId}/>
                         </Col>
                     </Col>
-                </Row>
-                <Row>
-                    <ReadMe readMe={this.props.readMe} />
                 </Row>
 
             </div>
