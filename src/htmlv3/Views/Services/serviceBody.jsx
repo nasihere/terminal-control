@@ -9,7 +9,7 @@ export class ServiceClass extends React.Component {
     render() {
         return (
             <div>
-                <Grid>
+                <Grid fluid>
                     <Row className="show-grid">
                         <Col xs={12} md={12}><Tabs /></Col>
                     </Row>
