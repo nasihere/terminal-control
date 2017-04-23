@@ -24,8 +24,8 @@ export class NavBar extends React.Component {
         this.setState({showConfigModal: true, type: type})
     }
 
-
     matchPath (path) {
+
         return this.props.location.pathname.startsWith(path) ? 'active' : ''
     }
     addItem = (formItem) =>{
@@ -40,13 +40,14 @@ export class NavBar extends React.Component {
                         <a href="#">Node Services</a>
                     </Navbar.Brand>
                 </Navbar.Header>
+
                 <ul className="nav navbar-nav">
-                    <li className={this.matchPath("/Home")}>
-                        <NavLink to="/Home" activeClassName={"active"}>Home</NavLink>
+                    <li className={this.matchPath("/Home")} >
+                        <NavLink to="/Home"  >Home</NavLink>
                     </li>
                     <li className={this.matchPath("/Services")}>
                         <NavLink to="/Services"
-                                 activeClassName={"active"}>Services
+                                 >Services
                         </NavLink>
                     </li>
 

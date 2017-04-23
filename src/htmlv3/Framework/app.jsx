@@ -18,7 +18,7 @@ export class AppClass extends React.Component {
     render () {
         return (
             <div className="container-fluid">
-                <NavBarInstance />
+                <NavBarInstance {...this.props} />
                 <Switch>
                     <Route path="/Services" component={ServicesBody} exact />
                     <Route path="/Services/readme/:service" component={ReadMe} />
