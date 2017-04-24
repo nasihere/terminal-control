@@ -5,7 +5,7 @@ export const NpmCommands = (props) => {
 
     return (
         <MenuItem
-            onClick={() => {props.run('npm run ' +props.command, props.altCmd)}}>
+            onSelect={(k,e) => {props.run('npm run ' +props.command)}}>
             {props.cmdText}
         </MenuItem>
     )
