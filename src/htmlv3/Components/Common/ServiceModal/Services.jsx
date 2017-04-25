@@ -24,7 +24,7 @@ export class Services extends React.Component {
         this.props.submitNewService(formItem);
         this.closeConfigModal();
     }
-    editItem = (newItem) => {console.log(12431)
+    editItem = (newItem) => {
         this.props.editService(newItem);
         this.closeConfigModal()
     }

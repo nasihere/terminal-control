@@ -4,6 +4,7 @@ import {Tab, NavItem, Nav} from 'react-bootstrap/lib';
 import {Terminal} from './Terminal/Terminal.jsx';
 import {connect} from 'react-redux';
 import {StatusPanel} from './Terminal/Panel/Status.jsx';
+import {Get_IsWorkingTree} from '../../../Actions/Git';
 
 export class TabsClass extends React.Component {
 
@@ -20,7 +21,7 @@ export class TabsClass extends React.Component {
                 key={'NavItem' + index}
                 eventKey={'Tabs' + index}
             >
-                <StatusPanel config={item} />
+                <StatusPanel config={item}  />
                 {item.name}
                <span className="label label-default"></span>
 
@@ -30,7 +31,7 @@ export class TabsClass extends React.Component {
     createTerminal = () => {
         if (this.props.services.items.length === 0) return;
         const serviceObj = this.props.services.items;
-        let memoryItaem = serviceObj.filter((item) => item.connected).map((item, idx) => {
+        let memoryItem = serviceObj.filter((item) => item.connected).map((item, idx) => {
         });
 
         return serviceObj.map((item, index) => {
@@ -45,6 +46,8 @@ export class TabsClass extends React.Component {
                     logs={this.props.logs[item.id]}
                     memoryId={item.id}
                     readMe={item.readMe}
+                    Get_IsWorkingTree={this.props.Get_IsWorkingTree}
+                    git={this.props.git}
                 />
             </Tab.Pane>
         });
@@ -84,7 +87,8 @@ export class TabsClass extends React.Component {
 let mapStateToProps = (state) => {
     return {
         services: state.websocket.services,
-        logs:     state.websocket.logsHistory
+        logs:     state.websocket.logsHistory,
+        git: state.git
     }
 }
-export const Tabs = connect(mapStateToProps)(TabsClass);
+export const Tabs = connect(mapStateToProps, {Get_IsWorkingTree})(TabsClass);

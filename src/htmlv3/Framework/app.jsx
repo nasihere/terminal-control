@@ -20,9 +20,10 @@ export class AppClass extends React.Component {
             <div className="container-fluid">
                 <NavBarInstance {...this.props} />
                 <Switch>
+                    <Route path="/Home" component={HomeBody}/>
                     <Route path="/Services" component={ServicesBody} exact />
                     <Route path="/Services/readme/:service" component={ReadMe} />
-                    <Route path="/Home" component={HomeBody}/>
+                    <Route path="/Services/git/:service" component={ReadMe} />
                 </Switch>
             </div>
         );

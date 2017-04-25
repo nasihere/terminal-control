@@ -1,11 +1,11 @@
 import * as React from 'react';
-import {removeByKey} from '../../Utils'
+import {removeByKey} from '../Utils/index'
 import {
     SET_MEMORY_USAGE,
     CLEAR_MEMORY_USAGE
-} from './dispatchTypes';
+} from '../Components/Application/dispatchTypes';
 
-export const MemoryReducer = (state = {}, action) => {
+export const Reducer_Memory = (state = {}, action) => {
     let id;
     switch (action.type) {
         case SET_MEMORY_USAGE:

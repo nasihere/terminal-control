@@ -17,6 +17,11 @@ import {
     SET_MEMORY_USAGE,
     CLEAR_MEMORY_USAGE
 } from './dispatchTypes';
+import {
+	GIT_GET_ISWORKINGTREE,
+	GIT_SET_ISWORKINGTREE
+} from '../../Actions/ActionTypes';
+
 
 class EventError extends Error{
     referenceObj;
@@ -34,6 +39,8 @@ export const socketConnect = (function () {
         store.dispatch({type: SET_STATEOPEN});
         let cmdObj=JSON.stringify({req:"getConfigFile"})
         connection.send(cmdObj);
+
+
     }
     const onClose = (connection, store) => evt => {
         connection.close();
@@ -57,7 +64,6 @@ export const socketConnect = (function () {
                     store.dispatch({type: dispatchType, payload: {status:response.data}});
                     break;
                 case "status":
-
                     store.dispatch({type:SET_SERVICE_STATE,payload:response.data});
                     if(!response.data.connected){
                         store.dispatch({type:CLEAR_MEMORY_USAGE,payload:response.data});
@@ -65,14 +71,17 @@ export const socketConnect = (function () {
                     break;
                 case 'memory_usage':
                     //console.log(response.data);
-                    store.dispatch({type: SET_MEMORY_USAGE, payload: response.data})
+                    store.dispatch({type: SET_MEMORY_USAGE, payload: response.data});
+                    break;
+                case 'git':
+                    store.dispatch({type:GIT_SET_ISWORKINGTREE, payload:response.payload});
                     break;
                 case "saveConfig":
                 case "readConfig":
                 case "deleteConfig":
                 case "updateConfig":
                     dispatchType = SET_AVAILABLESERVICES;
-                    store.dispatch({type: dispatchType, payload:response.data})
+                    store.dispatch({type: dispatchType, payload:response.data});
                     break;
                 default:
                     throw new EventError(response.data,"Invalid Dispatch Type")
@@ -105,6 +114,8 @@ export const socketConnect = (function () {
             case ADD_SERVICE_CONFIG:
             case DELETE_SERVICE_CONFIG:
             case EDIT_SERVICE_CONFIG:
+            case GIT_GET_ISWORKINGTREE:
+
                 //console.log(action.type,payload)
                 //console.log(action.payload, `store ${action.type} -> webSockethandler.js`)
                 connection.send(payload);

@@ -66,7 +66,6 @@ export class configHandler {
 		return items;
 	}
 
-
 	private sendFail = (e: Error, connection, type: string) => {
 		connection.sendUTF(JSON.stringify(
 			{
