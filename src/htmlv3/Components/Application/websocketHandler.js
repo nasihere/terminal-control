@@ -19,7 +19,10 @@ import {
 } from './dispatchTypes';
 import {
 	GIT_GET_ISWORKINGTREE,
-	GIT_SET_ISWORKINGTREE
+	GIT_SET_ISWORKINGTREE,
+    GIT_GET_BRANCHES,
+    GIT_SET_BRANCHES
+
 } from '../../Actions/ActionTypes';
 
 
@@ -115,9 +118,7 @@ export const socketConnect = (function () {
             case DELETE_SERVICE_CONFIG:
             case EDIT_SERVICE_CONFIG:
             case GIT_GET_ISWORKINGTREE:
-
-                //console.log(action.type,payload)
-                //console.log(action.payload, `store ${action.type} -> webSockethandler.js`)
+            case GIT_GET_BRANCHES:
                 connection.send(payload);
                 break;
             default:

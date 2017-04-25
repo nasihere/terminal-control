@@ -202,7 +202,7 @@ export class appCommand extends ServerConfig {
 				this.serviceAction(message, connection);
 				break;
 			case "git":
-				Git.getIsWorkingTree(message, connection);
+				Git.handler(message, connection);
 				break;
 		}
 	}
@@ -219,7 +219,8 @@ export type requestTypes =
 	| 'readme'
 	| 'git'
 export type GitRequestTypes=
-	'IsWorkingTree'
+	'IsWorkingTree' |
+	'getBranches'
 export interface IMessageIn {
 	cmd: string;
 	req: requestTypes

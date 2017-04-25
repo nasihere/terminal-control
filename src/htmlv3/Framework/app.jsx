@@ -7,6 +7,7 @@ import {HomeBody} from '../Views/Home';
 import {NavBarInstance} from '../Components/NavBar';
 import {connectWebSocket} from '../Components/Application';
 import {ReadMe} from '../Components/Service';
+import {GitBody} from '../Components/Service/Sections/Git/body.jsx';
 
 
 export class AppClass extends React.Component {
@@ -23,7 +24,7 @@ export class AppClass extends React.Component {
                     <Route path="/Home" component={HomeBody}/>
                     <Route path="/Services" component={ServicesBody} exact />
                     <Route path="/Services/readme/:service" component={ReadMe} />
-                    <Route path="/Services/git/:service" component={ReadMe} />
+                    <Route path="/Services/github/:service" component={GitBody} />
                 </Switch>
             </div>
         );
