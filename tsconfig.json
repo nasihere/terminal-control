@@ -23,6 +23,7 @@
     "node_modules/",
     "build/",
     "sandbox",
+    "**/*.js",
     "*.js",
     "./src/html*"
   ]

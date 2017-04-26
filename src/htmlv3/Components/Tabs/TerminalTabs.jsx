@@ -9,7 +9,6 @@ export class TerminalTabs extends React.Component {
     }
     createTabs() {
         return this.props.services.items.map((item, i) => {
-
             const logsHistory = this.getLogHistory().filter((x)=> {return (x.status.author === item.name)});
             if(item.connected) {
                 return <Tab key={('logs_tab#' + (i + 1)).toString()} eventKey={i + 1} title={item.name}>
@@ -25,8 +24,7 @@ export class TerminalTabs extends React.Component {
                                 }
                             </div>
                         </div>
-
-                </Tab>
+                        </Tab>
             }
         })
     }

@@ -3,7 +3,7 @@ import {Glyphicon, Navbar, Nav, NavItem, FormGroup, FormControl, Button} from 'r
 import {connect} from 'react-redux';
 import {NavLink, withRouter} from 'react-router-dom';
 import {ServiceFormModal} from "../Common/ServiceModal/ServiceModal.jsx";
-import {submitNewService} from '../Application';
+import {submitNewService} from '../../Actions/service_actions.js';
 export class NavBar extends React.Component {
     state = {
         modalItem: {},
@@ -24,8 +24,8 @@ export class NavBar extends React.Component {
         this.setState({showConfigModal: true, type: type})
     }
 
-
     matchPath (path) {
+
         return this.props.location.pathname.startsWith(path) ? 'active' : ''
     }
     addItem = (formItem) =>{
@@ -40,13 +40,14 @@ export class NavBar extends React.Component {
                         <a href="#">Node Services</a>
                     </Navbar.Brand>
                 </Navbar.Header>
+
                 <ul className="nav navbar-nav">
-                    <li className={this.matchPath("/Home")}>
-                        <NavLink to="/Home" activeClassName={"active"}>Home</NavLink>
+                    <li className={this.matchPath("/Home")} >
+                        <NavLink to="/Home"  >Home</NavLink>
                     </li>
                     <li className={this.matchPath("/Services")}>
                         <NavLink to="/Services"
-                                 activeClassName={"active"}>Services
+                                 >Services
                         </NavLink>
                     </li>
 

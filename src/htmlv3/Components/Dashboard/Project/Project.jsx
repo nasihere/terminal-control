@@ -16,7 +16,7 @@ export class ProjectClass extends React.Component {
         return serviceObj.map((item, index) => {
             return <div
                 key={'NavItem' + index}
-                eventKey={'Project' + index}
+                data-eventKey={'Project' + index}
             >
                     <span>{item.name}</span>
                     <StartStopButtonsPanel config={item} />

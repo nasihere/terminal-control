@@ -4,7 +4,7 @@ import {Glyphicon, ButtonGroup,ListGroup, ListGroupItem, Tooltip, OverlayTrigger
 import {Table} from 'react-bootstrap/lib';
 import {connect} from 'react-redux';
 import {ReduxLog} from './ReduxTestLogs.jsx';
-import {startService,killService, deleteService} from '../Components/Application/action.js';
+import {startService,killService, deleteService} from '../Actions/service_actions.js';
 
 export class ReduxTestClass extends React.Component {
     constructor(props){

@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware, compose} from 'redux';
 import {RootReducer} from './RootReducers.js';
 import Thunk from 'redux-thunk';
-import {socketConnect} from './Components/Application/websocketHandler.js'
+import {socketConnect} from './Middleware/websocket_handler.js'
 import styles from "./css/bootstrap.darkly.min.css";
 import base from "./css/base.css";
 

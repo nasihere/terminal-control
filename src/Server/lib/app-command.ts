@@ -9,6 +9,7 @@ import * as psTree from 'ps-tree';
 import { configHandler } from './configHandler';
 import * as websocket from '@types/websocket';
 import { ServerConfig } from "./serverConfig";
+import {Git} from './Git'
 import { stat } from "fs";
 
 declare module "child_process"{
@@ -200,6 +201,9 @@ export class appCommand extends ServerConfig {
 			case "startService":
 				this.serviceAction(message, connection);
 				break;
+			case "git":
+				Git.handler(message, connection);
+				break;
 		}
 	}
 }
@@ -213,10 +217,15 @@ export type requestTypes =
 	| 'startService'
 	| 'editService'
 	| 'readme'
+	| 'git'
+export type GitRequestTypes=
+	'IsWorkingTree' |
+	'getBranches'
 export interface IMessageIn {
 	cmd: string;
 	req: requestTypes
 	id: string;
 	pid?: number
+	gitreq: GitRequestTypes
 }
 

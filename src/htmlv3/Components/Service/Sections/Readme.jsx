@@ -1,11 +1,10 @@
 import React from 'react';
-import {Col, Row, Grid, Panel, PanelGroup} from 'react-bootstrap/lib';
-import {Glyphicon, ButtonGroup,ListGroup, ListGroupItem, Tooltip, OverlayTrigger, Well, Jumbotron, Button, Tab, Navbar, NavItem, Nav, MenuItem, NavDropdown} from 'react-bootstrap/lib';
-import {Table} from 'react-bootstrap/lib';
+import {connect} from 'react-redux';
+import {Jumbotron,Glyphicon} from 'react-bootstrap';
 
 
-var ReactMarkdown = require('react-markdown');
-var input = `# NodeServicesAgent 
+let ReactMarkdown = require('react-markdown');
+let input = `# NodeServicesAgent 
 Version 0.0.7
 
 NodeServices Agent is a terminal on browser to start/stop all the node application by one click. It has feature to view NODE Application console.logs directly on webview. Ability to search logs and append new node service application. It easy to manage all running instance in one single interface.&#x201D;
@@ -66,22 +65,45 @@ EXAMPLE: RC Config parameter
 `;
 
 export class ReadMeClass extends React.Component {
-    constructor(props){
-        super(props);
-        //console.log(props)
-    }
 
+    state={
+        serviceId:this.props.match.params.service,
+        readMe:"No README.md"
+    };
+    constructor (props){
+        super(props)
+    }
+    _goBack=()=>{
+        this.props.history.goBack()
+    }
+    componentWillMount(){
+        let service=this.props.services.filter((item)=>item.id === this.state.serviceId);
+        if(!service[0]){
+            console.error(`This uri:${this.props.location.pathname} cannot be directly referenced`);
+            this.props.history.push("/Home");
+        }
+        else {
+			this.setState({readMe: service[0].readMe})
+		}
+    }
     render() {
 
         return (
+            <div>
+                <div><Glyphicon glyph="arrow-left" onClick={this._goBack}/></div>
             <Jumbotron>
-                <h6>Readme</h6>
-                <ReactMarkdown source={this.props.readMe} />
-
+                <h2>Readme</h2>
+                <ReactMarkdown source={this.state.readMe} />
             </Jumbotron>
+            </div>
         )
     }
 
 }
+let MapStateToProps = (state) =>{
+    return {
+        services:state.websocket.services.items
+    }
+}
 
-export const ReadMe = ReadMeClass;
+export const ReadMe = connect(MapStateToProps)(ReadMeClass);

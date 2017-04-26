@@ -1,14 +1,14 @@
 import * as React from 'react';
-import {removeByKey} from '../../Utils'
+import {removeByKey} from '../Utils'
 import {
-    SET_MEMORY_USAGE,
-    CLEAR_MEMORY_USAGE
-} from './dispatchTypes';
+    MEMORY_SET_USAGE,
+    MEMORY_CLEAR_USAGE
+} from '../Actions/service_actions.js';
 
-export const MemoryReducer = (state = {}, action) => {
+export const Reducer_Memory = (state = {}, action) => {
     let id;
     switch (action.type) {
-        case SET_MEMORY_USAGE:
+        case MEMORY_SET_USAGE:
             id = action.payload.id;
 
             let newObj = {};
@@ -38,7 +38,7 @@ export const MemoryReducer = (state = {}, action) => {
             }
             return Object.assign({}, state, newObj);
             break;
-        case CLEAR_MEMORY_USAGE:
+        case MEMORY_CLEAR_USAGE:
             id = action.payload.id;
             let newState=removeByKey(state,id);
                 newState=removeByKey(newState,id+"_chart");
