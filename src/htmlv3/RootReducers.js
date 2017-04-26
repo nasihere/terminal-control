@@ -1,6 +1,6 @@
 import React from 'react';
 import {combineReducers} from 'redux';
-import {ApplicationReducer} from './Components/Application/reducer'
+import {ApplicationReducer} from './Reducers/reducer'
 import {Reducer_Memory} from './Reducers/memory';
 import {Reducer_Git} from './Reducers/git';
 

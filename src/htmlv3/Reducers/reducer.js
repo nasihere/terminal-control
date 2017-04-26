@@ -9,7 +9,9 @@ import {
 	SERVICE_START,
 	SERVICE_PING_RECEIVED,
     SERVICE_LOG_HISTORY
-} from '../../Actions/ActionTypes';
+} from '../Actions/ActionTypes/index';
+import {mergeSingleObj} from '../Utils';
+import {parseAvailableServices} from'./Helpers/parseAvailableServices.js'
 
 let initialState = {
     status:     'closed',
@@ -23,20 +25,13 @@ let initialState = {
     },
     logsHistory: {}
 }
-function mergeSingleObject(arr,obj,compKey){
-    return arr.map((item)=>{
-        if(item[compKey]===obj[compKey]){
-            return Object.assign({},item,obj)
-        }
-        else {return item}
-    })
-}
+
 export const ApplicationReducer = (state = initialState, action) => {
     //console.log(action.payload, action.type, 'ApplicationReducer()');
     let newItems;
     switch (action.type) {
         case SERVICE_SET_SERVICE_STATE:
-            newItems=mergeSingleObject(state.services.items,action.payload,'id');
+            newItems=mergeSingleObj(state.services.items,action.payload,'id');
             return Object.assign({}, state, {services:{items:newItems}});
             break;
         case SERVICE_SET_STATEOPEN:
@@ -44,36 +39,7 @@ export const ApplicationReducer = (state = initialState, action) => {
         case SERVICE_SET_STATECLOSED:
             return Object.assign({}, state, {status: 'closed'});
         case SERVICES_SET_AVAILABLE:
-            if(!action.payload.success){
-                return Object.assign({}, state, {services: {error: action.payload.error}});
-            }
-            if(state.services && state.services.items){
-                let items=action.payload.config.configService;
-                if(state.services.items.length > items.length){
-                    let filterItems=items.map((item,idx)=>
-                                        state.services.items.find((serviceItem)=> item.id === serviceItem.id ));
-                    newItems=filterItems;
-                }
-                else if(state.services.items.length < items.length) {
-                    let filterItems = items
-                        .filter((item, idx) => !state.services.items[idx] || item.id !== state.services.items[idx].id)
-                        .map((item, idx) => item)
-
-                    newItems = [...state.services.items, ...filterItems];
-
-
-                }
-                else{
-                    let filterItems = items.map((item, idx) => Object.assign({},state.services.items[idx],item))
-                    newItems=filterItems
-                }
-            }
-            else{
-                newItems=action.payload;
-
-            }
-
-            return Object.assign({}, state, {services: {items: newItems}});
+            return parseAvailableServices(state,action)
         case SERVICES_SET_AVAILABLEERROR:
             let items=state.services.items.map((item)=>{
                 if(item.id===action.payload.item.id){

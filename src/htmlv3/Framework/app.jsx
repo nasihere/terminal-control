@@ -5,7 +5,7 @@ import {Route, Switch} from 'react-router-dom';
 import {ServicesBody} from '../Views/Services';
 import {HomeBody} from '../Views/Home';
 import {NavBarInstance} from '../Components/NavBar';
-import {connectWebSocket} from '../Components/Application';
+import {connectWebSocket} from '../Actions/service_actions.js';
 import {ReadMe} from '../Components/Service';
 import {GitBody} from '../Components/Service/Sections/Git/body.jsx';
 

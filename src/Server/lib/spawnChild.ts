@@ -1,6 +1,6 @@
 import * as cp from 'child_process';
 import { stringifyHtml, HMTimeNow } from '../utils';
-import { splitVars } from "../utils/splitVars";
+import { splitVars } from "../Utils/splitVars";
 
 export interface IUsage extends NodeJS.MemoryUsage{
 	timeRunning?:number;

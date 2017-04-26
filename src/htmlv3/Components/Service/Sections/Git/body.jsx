@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Col, Panel, PanelGroup} from 'react-bootstrap';
-import { Get_Branches} from '../../../../Actions/Git';
+import { Get_Branches} from '../../../../Actions/git_actions';
 import Convert from 'ansi-to-html';
 let convert=new Convert({newline:true});
 

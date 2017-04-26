@@ -4,7 +4,7 @@ import {Tab, NavItem, Nav} from 'react-bootstrap/lib';
 import {Terminal} from './Terminal/Terminal.jsx';
 import {connect} from 'react-redux';
 import {StatusPanel} from './Terminal/Panel/Status.jsx';
-import {Get_IsWorkingTree} from '../../../Actions/Git';
+import {Get_IsWorkingTree} from '../../../Actions/git_actions';
 
 export class TabsClass extends React.Component {
 

@@ -3,7 +3,7 @@ import {Glyphicon, Navbar, Nav, NavItem, FormGroup, FormControl, Button} from 'r
 import {connect} from 'react-redux';
 import {NavLink, withRouter} from 'react-router-dom';
 import {ServiceFormModal} from "../Common/ServiceModal/ServiceModal.jsx";
-import {submitNewService} from '../Application';
+import {submitNewService} from '../../Actions/service_actions.js';
 export class NavBar extends React.Component {
     state = {
         modalItem: {},

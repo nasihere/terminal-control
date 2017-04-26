@@ -1,5 +1,5 @@
 import * as cp from 'child_process';
-import { stringifyHtml, HMTimeNow } from '../../utils';
+import { stringifyHtml, HMTimeNow } from '../../Utils';
 
 class GitRequest {
 	message;

@@ -10,7 +10,7 @@ import {
 	ListGroupItem
 } from 'react-bootstrap/lib';
 import {ServiceFormModal} from "../../../../Common/ServiceModal/ServiceModal.jsx";
-import {startService, killService, editService, deleteService} from './../../../../Application/action.js';
+import {startService, killService, editService, deleteService} from './../../../../../Actions/service_actions.js';
 import {NpmCommands} from './NpmCommands.jsx';
 import {connect} from 'react-redux';
 
