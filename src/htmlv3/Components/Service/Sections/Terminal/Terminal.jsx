@@ -1,7 +1,7 @@
 import React from 'react';
 import {Col, Row, Panel} from 'react-bootstrap/lib';
 import {Well, Alert} from 'react-bootstrap/lib';
-import {EnviornmentPanel} from './Panel/Enviornment.jsx';
+import {EnviornmentPanel} from './Panel/Environment.jsx';
 import {PackagePathPanel} from './Panel/PackagePath.jsx';
 import {StartStopButtonsPanel} from './Panel/StartStopButtons.jsx';
 import {MemoryPanel} from './Panel/Memory.jsx';

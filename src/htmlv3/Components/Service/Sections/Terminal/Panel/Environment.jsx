@@ -2,7 +2,7 @@ import React from 'react';
 import {Panel} from 'react-bootstrap/lib';
 
 
-export class EnviornmentPanelClass extends React.Component {
+export class EnvironmentPanelClass extends React.Component {
 
     constructor(props){
         super(props);
@@ -26,4 +26,4 @@ export class EnviornmentPanelClass extends React.Component {
 
 }
 
-export const EnviornmentPanel = EnviornmentPanelClass;
+export const EnviornmentPanel = EnvironmentPanelClass;

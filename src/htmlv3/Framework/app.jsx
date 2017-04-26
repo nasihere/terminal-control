@@ -7,11 +7,11 @@ import {HomeBody} from '../Views/Home';
 import {NavBarInstance} from '../Components/NavBar';
 import {connectWebSocket} from '../Actions/service_actions.js';
 import {ReadMe} from '../Components/Service';
-import {GitBody} from '../Components/Service/Sections/Git/body.jsx';
+import {BranchesSimple} from '../Components/Git/branches_simple.jsx';
 
 
 export class AppClass extends React.Component {
-    state = {services: []};
+
 
     componentDidMount () {
         this.props.connectWebSocket()
@@ -24,7 +24,7 @@ export class AppClass extends React.Component {
                     <Route path="/Home" component={HomeBody}/>
                     <Route path="/Services" component={ServicesBody} exact />
                     <Route path="/Services/readme/:service" component={ReadMe} />
-                    <Route path="/Services/github/:service" component={GitBody} />
+                    <Route path="/Services/github/:service" component={BranchesSimple} />
                 </Switch>
             </div>
         );

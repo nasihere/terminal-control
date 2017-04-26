@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Col, Panel, PanelGroup} from 'react-bootstrap';
-import { Get_Branches} from '../../../../Actions/git_actions';
+import { Get_Branches} from '../../Actions/git_actions';
 import Convert from 'ansi-to-html';
 let convert=new Convert({newline:true});
 
 
-export class GitBodyClass extends React.Component{
+export class BranchesSimpleClass extends React.Component{
 	state={
 		serviceId:this.props.match.params.service,
 		activeKey:1
@@ -20,7 +20,6 @@ export class GitBodyClass extends React.Component{
 		else {
 			this.props.Get_Branches(service[0])
 		}
-
 	}
 
 	handleSelect=(activeKey)=>{
@@ -54,4 +53,4 @@ let MapStateToProps = (state) =>{
 	}
 }
 
-export const GitBody = connect(MapStateToProps,{Get_Branches})(GitBodyClass);
+export const BranchesSimple = connect(MapStateToProps,{Get_Branches})(BranchesSimpleClass);

@@ -9,7 +9,6 @@ import {Project} from './../../Components/Dashboard';
 class _HomeBody extends React.Component{
 
     render(){
-        let {services, memory} = this.props;
         return(
             <div>
                 <Col sm={8}  lg={12}>
@@ -66,20 +65,4 @@ let mapStateToProp = (state) => {
 
 export let HomeBody = connect(mapStateToProp)(_HomeBody);
 
-
-
-export let MTiles = (props) => {
-    let {services,memory} = props;
-    let items = services.filter((item)=>item.connected).map((item, idx)=>{
-
-        if(memory.hasOwnProperty(item.id)){
-            return <MemoryTile key={"memtile#"+idx} title={item.name} values={props.memory[item.id]} chartValues={props.memory[item.id+"_chart"]}/>}
-    })
-    return (
-        <div>
-            {items}
-        </div>
-    )
-
-}
 
