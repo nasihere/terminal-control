@@ -1,16 +1,15 @@
 import React from 'react';
 import {
-    CONNECT_WEBSOCKET,
-    SET_AVAILABLESERVICES,
-    SET_AVAILABLESERVICESERROR,
-    SET_STATECLOSED,
-    SET_STATEOPEN,
-    SET_SERVICE_STATE,
-    START_SERVICE,
-    PING_SERVICERECEIVED,
-    LOG_HISTORY_SERVICE
-
-} from './dispatchTypes';
+	WEBSOCKET_CONNECT,
+	SERVICES_SET_AVAILABLE,
+	SERVICES_SET_AVAILABLEERROR,
+	SERVICE_SET_STATECLOSED,
+	SERVICE_SET_STATEOPEN,
+	SERVICE_SET_SERVICE_STATE,
+	SERVICE_START,
+	SERVICE_PING_RECEIVED,
+    SERVICE_LOG_HISTORY
+} from '../../Actions/ActionTypes';
 
 let initialState = {
     status:     'closed',
@@ -36,17 +35,16 @@ export const ApplicationReducer = (state = initialState, action) => {
     //console.log(action.payload, action.type, 'ApplicationReducer()');
     let newItems;
     switch (action.type) {
-        case SET_SERVICE_STATE:
+        case SERVICE_SET_SERVICE_STATE:
             newItems=mergeSingleObject(state.services.items,action.payload,'id');
             return Object.assign({}, state, {services:{items:newItems}});
             break;
-        case SET_STATEOPEN:
+        case SERVICE_SET_STATEOPEN:
             return Object.assign({}, state, {status: 'open'});
-        case SET_STATECLOSED:
+        case SERVICE_SET_STATECLOSED:
             return Object.assign({}, state, {status: 'closed'});
-        case SET_AVAILABLESERVICES:
+        case SERVICES_SET_AVAILABLE:
             if(!action.payload.success){
-
                 return Object.assign({}, state, {services: {error: action.payload.error}});
             }
             if(state.services && state.services.items){
@@ -76,7 +74,7 @@ export const ApplicationReducer = (state = initialState, action) => {
             }
 
             return Object.assign({}, state, {services: {items: newItems}});
-        case SET_AVAILABLESERVICESERROR:
+        case SERVICES_SET_AVAILABLEERROR:
             let items=state.services.items.map((item)=>{
                 if(item.id===action.payload.item.id){
                     item.error=action.payload.error;
@@ -85,15 +83,15 @@ export const ApplicationReducer = (state = initialState, action) => {
                 else{return item}
             })
             return Object.assign({}, state, {services: {items:items}});
-        case START_SERVICE:
+        case SERVICE_START:
             return Object.assign({}, state, {startedservices: action.payload});
-        case LOG_HISTORY_SERVICE:
+        case SERVICE_LOG_HISTORY:
             let newMerge = state.logsHistory[action.payload.id] ? [action.payload,...state.logsHistory[action.payload.id]] : [action.payload];
             let logsMerge={...state.logsHistory,[action.payload.id]:newMerge};
              if (logsMerge[action.payload.id].length > 100)
                  logsMerge[action.payload.id]  = logsMerge[[action.payload.id]].slice(50);
             return Object.assign({...state, logsHistory:logsMerge});
-        case PING_SERVICERECEIVED:
+        case SERVICE_PING_RECEIVED:
             return Object.assign({},
                 state,
                 {services:

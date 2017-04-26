@@ -1,27 +1,29 @@
 import React from 'react';
+
 import {
-    SET_AVAILABLESERVICES,
-    SET_AVAILABLESERVICESERROR,
-    SET_STATECLOSED,
-    SET_STATEOPEN,
-    CONNECT_WEBSOCKET,
-    START_SERVICE,
-    PING_SERVICE,
-    PING_SERVICERECEIVED,
-    KILL_SERVICE,
-    LOG_HISTORY_SERVICE,
-    ADD_SERVICE_CONFIG,
-    DELETE_SERVICE_CONFIG,
-    EDIT_SERVICE_CONFIG,
-    SET_SERVICE_STATE,
-    SET_MEMORY_USAGE,
-    CLEAR_MEMORY_USAGE
-} from './dispatchTypes';
-import {
+	WEBSOCKET_CONNECT,
 	GIT_GET_ISWORKINGTREE,
 	GIT_SET_ISWORKINGTREE,
     GIT_GET_BRANCHES,
-    GIT_SET_BRANCHES
+    GIT_SET_BRANCHES,
+    MEMORY_CLEAR_USAGE,
+    MEMORY_SET_USAGE,
+    SERVICE_SET_STATEOPEN,
+    SERVICE_SET_STATECLOSED,
+    SERVICE_SET_SERVICE_STATE,
+    SERVICES_SET_AVAILABLE,
+    SERVICES_SET_AVAILABLEERROR,
+
+    SERVICE_START,
+
+    SERVICE_PING,
+    SERVICE_PING_RECEIVED,
+
+    SERVICE_KILL,
+    SERVICE_LOG_HISTORY,
+    SERVICE_ADD_CONFIG,
+    SERVICE_DELETE_CONFIG,
+    SERVICE_EDIT_CONFIG,
 
 } from '../../Actions/ActionTypes';
 
@@ -39,7 +41,7 @@ class EventError extends Error{
 export const socketConnect = (function () {
     let connection = null;
     const onOpen = (connection, store) => evt => {
-        store.dispatch({type: SET_STATEOPEN});
+        store.dispatch({type: SERVICE_SET_STATEOPEN});
         let cmdObj=JSON.stringify({req:"getConfigFile"})
         connection.send(cmdObj);
 
@@ -47,7 +49,7 @@ export const socketConnect = (function () {
     }
     const onClose = (connection, store) => evt => {
         connection.close();
-        store.dispatch({type: SET_STATECLOSED});
+        store.dispatch({type: SERVICE_SET_STATECLOSED});
 
     };
     const onMessage = (conn, store) => evt => {
@@ -59,22 +61,22 @@ export const socketConnect = (function () {
                 case "history":
                     break;
                 case "message":
-                    dispatchType = LOG_HISTORY_SERVICE;
+                    dispatchType = SERVICE_LOG_HISTORY;
                     store.dispatch({type: dispatchType, payload: response.data});
                     break;
                 case "ping":
-                    dispatchType = PING_SERVICERECEIVED;
+                    dispatchType = SERVICE_PING_RECEIVED;
                     store.dispatch({type: dispatchType, payload: {status:response.data}});
                     break;
                 case "status":
-                    store.dispatch({type:SET_SERVICE_STATE,payload:response.data});
+                    store.dispatch({type:SERVICE_SET_SERVICE_STATE,payload:response.data});
                     if(!response.data.connected){
-                        store.dispatch({type:CLEAR_MEMORY_USAGE,payload:response.data});
+                        store.dispatch({type:MEMORY_CLEAR_USAGE,payload:response.data});
                     }
                     break;
                 case 'memory_usage':
                     //console.log(response.data);
-                    store.dispatch({type: SET_MEMORY_USAGE, payload: response.data});
+                    store.dispatch({type: MEMORY_SET_USAGE, payload: response.data});
                     break;
                 case 'git':
                     store.dispatch({type:GIT_SET_ISWORKINGTREE, payload:response.payload});
@@ -83,7 +85,7 @@ export const socketConnect = (function () {
                 case "readConfig":
                 case "deleteConfig":
                 case "updateConfig":
-                    dispatchType = SET_AVAILABLESERVICES;
+                    dispatchType = SERVICES_SET_AVAILABLE;
                     store.dispatch({type: dispatchType, payload:response.data});
                     break;
                 default:
@@ -94,7 +96,7 @@ export const socketConnect = (function () {
         catch (e) {
             if(e instanceof EventError) {
 
-                store.dispatch({type: SET_AVAILABLESERVICESERROR, payload: {item: e.referenceObj, error: e.message}})
+                store.dispatch({type: SERVICES_SET_AVAILABLEERROR, payload: {item: e.referenceObj, error: e.message}})
             }
             else{console.log(e)}
         }
@@ -104,7 +106,7 @@ export const socketConnect = (function () {
         let payload = action.payload ? JSON.stringify(action.payload) : null;
         switch (action.type) {
 
-            case CONNECT_WEBSOCKET:
+            case WEBSOCKET_CONNECT:
                 if (connection !== null) {
                     onClose(connection, store)
                 }
@@ -112,11 +114,11 @@ export const socketConnect = (function () {
                 connection.onopen = onOpen(connection, store);
                 connection.onmessage = onMessage(connection, store);
                 break;
-            case KILL_SERVICE:
-            case START_SERVICE:
-            case ADD_SERVICE_CONFIG:
-            case DELETE_SERVICE_CONFIG:
-            case EDIT_SERVICE_CONFIG:
+            case SERVICE_KILL:
+            case SERVICE_START:
+            case SERVICE_ADD_CONFIG:
+            case SERVICE_DELETE_CONFIG:
+            case SERVICE_EDIT_CONFIG:
             case GIT_GET_ISWORKINGTREE:
             case GIT_GET_BRANCHES:
                 connection.send(payload);

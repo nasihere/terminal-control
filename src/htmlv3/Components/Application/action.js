@@ -1,17 +1,17 @@
 import React from 'react';
-import {
-    CONNECT_WEBSOCKET,
-    START_SERVICE,
-    KILL_SERVICE,
-    PING_SERVICE,
-    ADD_SERVICE_CONFIG,
-    DELETE_SERVICE_CONFIG,
-    EDIT_SERVICE_CONFIG
-} from './dispatchTypes';
 
+import {
+	WEBSOCKET_CONNECT,
+	SERVICE_START,
+	SERVICE_KILL,
+	SERVICE_PING,
+	SERVICE_ADD_CONFIG,
+	SERVICE_DELETE_CONFIG,
+	SERVICE_EDIT_CONFIG
+} from '../../Actions/ActionTypes';
 export const connectWebSocket = () => {
     return (dispatch) => {
-        dispatch({type: CONNECT_WEBSOCKET})
+        dispatch({type: WEBSOCKET_CONNECT})
     }
 };
 export const setWebSocketState = (status) => {
@@ -26,7 +26,7 @@ export const startService = (obj, altCmd) => {
     return (dispatch) => {
 
         dispatch({
-            type:    START_SERVICE,
+            type:    SERVICE_START,
             payload: {
                 id:   obj.id,
                 req:  "startService",
@@ -50,7 +50,7 @@ export const killService = (obj, idx) => {
             pid: obj.pid
         }
         dispatch({
-            type:    KILL_SERVICE,
+            type:    SERVICE_KILL,
             payload: {
                 id:  obj.id,
                 req: "killService",
@@ -63,7 +63,7 @@ export const killService = (obj, idx) => {
 export const pingService = (obj, idx) => {
     return (dispatch) => {
         dispatch({
-            type:    PING_SERVICE,
+            type:    SERVICE_PING,
             payload: {
                 id:   obj.id,
                 req:  "pingService",
@@ -77,7 +77,7 @@ export const submitNewService = (formObj) => {
     return (dispatch) => {
 
         dispatch({
-            type: ADD_SERVICE_CONFIG, payload: {
+            type: SERVICE_ADD_CONFIG, payload: {
                 req: "saveConfig",
                 cmd: formObj
             }
@@ -87,7 +87,7 @@ export const submitNewService = (formObj) => {
 export const deleteService = (item) => {
     return dispatch => {
         dispatch({
-            type: DELETE_SERVICE_CONFIG, payload: {
+            type: SERVICE_DELETE_CONFIG, payload: {
                 req: 'deleteService',
                 cmd: item
             }
@@ -98,7 +98,7 @@ export const editService = (item) => {
 
     return dispatch => {
         dispatch({
-            type: EDIT_SERVICE_CONFIG, payload: {
+            type: SERVICE_EDIT_CONFIG, payload: {
                 req: 'editService',
                 cmd: item
             }
