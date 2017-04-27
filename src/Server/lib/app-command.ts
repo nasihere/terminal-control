@@ -1,76 +1,46 @@
 // http://nodejs.org/api.html#_child_processes
 import * as fs from 'fs';
-import * as os from "os";
+import * as websocket from '@types/websocket';
 import * as path from 'path';
 import * as childprocess from 'child_process';
-import * as rc from "rc";
-import { stringifyHtml } from '../utils';
+
 import * as psTree from 'ps-tree';
 import { configHandler } from './configHandler';
-import * as websocket from '@types/websocket';
+
 import { ServerConfig } from "./serverConfig";
-import {Git} from './Git'
-import { stat } from "fs";
+import {Git} from './Git';
+import {createFork} from './Process/createFork'
+
+let exec     = childprocess.exec,
+	fork     = childprocess.fork;
 
 declare module "child_process"{
 	interface ChildProcess{
 		spawnargs:Array<any>
 	}
 }
-let platform = os.platform();
-let exec     = childprocess.exec,
-	userName = os.hostname(),
-	spawn    = childprocess.spawn,
-	fork     = childprocess.fork;
+
+
 
 
 export class appCommand extends ServerConfig {
 	colors: Array<string> = [ '#ffb2b2', 'DeepSkyBlue', 'gold', 'magenta', '#ADFF2F', 'plum', 'orange', 'aqua', 'BlanchedAlmond', '#00BFFF' ].sort();
 	history = [];
 	clients: Array<websocket.connection> = [];
-	skipLog = [ 'getConfigFile', 'deleteService', 'saveConfig', 'pingService' ];
+	skipLog = [ 'getConfigFile', 'deleteService', 'saveConfig' ];
 	configHandler: configHandler;
 
 	constructor () {
 		super();
 		this.configHandler = new configHandler(this.config);
 	}
-	public writeToHistory = (log, conn) => {
-		if ( this.skipLog.indexOf(log.text) === -1 ) {
-			this.history.push(log);
-			this.history = this.history.slice	(-100);
-			this.broadCastMsg(log, conn);
-		}
+	public writeToHistory = (log) => {
 
-	};
-	private broadCastMsg = (obj, conn) => {
-
-		// broadcast message to all connected clients
-		let json = JSON.stringify({type: 'message', data: obj});
-		for ( let i = 0; i < this.clients.length; i++ ) {
-			this.clients[ i ].sendUTF(json);
-		}
-
-	};
-	pingPort = (message, connection) => {
-		let child = exec('lsof -t -i :' + message.port, this.puts);
-		child.stdout.on('data', function (data) {
-			// console.log('stdout: ' + data);
-			var obj = {
-				port: message.port,
-				id:   message.id,
-				pid:  child.pid,
-				ping: true
+			if ( this.skipLog.indexOf(log.text) === -1 ) {
+				this.history.push(log);
+				this.history = this.history.slice(-100);
+				return log;
 			}
-			connection.sendUTF(JSON.stringify({type: 'ping', data: obj}));
-
-		});
-		child.on('error', (e) => {
-			console.error(e)
-		});
-		child.stderr.on('close', function (data) {
-			// console.log('close: ' + data);
-		});
 	};
 	readme = (message, connection) => {
 		fs.readFile(message.readmePath, 'utf8', function (err,data) {
@@ -91,18 +61,21 @@ export class appCommand extends ServerConfig {
 		}
 		//console.log('puts', stdout, stderr, error);
 	};
-	send = (message, connection) => {
-		let sendObj = {
-			type: '',
-			data: {
-				port: message.port,
-				id:   message.id
-			}
-		}
+
+	broadcastMsg = (message, connection) => {
+
+
 		return (type: string, obj: any) => {
+			let sendObj = {
+				type: '',
+				data: {
+					port: message.port,
+					id:   message.id
+				}
+			};
 			sendObj.type = type;
-			sendObj.data = Object.assign({}, sendObj.data, obj);
-			connection.sendUTF(JSON.stringify(sendObj))
+			sendObj.data = Object.assign({}, sendObj.data,  obj);
+
 			for ( let i = 0; i < this.clients.length; i++ ) {
 				this.clients[ i ].sendUTF(JSON.stringify(sendObj));
 			}
@@ -110,59 +83,34 @@ export class appCommand extends ServerConfig {
 
 	}
 	serviceAction = (message, connection) => {
-		let send = this.send(message, connection)
+		let Broadcast = this.broadcastMsg(message, connection);
 		let self = this;
 		let userColor = this.colors.shift();
 		//const msg = message.cmd.split('*#*');
 		//let oscmd = platform === "win32" ? msg[ 0 ].replace(/;/g, "&") : msg[ 0 ];
-		let forkedProcess = fork(path.resolve(__dirname,"spawnChild"), [ userColor, JSON.stringify(message) ]);
+		let f=createFork(
+			__dirname,
+			[ userColor, JSON.stringify(message) ],
+			Broadcast,
+			self.configHandler);
 
-		let statusObj = {
-			connected: true,
-			pid:       forkedProcess.pid,
-			id: 		message.id
+				f.on('message',(msg)=>{
+					switch ( msg.type ) {
+						case 'data':
+							let log=self.writeToHistory(msg.payload);
+							log ? Broadcast('message', log):null;
+							break;
+						case 'close':
+							f.kill();
+							break;
+						case 'memory_usage':
+							Broadcast('memory_usage', msg.payload);
+							break;
+					}
+				});
 
-		};
-		this.configHandler.extraConfig(statusObj);
-		send('status', statusObj);
-		forkedProcess.on('disconnect', () => {
-			console.info(`DISCONNECT : ChildProcess, PID=${forkedProcess.pid}, SPAWNARGS=${JSON.stringify(forkedProcess.spawnargs)}`)
-		});
-		forkedProcess.on('error', (err) => {
-			console.error(2, err)
-		});
-		forkedProcess.on('edit', (_) => {
-			console.info(3, _)
-		});
-		forkedProcess.on('message', (msg) => {
-			//msg.payload.pid=forkedProcess.pid;
-			msg.payload.id = message.id;
-			switch ( msg.type ) {
-				case 'data':
-					self.writeToHistory(msg.payload, connection);
-					break;
-				case 'close':
-					forkedProcess.kill()
-					break;
-				case 'memory_usage':
-					send('memory_usage', msg.payload);
-					break;
-			}
-		});
-		forkedProcess.on('close', (data) => {
-			clearInterval(memInterval)
-			let obj = {
-				connected:   false,
-				pid:         null,
-				status_code: data,
-				id:message.id
-			};
-			send('status', obj)
-			this.configHandler.extraConfig(obj);
-		});
-		let memInterval = setInterval(() => {
-			forkedProcess.send("get_usage")
-		}, 2000)
+				f.emit('startUsage');
+				f.emit('connected',self.configHandler)
 
 
 	};
@@ -179,9 +127,6 @@ export class appCommand extends ServerConfig {
 				break;
 			case "saveConfig":
 				this.configHandler.saveConfig(message, connection);
-				break;
-			case "pingService":
-				this.pingPort(message, connection);
 				break;
 			case "readme":
 				this.readme(message, connection);

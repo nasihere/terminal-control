@@ -3,7 +3,7 @@ import {removeByKey} from '../Utils'
 import {
     MEMORY_SET_USAGE,
     MEMORY_CLEAR_USAGE
-} from '../Actions/service_actions.js';
+} from '../Actions/ActionTypes';
 
 export const Reducer_Memory = (state = {}, action) => {
     let id;

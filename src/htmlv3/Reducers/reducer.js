@@ -26,7 +26,7 @@ let initialState = {
     logsHistory: {}
 }
 
-export const ApplicationReducer = (state = initialState, action) => {
+export const ApplicationReducer = (state = initialState, action) => {console.log(action.type)
     //console.log(action.payload, action.type, 'ApplicationReducer()');
     let newItems;
     switch (action.type) {
@@ -50,6 +50,7 @@ export const ApplicationReducer = (state = initialState, action) => {
             })
             return Object.assign({}, state, {services: {items:items}});
         case SERVICE_START:
+
             return Object.assign({}, state, {startedservices: action.payload});
         case SERVICE_LOG_HISTORY:
             let newMerge = state.logsHistory[action.payload.id] ? [action.payload,...state.logsHistory[action.payload.id]] : [action.payload];

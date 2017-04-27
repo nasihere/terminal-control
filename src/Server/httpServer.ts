@@ -36,8 +36,7 @@ export class HttpServer extends ServerConfig{
 		this.init();
 	}
 	init=()=>{
-		let server = http.createServer(this.handleRequests)
-		this.server=server;
+		this.server = http.createServer(this.handleRequests)
 	}
 	handleRequests=(request,response)=>{
 		if (request.url === '/favicon.ico') {
@@ -55,7 +54,7 @@ export class HttpServer extends ServerConfig{
 		fs.readFile(requestConfig.filePath, function (error, content) {
 			if (error) {
 				console.log(`error on ${request.url}`,error)
-				if (error.code == 'ENOENT') {
+				if (error.code === 'ENOENT') {
 					fs.readFile('./404.html', function (error, content) {
 						response.writeHead(200, {'Content-Type': requestConfig.contentType});
 						response.end(content, 'utf-8');
@@ -69,7 +68,6 @@ export class HttpServer extends ServerConfig{
 			}
 			else {
 				response.writeHead(200, {'Content-Type': requestConfig.contentType});
-				// console.log(`fetched ${request.url}`);
 				response.end(content, 'utf-8');
 			}
 		});

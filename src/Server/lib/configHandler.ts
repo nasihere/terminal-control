@@ -110,9 +110,6 @@ export class configHandler {
 
 	};
 	saveConfig = function (newConfig, connection) {
-		let obj = {
-			configService: []
-		};
 		if ( this.configFile ) {
 			let pushJson = Object.assign({}, newConfig.cmd, {id: (Math.random() * 1e32).toString(36)});
 			this.configFile.configService.push(pushJson);
