@@ -26,7 +26,7 @@ let initialState = {
     logsHistory: {}
 }
 
-export const ApplicationReducer = (state = initialState, action) => {console.log(action.type)
+export const ApplicationReducer = (state = initialState, action) => {
     //console.log(action.payload, action.type, 'ApplicationReducer()');
     let newItems;
     switch (action.type) {

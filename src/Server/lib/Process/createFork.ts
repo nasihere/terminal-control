@@ -3,7 +3,7 @@ import * as path from "path";
 let exec     = childprocess.exec,
 	fork     = childprocess.fork;
 
-export function createFork (refpath,args,Broadcast,configHandler){
+export function createFork (refpath,args,Broadcast,configHandler, message){
 	let _p = fork(path.resolve(refpath,"spawnChild"), args),
 		memInterval;
 	_p.on('disconnect', () => {
@@ -30,6 +30,7 @@ export function createFork (refpath,args,Broadcast,configHandler){
 				pid:         null,
 				status_code: data,
 				signal: signal,
+				id: message.id
 			};
 
 			configHandler.extraConfig(obj);
@@ -38,7 +39,8 @@ export function createFork (refpath,args,Broadcast,configHandler){
 	}).on('connected',(configHandler)=>{
 		let statusObj = {
 			connected: true,
-			pid:       _p.pid
+			pid:       _p.pid,
+			id: message.id
 
 		};
 		configHandler.extraConfig(statusObj);

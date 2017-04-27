@@ -79,6 +79,7 @@ export class appCommand extends ServerConfig {
 			for ( let i = 0; i < this.clients.length; i++ ) {
 				this.clients[ i ].sendUTF(JSON.stringify(sendObj));
 			}
+			return sendObj;
 		}
 
 	}
@@ -92,9 +93,11 @@ export class appCommand extends ServerConfig {
 			__dirname,
 			[ userColor, JSON.stringify(message) ],
 			Broadcast,
-			self.configHandler);
+			self.configHandler, message);
 
 				f.on('message',(msg)=>{
+					//neseccary for log history
+					msg.payload.id = message.id;
 					switch ( msg.type ) {
 						case 'data':
 							let log=self.writeToHistory(msg.payload);
