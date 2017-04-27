@@ -7,18 +7,28 @@ export interface IUsage extends NodeJS.MemoryUsage{
 }
 function spawnChild(){
 
-	let userColor=process.argv[2];
-	let message=JSON.parse(process.argv[3]);
-	let env = Object.create( process.env );
-	let envVars=splitVars(message.cmd.env);
+	let userColor=process.argv[2],
+		message=JSON.parse(process.argv[3]),
+		env = Object.create( process.env ),
+		envVars=splitVars(message.cmd.env),
+		timeUp=0,
+		child = cp.spawn(message.cmd.cmd,[],{
+			shell:true,
+			env:Object.assign(env, envVars),
+			cwd:message.cmd.pwd
+		});
 
-	let child = cp.spawn(message.cmd.cmd,[],{
-		shell:true,
-		env:Object.assign(env, envVars),
-		cwd:message.cmd.pwd
-	});
-	let timeUp=0;
-	setInterval(()=>{++timeUp},1000)
+	setInterval(()=>{++timeUp},1000);
+	let returnObj=(text)=>{
+		return {
+			time:   HMTimeNow(),
+			text:   text,
+			author: message.name,
+			color:  userColor,
+			pid: child.pid
+
+		};
+	}
 	process.on('message',(msg)=>{
 		switch(msg){
 			case "get_usage":
@@ -30,46 +40,20 @@ function spawnChild(){
 				return;
 		}
 	})
-	child.stdout.on('data', (data) => {
-		// console.log('stdout: ' + data);
-		let obj = {
-			time:   HMTimeNow(),
-			text:   stringifyHtml(data),
-			author: message.name,
-			color:  userColor,
-			pid: child.pid
 
-		};
+	child.stdout.on('data', (data) => {
+		let obj = returnObj(stringifyHtml(data))
+
 		process.send({type:'data',payload:obj})
-		//self.writeToHistory(obj, connection);
-		//connection.sendUTF(JSON.stringify({type: 'message', data: obj}));
 	});
 	child.stderr.on('data', (data)=> {
-		// console.log('stderr: ' + data);
-		let obj = {
-			time:   HMTimeNow(),
-			text:   stringifyHtml(data),
-			author: message.name,
-			color:  userColor,
-			pid: child.pid
-
-		};
+		let obj = returnObj( stringifyHtml(data))
 		process.send({type:'data',payload:obj})
-		//self.writeToHistory(obj, connection);
 	});
 	child.on('close', (code, signal) => {
-		// console.log(`stdclose: ${signal} -> ${code}`);
-
-		let obj = {
-			time:   HMTimeNow(),
-			text:   stringifyHtml(`Child closed ${signal} -> code:${code}`),
-			author: message.name,
-			color:  userColor,
-			pid: child.pid
-
-		};
+		let obj = returnObj(stringifyHtml(`Child closed ${signal} -> code:${code}`))
 		process.send({type:'close',payload:obj})
-		//self.writeToHistory(obj, connection);
+
 	});
 }
 

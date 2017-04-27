@@ -16,12 +16,12 @@ import {connect} from 'react-redux';
 
 export class StartStopButtonsPanelClass extends React.Component {
 	state = {
-		modalItem: {},
+		modalItem:       {},
 		showConfigModal: false,
-		submit: () => {
+		submit:          () => {
 		},
-		type: "",
-		cmd: ""
+		type:            "",
+		cmd:             ""
 	}
 
 	setStatus (config) {
@@ -125,14 +125,14 @@ export class StartStopButtonsPanelClass extends React.Component {
 					{this.running &&
 					<Button onClick={() => {
 						this.kill()
-					}} type="button" bsSize="xsmall" bsStyle="info"><Glyphicon glyph="stop"/>Stop</Button>}
-					{/* <Button onClick={() => {
-					 this.restart()
-					 }} type="button" bsSize="xsmall" bsStyle="warning"><Glyphicon glyph="repeat"/>Restart</Button>
-					 */
-					} <Button onClick={() => {
-					this.openConfigModal(this.config, "edit")
-				}} type="button" bsSize="xsmall" bsStyle="primary"><Glyphicon glyph="edit"/>Edit</Button>
+					}}
+							type="button"
+							bsSize="xsmall"
+							bsStyle="info">
+						<Glyphicon glyph="stop"/>Stop</Button>}
+					<Button onClick={() => {
+						this.openConfigModal(this.config, "edit")
+					}} type="button" bsSize="xsmall" bsStyle="primary"><Glyphicon glyph="edit"/>Edit</Button>
 					<Button onClick={() => {
 						this.openConfigModal(this.config, "delete")
 					}} type="button" bsSize="xsmall" bsStyle="danger"><Glyphicon glyph="remove-sign"/>Remove</Button>

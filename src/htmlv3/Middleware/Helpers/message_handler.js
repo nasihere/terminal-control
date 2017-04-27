@@ -12,12 +12,10 @@ import {
 export const onMessage = (conn, store) => evt => {
 	try {
 		let response = JSON.parse(evt.data);
-		let dispatchType;
 		switch (response.type) {
 			case "history":
 				break;
 			case "message":
-				dispatchType = SERVICE_LOG_HISTORY;
 				store.dispatch({type: SERVICE_LOG_HISTORY, payload: response.data});
 				break;
 			case "ping":
@@ -31,7 +29,6 @@ export const onMessage = (conn, store) => evt => {
 				}
 				break;
 			case 'memory_usage':
-
 				store.dispatch({type: MEMORY_SET_USAGE, payload: response.data});
 				break;
 			case 'git':
@@ -51,7 +48,6 @@ export const onMessage = (conn, store) => evt => {
 	}
 	catch (e) {
 		if (e instanceof EventError) {
-
 			store.dispatch({type: SERVICES_SET_AVAILABLEERROR, payload: {item: e.referenceObj, error: e.message}})
 		}
 		else {

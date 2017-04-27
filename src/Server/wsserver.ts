@@ -48,16 +48,6 @@ export class wsServerClass extends appCommand {
 		// send back logs history
 
 		if ( this.history.length > 0 ) {
-			// console.log(this.configHandler.configFile, 'configHandler')
-			// connection.sendUTF(JSON.stringify(
-			// 	{
-			// 		type: 'readConfig',
-			// 		data: {
-			// 			success: true,
-			// 			config:  this.configHandler.configFile
-			// 		}
-			// 	})
-			// );
 			for (let i=0; i<= this.history.length -1; i++ ) {
 				connection.sendUTF(
 					JSON.stringify({
@@ -66,8 +56,6 @@ export class wsServerClass extends appCommand {
 					})
 				)
 			}
-
-
 		}
 		connection.on('message', (msg:IMessage) => {
 			let message = JSON.parse(msg.utf8Data);
