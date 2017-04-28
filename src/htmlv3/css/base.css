@@ -1,3 +1,14 @@
+.table{
+    display:table;
+}
+.table .row{
+    display: table-row;
+}
+.table .row .cell{
+    display: table-cell;
+    padding:5px;
+}
+
 .panel-group,
 .row > .well,
 .row > .jumbotron,
@@ -90,3 +101,4 @@ hr {
 .jumbotron h2 {
     font-size: 18px;
 }
+

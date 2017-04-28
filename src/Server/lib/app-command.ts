@@ -168,7 +168,10 @@ export type requestTypes =
 	| 'git'
 export type GitRequestTypes=
 	'IsWorkingTree' |
-	'getBranches'
+	'getBranches' |
+	"getWorkingBranch" |
+	"getRemoteBranches" |
+	"getStatus"
 export interface IMessageIn {
 	cmd: string;
 	req: requestTypes

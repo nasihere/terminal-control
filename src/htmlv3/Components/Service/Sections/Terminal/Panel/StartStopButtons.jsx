@@ -35,7 +35,7 @@ export class StartStopButtonsPanelClass extends React.Component {
 		this.setStatus(this.props.config);
 	}
 
-	componentWillReceiveProps (nextProps) {console.log(nextProps.config.pid,this.config.pid)
+	componentWillReceiveProps (nextProps) {
 		this.config = nextProps.config;
 		this.setStatus(nextProps.config);
 	}
