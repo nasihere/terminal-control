@@ -48,6 +48,9 @@ body {
     max-height: 958px;
     overflow-y: auto;
 }
+.terminal .well {
+    background: transparent;
+}
 #terminal-logs > div{
     width: 50%;
     float: right;

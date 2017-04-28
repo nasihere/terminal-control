@@ -5,7 +5,7 @@ import {DisplayLog,DisplayServiceInfo} from '../LogsView';
 
 export class TerminalTabs extends React.Component {
     getLogHistory() {
-        return this.props.logsHistory.reverse();
+        return this.props.logsHistory;
     }
     createTabs() {
         return this.props.services.items.map((item, i) => {

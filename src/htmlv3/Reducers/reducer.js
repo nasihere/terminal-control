@@ -39,7 +39,7 @@ export const ApplicationReducer = (state = initialState, action) => {
         case SERVICE_SET_STATECLOSED:
             return Object.assign({}, state, {status: 'closed'});
         case SERVICES_SET_AVAILABLE:
-            return parseAvailableServices(state,action);
+            return parseAvailableServices(state,action)
         case SERVICES_SET_AVAILABLEERROR:
             let items=state.services.items.map((item)=>{
                 if(item.id===action.payload.item.id){
@@ -52,7 +52,7 @@ export const ApplicationReducer = (state = initialState, action) => {
         case SERVICE_START:
             return Object.assign({}, state, {startedservices: action.payload});
         case SERVICE_LOG_HISTORY:
-            let newMerge = state.logsHistory[action.payload.id] ? [action.payload,...state.logsHistory[action.payload.id]] : [action.payload];
+            let newMerge = state.logsHistory[action.payload.id] ? [...state.logsHistory[action.payload.id],action.payload] : [action.payload];
             let logsMerge={...state.logsHistory,[action.payload.id]:newMerge};
              if (logsMerge[action.payload.id].length > 100)
                  logsMerge[action.payload.id]  = logsMerge[[action.payload.id]].slice(50);

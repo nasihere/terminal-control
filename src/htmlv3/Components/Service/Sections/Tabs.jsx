@@ -30,7 +30,7 @@ export class TabsClass extends React.Component {
     };
     createTerminal = () => {
         if (this.props.services.items.length === 0) return;
-        const serviceObj = this.props.services.items;
+        const serviceObj = this.props.services.items.sort((a, b)=> (a.name > b.name) || (a.name === b.name) - 1);
         let memoryItem = serviceObj.filter((item) => item.connected).map((item, idx) => {
         });
 
@@ -64,15 +64,16 @@ export class TabsClass extends React.Component {
 
         else {
             return (
+
                 <Tab.Container id="tabs-with-dropdown" defaultActiveKey={'Tabs0'}>
 
                     <Row className="clearfix">
-                        <Col sm={12}>
-                            <Nav bsStyle="tabs">
+                        <Col sm={12} md={2}>
+                            <Nav bsStyle="tabs" stacked>
                                 {this.createTabs()}
                             </Nav>
                         </Col>
-                        <Col sm={12}>
+                        <Col sm={12} md={10}>
                             <Tab.Content animation>
                                 {this.createTerminal()}
                             </Tab.Content>
