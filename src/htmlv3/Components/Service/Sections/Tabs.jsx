@@ -30,7 +30,7 @@ export class TabsClass extends React.Component {
     };
     createTerminal = () => {
         if (this.props.services.items.length === 0) return;
-        const serviceObj = this.props.services.items.sort((a, b)=> (a.name > b.name) || (a.name === b.name) - 1);
+        const serviceObj = this.props.services.items;
         let memoryItem = serviceObj.filter((item) => item.connected).map((item, idx) => {
         });
 
