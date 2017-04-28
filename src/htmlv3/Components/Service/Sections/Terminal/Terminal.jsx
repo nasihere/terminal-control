@@ -50,16 +50,17 @@ export class TerminalClass extends React.Component {
             }
         });
     }
+
     render() {
 
         return (
             <div>
                 <Row className="show-grid ">
                     <Col xs={12} md={9} className="terminal">
-                        <Panel bsStyle="default">
+                        <div style={{maxHeight:"800px","overflow":"auto"}} className="terminalLogs">
                             {status}
                             {this.createLogRow()}
-                        </Panel>
+                        </div>
                     </Col>
 
                     <Col xs={12} md={3} className="terminalPanel">

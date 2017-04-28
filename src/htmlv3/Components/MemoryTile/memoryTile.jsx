@@ -24,7 +24,8 @@ export class MemoryTile extends React.Component {
         let header = (<h4>{this.props.title}</h4>)
         let item = this.props.values ? this.props.values[this.props.values.length - 1]: [0,0,0,0,0];
         let pre = 'memory-tile';
-        let gridSize=this.state.windowWidth < 280 ? 12 : 4
+        let gridSize=this.state.windowWidth < 280 ? 12 : this.state.windowWidth < 512 ? 6 : 4;
+        let RSSize=this.state.windowWidth < 512 ? 12 : 4;
         return (
 
             <Panel header={header} className="memtile" bsStyle="primary" collapsible defaultExpanded>
@@ -49,7 +50,7 @@ export class MemoryTile extends React.Component {
 
                         </div>
                     </Col>
-                    <Col xs={gridSize} className={`${pre}__col`}>
+                    <Col xs={RSSize} className={`${pre}__col`}>
                         <div className={`${pre}__block`}>
                             <h4 className={`${pre}__block__header`}>RSS</h4>
                             <div className={`${pre}__block__body`}>

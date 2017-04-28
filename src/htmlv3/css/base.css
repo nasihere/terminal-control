@@ -1,3 +1,14 @@
+.table{
+    display:table;
+}
+.table .row{
+    display: table-row;
+}
+.table .row .cell{
+    display: table-cell;
+    padding:5px;
+}
+
 .panel-group,
 .row > .well,
 .row > .jumbotron,
@@ -36,6 +47,9 @@ body {
 .terminal > .panel {
     max-height: 958px;
     overflow-y: auto;
+}
+.terminal .well {
+    background: transparent;
 }
 #terminal-logs > div{
     width: 50%;
@@ -90,3 +104,4 @@ hr {
 .jumbotron h2 {
     font-size: 18px;
 }
+

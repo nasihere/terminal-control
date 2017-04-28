@@ -1,0 +1,9 @@
+.simpleBranch .list-group-item{
+    padding-top:4px;
+    padding-bottom:4px;
+}
+.simpleBranch .list-group-item >div{
+    display:table-cell;
+
+
+}

@@ -4,6 +4,9 @@ import {
 	WEBSOCKET_CONNECT,
 	GIT_GET_ISWORKINGTREE,
 	GIT_GET_BRANCHES,
+	GIT_GET_WORKINGBRANCH,
+	GIT_GET_REMOTEBRANCHES,
+	GIT_GET_STATUS,
 	SERVICE_START,
 	SERVICE_KILL,
 	SERVICE_ADD_CONFIG,
@@ -14,15 +17,7 @@ import {onMessage} from './Helpers/message_handler.js';
 import {onOpen} from './Helpers/open_handler.js';
 import {onClose} from './Helpers/close_handler.js';
 
-class EventError extends Error{
-	referenceObj;
-	constructor(obj,message){
-		super(message);
-		this.message=message || 'Event Error';
-		this.name = "Event Error"
-		this.referenceObj=obj;
-	}
-}
+
 
 export const socketConnect = (function () {
 	let connection = null;
@@ -47,6 +42,9 @@ export const socketConnect = (function () {
 			case SERVICE_EDIT_CONFIG:
 			case GIT_GET_ISWORKINGTREE:
 			case GIT_GET_BRANCHES:
+			case GIT_GET_REMOTEBRANCHES:
+			case GIT_GET_WORKINGBRANCH:
+			case GIT_GET_STATUS:
 				connection.send(payload);
 				break;
 			default:

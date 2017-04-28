@@ -9,6 +9,16 @@ import {
 	SERVICE_LOG_HISTORY,
 
 } from '../../Actions/ActionTypes';
+
+class EventError extends Error{
+	referenceObj;
+	constructor(obj,message){
+		super(message);
+		this.message=message || 'Event Error';
+		this.name = "Event Error"
+		this.referenceObj=obj;
+	}
+}
 export const onMessage = (conn, store) => evt => {
 	try {
 		let response = JSON.parse(evt.data);
