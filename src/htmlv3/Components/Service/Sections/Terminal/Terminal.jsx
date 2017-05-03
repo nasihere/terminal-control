@@ -19,18 +19,17 @@ export class TerminalClass extends React.Component {
     {
         super(props);
         this.state = {
-            searchLog: '',
-            index: 0
+            searchLog: ''
         }
         this.handleLog = this.handleLog.bind(this);
         this.handleShow = this.handleShow.bind(this);
     }
     handleShow() {
-        const { messageList } = this.refs;
-        const scrollHeight = messageList.scrollHeight;
-        const height = messageList.clientHeight;
+        const { historyList } = this.refs;
+        const scrollHeight = historyList.scrollHeight;
+        const height = historyList.clientHeight;
         const maxScrollTop = scrollHeight - height;
-        ReactDOM.findDOMNode(messageList).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+        ReactDOM.findDOMNode(historyList).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
     }
     handleLog(e) {
         this.setState({ searchLog: e.target.value });
@@ -52,7 +51,7 @@ export class TerminalClass extends React.Component {
                     <Col xs={12} md={12}>
                         {(printTime) ? <code>{item.time}</code> : ''}
                         <Well bsSize="small" className="well-logs">
-                            <div ref={idx} dangerouslySetInnerHTML={{__html:(item) ? convert.toHtml(item.text) : ''}}/>
+                            <div dangerouslySetInnerHTML={{__html:(item) ? convert.toHtml(item.text) : ''}}/>
                         </Well>
                     </Col>
                 </Row>
@@ -68,7 +67,7 @@ export class TerminalClass extends React.Component {
             <div>
                 <Row className="show-grid ">
                     <Col xs={12} md={9} className="terminal">
-                        <div ref="messageList" style={{maxHeight:"800px","overflow":"auto"}} className="terminalLogs">
+                        <div ref="historyList" style={{maxHeight:"800px","overflow":"auto"}} className="terminalLogs">
                             {status}
                             {this.createLogRow()}
                         </div>
