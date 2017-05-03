@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
 import {Col, Row, Panel} from 'react-bootstrap/lib';
 import {Well, Alert} from 'react-bootstrap/lib';
 import {EnviornmentPanel} from './Panel/Environment.jsx';
@@ -18,11 +19,19 @@ export class TerminalClass extends React.Component {
     {
         super(props);
         this.state = {
-            searchLog: ''
+            searchLog: '',
+            index: 0
         }
         this.handleLog = this.handleLog.bind(this);
+        this.handleShow = this.handleShow.bind(this);
     }
-
+    handleShow() {
+        const { messageList } = this.refs;
+        const scrollHeight = messageList.scrollHeight;
+        const height = messageList.clientHeight;
+        const maxScrollTop = scrollHeight - height;
+        ReactDOM.findDOMNode(messageList).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+    }
     handleLog(e) {
         this.setState({ searchLog: e.target.value });
     }
@@ -43,21 +52,23 @@ export class TerminalClass extends React.Component {
                     <Col xs={12} md={12}>
                         {(printTime) ? <code>{item.time}</code> : ''}
                         <Well bsSize="small" className="well-logs">
-                            <div dangerouslySetInnerHTML={{__html:(item) ? convert.toHtml(item.text) : ''}}/>
+                            <div ref={idx} dangerouslySetInnerHTML={{__html:(item) ? convert.toHtml(item.text) : ''}}/>
                         </Well>
                     </Col>
                 </Row>
             }
         });
     }
-
+    componentDidUpdate (nextProps, nextState) {
+        if (nextProps.logs)
+            this.handleShow();
+    }
     render() {
-
         return (
             <div>
                 <Row className="show-grid ">
                     <Col xs={12} md={9} className="terminal">
-                        <div style={{maxHeight:"800px","overflow":"auto"}} className="terminalLogs">
+                        <div ref="messageList" style={{maxHeight:"800px","overflow":"auto"}} className="terminalLogs">
                             {status}
                             {this.createLogRow()}
                         </div>
