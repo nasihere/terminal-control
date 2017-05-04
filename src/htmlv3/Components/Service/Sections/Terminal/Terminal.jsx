@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
 import {Col, Row, Panel} from 'react-bootstrap/lib';
 import {Well, Alert} from 'react-bootstrap/lib';
 import {EnviornmentPanel} from './Panel/Environment.jsx';
@@ -21,8 +22,15 @@ export class TerminalClass extends React.Component {
             searchLog: ''
         }
         this.handleLog = this.handleLog.bind(this);
+        this.handleShow = this.handleShow.bind(this);
     }
-
+    handleShow() {
+        const { historyList } = this.refs;
+        const scrollHeight = historyList.scrollHeight;
+        const height = historyList.clientHeight;
+        const maxScrollTop = scrollHeight - height;
+        ReactDOM.findDOMNode(historyList).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+    }
     handleLog(e) {
         this.setState({ searchLog: e.target.value });
     }
@@ -50,14 +58,16 @@ export class TerminalClass extends React.Component {
             }
         });
     }
-
+    componentDidUpdate (nextProps, nextState) {
+        if (nextProps.logs)
+            this.handleShow();
+    }
     render() {
-
         return (
             <div>
                 <Row className="show-grid ">
                     <Col xs={12} md={9} className="terminal">
-                        <div style={{maxHeight:"800px","overflow":"auto"}} className="terminalLogs">
+                        <div ref="historyList" style={{maxHeight:"800px","overflow":"auto"}} className="terminalLogs">
                             {status}
                             {this.createLogRow()}
                         </div>
