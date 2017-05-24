@@ -32,7 +32,8 @@ class GitRequest {
 				req === 'getBranches' ? this.getBranches() :
 					req === 'getWorkingBranch' ? this.getWorkingBranch() :
 						req === 'getRemoteBranches' ? this.getRemoteBranches() :
-							req === 'getStatus' ? this.getStatus() : null;
+							req === 'getStatus' ? this.getStatus() :
+								req === 'getPull' ? this.getPull() : null;
 
 		}
 	};
@@ -85,6 +86,16 @@ class GitRequest {
 	getStatus = () => {
 		let cmd = 'git status';
 		let args = ['--porcelain', '-s'];
+		let child = this.spawnChild(cmd, args);
+		child.stdout.on('data', (m) => {
+
+			let str = m.toString().replace(/\r?\n/g, '|').split('|');
+			this.connection.sendUTF(JSON.stringify({type: 'git', payload: {[this.message.id]: {status: str}}}));
+		});
+	};
+	getPull = () => {
+		let cmd = 'git pull origin master';
+		let args = [];
 		let child = this.spawnChild(cmd, args);
 		child.stdout.on('data', (m) => {
 

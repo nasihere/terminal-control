@@ -3,20 +3,22 @@ import {
 	GIT_GET_BRANCHES,
 	GIT_GET_WORKINGBRANCH,
 	GIT_GET_REMOTEBRANCHES,
-	GIT_GET_STATUS
+	GIT_GET_STATUS,
+    GIT_GET_PULL
 } from './ActionTypes'
 
 function getObj(type,gitreq,obj){
 	let returnObj={
 		type,
 		payload: {
-			id:   obj.id,
-			req:  "git",
-			port: obj.Port,
+			id			: obj.id,
+			req			: "git",
+			port		: obj.Port,
+            branchName	: obj.branchName,
 			gitreq,
 			cmd:  {
-				pwd:  obj.cd,
-				name: obj.name
+				pwd		:  obj.cd,
+				name	: obj.name
 			}
 
 		}
@@ -49,6 +51,12 @@ export const Get_Status = (obj) => {
 	return (dispatch) => {
 		dispatch(getObj(GIT_GET_STATUS,"getStatus",obj))
 	}
+};
+
+export const Get_Pull = (obj) => {
+    return (dispatch) => {
+        dispatch(getObj(GIT_GET_PULL,"getPull",obj))
+    }
 };
 
 
