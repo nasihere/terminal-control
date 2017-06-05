@@ -12,6 +12,7 @@ import {
 	SERVICE_ADD_CONFIG,
 	SERVICE_DELETE_CONFIG,
 	SERVICE_EDIT_CONFIG,
+    GIT_GET_PULL
 } from '../Actions/ActionTypes';
 import {onMessage} from './Helpers/message_handler.js';
 import {onOpen} from './Helpers/open_handler.js';
@@ -47,6 +48,9 @@ export const socketConnect = (function () {
 			case GIT_GET_STATUS:
 				connection.send(payload);
 				break;
+            case GIT_GET_PULL:
+                connection.send(payload);
+                break;
 			default:
 				return next(action);
 		}
