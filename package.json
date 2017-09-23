@@ -30,7 +30,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.es.ad.adp.com/projects/ISSP/repos/promiseoft"
+    "url": "https://bitbucket.es.ad.adp.com/projects/ISSP/repos/NodeServiceAgent"
   },
   "devDependencies": {
     "@types/node": "^7.0.8",

@@ -88,7 +88,7 @@ class GitRequest {
 		let args = ['--porcelain', '-s'];
 		let child = this.spawnChild(cmd, args);
 		child.stdout.on('data', (m) => {
-
+			// TODO: if no data "clean directory", this line is never sent resulting in old data on the front end... fix
 			let str = m.toString().replace(/\r?\n/g, '|').split('|');
 			this.connection.sendUTF(JSON.stringify({type: 'git', payload: {[this.message.id]: {status: str}}}));
 		});
