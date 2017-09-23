@@ -1,6 +1,6 @@
 {
   "name": "nodeserviceagent",
-  "version": "0.1.9 ",
+  "version": "0.1.9",
   "description": "NodeServices Agent is a terminal on browser to start/stop all the node application by one click. It has feature to view NODE Application console.logs directly on webview. Ability to search logs and append new node service application. It easy to manage all running instance in one single interface. It easy and fast for development purpose. To get all information of your apps in one place.",
   "main": "./build/index.js",
   "publishConfig": {
@@ -37,7 +37,7 @@
     "@types/websocket": "0.0.33",
     "babel-core": "^6.24.0",
     "babel-loader": "^7.0.0-beta.1",
-    "babel-preset-env": "^1.2.2",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
