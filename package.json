@@ -1,6 +1,6 @@
 {
   "name": "nodeserviceagent",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "NodeServices Agent is a terminal on browser to start/stop all the node application by one click. It has feature to view NODE Application console.logs directly on webview. Ability to search logs and append new node service application. It easy to manage all running instance in one single interface. It easy and fast for development purpose. To get all information of your apps in one place.",
   "main": "./build/index.js",
   "publishConfig": {
