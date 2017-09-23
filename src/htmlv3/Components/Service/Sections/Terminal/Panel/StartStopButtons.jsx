@@ -40,10 +40,9 @@ export class StartStopButtonsPanelClass extends React.Component {
 		this.setStatus(nextProps.config);
 	}
 
-	run = (cmd, altCmd) => {
+	run = (cmd) => {
 		this.setState({cmd: cmd});
-		this.config.command=cmd;
-		this.props.startService(this.config, altCmd || null)
+		this.props.startService(this.config, cmd )
 	}
 
 	kill = () => {
