@@ -1,6 +1,6 @@
 // http://nodejs.org/api.html#_child_processes
 import * as fs from 'fs';
-import * as websocket from '@types/websocket';
+import * as websocket from 'websocket';
 import * as path from 'path';
 import * as childprocess from 'child_process';
 

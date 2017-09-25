@@ -32,6 +32,7 @@ export class BranchesSimpleClass extends React.Component{
 			this.props.history.push("/Home");
 		}
 		else {
+
 			this.props.Get_Branches(service[0]);
 			this.props.Get_WorkingBranch(service[0]);
 			this.props.Get_RemoteBranches(service[0]);
@@ -42,10 +43,11 @@ export class BranchesSimpleClass extends React.Component{
 		let str="";
 		let br=item.match(/(^\*?\s?.*\[\w?\s)/);
 		let co=item.match(/(\s(([0-9,a-z]{7})|(->))\s)/);
+		if(co!=null){
 		let di=item.substring(co.index+co[0].length);
 		str += `<div class="cell">${convert.toHtml(br[0])}</div>`;
 		str += `<div class="cell">${co[0].trim()}</div>`;
-		str += `<div class="cell">${di}</div>`;
+		str += `<div class="cell">${di}</div>`;}
         return str;
 	};
     getBranches=(item, event) => {
@@ -94,7 +96,7 @@ export class BranchesSimpleClass extends React.Component{
 
 		return (
 			<div className="simpleBranch">
-				<Col md={2}>
+				<Col md={12}>
 					<PanelGroup onSelect={this.handleSelect} activeKey='_0' accordion>
 						<Panel  header="Current State" eventKey="_0">
 							<Table>
@@ -103,21 +105,20 @@ export class BranchesSimpleClass extends React.Component{
 										<td>Current Branch:</td>
 										<td>{git.workingBranch}</td>
 									</tr>
-
+									<tr>
+										<td>Status:</td>
+										<td>{statusList}</td>
+									</tr>
 								</tbody>
 							</Table>
 
 						</Panel>
-						<Panel  header="Status" eventKey="_0">
-							<div className="table">
-                                {statusList}
-							</div>
-						</Panel>
+
 					</PanelGroup>
 
 				</Col>
 
-				<Col md={10}>
+				<Col md={12}>
 					<PanelGroup onSelect={this.handleSelect} defaultActiveKey="1" accordion>
 
 						<Panel header="Local Branches" eventKey="1">
@@ -132,10 +133,10 @@ export class BranchesSimpleClass extends React.Component{
 									{
                                         filterBranchList.map((item, i) => {
                                             return (<tr key={'pull-btn-'+i}>
-												<td>{item.branch_name}</td>
+												<td dangerouslySetInnerHTML={{__html:item.branch_name}}></td>
 												<td>{item.commit_id}</td>
 												<td>{item.description}</td>
-												<td><button  onClick={this.gitPullCmd.bind(this, item.branch_name)} className="btn-success">{'Pull ' + item.branch_name}</button></td>
+												<td><button  onClick={this.gitPullCmd.bind(this, item.branch_name)} className="btn-success">{'Pull'}</button></td>
 											</tr>)
 
                                         })
