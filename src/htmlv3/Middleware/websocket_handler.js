@@ -18,7 +18,7 @@ import {onMessage} from './Helpers/message_handler.js';
 import {onOpen} from './Helpers/open_handler.js';
 import {onClose} from './Helpers/close_handler.js';
 
-
+var currentWindow = electron ? electron.remote.getCurrentWindow() : { wssPort: 1337};
 
 export const socketConnect = (function () {
 	let connection = null;
@@ -32,7 +32,7 @@ export const socketConnect = (function () {
 				if (connection !== null) {
 					onClose(connection, store)
 				}
-				connection = new WebSocket('ws://127.0.0.1:1337');
+				connection = new WebSocket(`ws://127.0.0.1:${currentWindow.wssPort}`);
 				connection.onopen = onOpen(connection, store);
 				connection.onmessage = onMessage(connection, store);
 				break;

@@ -17,15 +17,83 @@ export class AppClass extends React.Component {
         this.props.connectWebSocket()
     }
     render () {
+        // console.log(JSON.stringify(this.props.services.items))
+        const groupService = [{
+            key: "gsPeggy",
+            group: "My Name is Peggy",
+            data: [
+                {
+                    serviceName: "User Micro-Service",
+                    env: "NODE_ENV=DIT;NODE_PORT=4030;NODE_DEBUG=OFF",
+                    logs: [{
+                        time:"10:10:10",
+                        text:"something went wrong"
+                    },{
+                        time:"10:10:10",
+                        text:"something went wrong"
+                    },{
+                        time:"10:10:10",
+                        text:"something went wrong"
+                    },{
+                        time:"10:10:10",
+                        text:"something went wrong"
+                    }]
+                },
+                {
+                    serviceName: "AutoPay Micro-Service",
+                    env: "NODE_ENV=DIT;NODE_PORT=4030;NODE_DEBUG=OFF",
+                    logs: [{
+                        time:"10:10:10",
+                        text:"something went wrong"
+                    },{
+                        time:"10:10:10",
+                        text:"something went wrong"
+                    },{
+                        time:"10:10:10",
+                        text:"something went wrong"
+                    },{
+                        time:"10:10:10",
+                        text:"something went wrong"
+                    }]
+                },
+                {
+                    serviceName: "Top Micro-Service",
+                    env: "NODE_ENV=DIT;NODE_PORT=4030;NODE_DEBUG=OFF",
+                    logs: [{
+                        time:"10:10:10",
+                        text:"something went wrong"
+                    },{
+                        time:"10:10:10",
+                        text:"something went wrong"
+                    },{
+                        time:"10:10:10",
+                        text:"something went wrong"
+                    },{
+                        time:"10:10:10",
+                        text:"something went wrong"
+                    }]
+                }
+            ]
+        },{
+            key: "gsOverwatch",
+            group: "Overwatch"
+        },{
+            key: "gsUnderdog",
+            group: "Underdog"
+        },{
+            key: "gsFusionsquad",
+            group: "Fusion Squad"
+        }]
         return (
-            <div className="container-fluid">
-                <NavBarInstance {...this.props} />
-                <Switch>
-                    <Route path="/Home" component={HomeBody}/>
-                    <Route path="/Services" component={ServicesBody} exact />
-                    <Route path="/Services/readme/:service" component={ReadMe} />
-                    <Route path="/Services/github/:service" component={BranchesSimple} />
-                </Switch>
+            <div className="container">
+                <h4>Node Service Agent</h4>
+                {
+                    groupService.map((item)=> {
+                        return (
+                            <HomeBody key={item.key} group={item.group} cardData={item.data} />
+                        )
+                    })
+                }
             </div>
         );
     }
@@ -33,6 +101,7 @@ export class AppClass extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
+        services: state.websocket.services,
         websocket: state.websocket
     }
 }

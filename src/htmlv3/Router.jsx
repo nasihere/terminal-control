@@ -8,7 +8,6 @@ export const AppRouter = () => {
         <BrowserRouter >
             <div>
                 <Route component={App}  />
-                <Route exact path="/" render={()=>(<Redirect to="/Services"/>)}/>
             </div>
         </BrowserRouter>
     )
