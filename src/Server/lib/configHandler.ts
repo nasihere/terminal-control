@@ -49,6 +49,13 @@ export class configHandler {
 		})
 
 	};
+	private async pullNpmScripts (item: any): Promise<Array<any>> {
+		let npm = await getNpmScripts(item.cd)
+		item.npm = npm;
+		console.log('pull npm script')
+		console.log(JSON.stringify(item))
+		return item;
+	}
 
 	private async setNpmScripts (items: Array<any>): Promise<Array<any>> {
 		for ( let i = 0; i < items.length; i++ ) {
@@ -109,11 +116,18 @@ export class configHandler {
 		});
 
 	};
-	saveConfig = function (newConfig, connection) {
-		if ( this.configFile ) {
-			let pushJson = Object.assign({}, newConfig.cmd, {id: (Math.random() * 1e32).toString(36)});
-			this.configFile.configService.push(pushJson);
+	saveConfig = async function (newConfig, connection) {
+		if ( true ) {
+			newConfig = await this.pullNpmScripts(newConfig.cmd)
+			newConfig.id  = (Math.random() * 1e32).toString(36);
+			console.log('SaveConfig');
+			console.log('-'.repeat(100));
+			console.log(JSON.stringify(newConfig))
+
+			this.configFile.configService.push(newConfig);
+			// console.log('--'.repeat(200), JSON.stringify(this.configFile.configService), '-'.repeat(200));
 			this.writeFile(this.configSrc, JSON.stringify(this.configFile, null, "\t")).then(() => {
+				// console.log('new save config', JSON.stringify(this.configFile))
 				this.sendSuccess(connection, 'saveConfig', this.configFile)
 			}).catch((e) => {
 				this.sendFail(e, connection, 'saveConfig')
@@ -124,58 +138,60 @@ export class configHandler {
 	};
 	readConfig = (connection): void => {
 		// TODO : add validator to json strings and keys
-		if ( this.configFile ) {
-			this.sendSuccess(connection, "readConfig", this.configFile)
-		}
-		else {
-			this.readFile(this.configSrc).then((data) => {
-				try {
-					console.log('Reading Config from:', this.configSrc);
-					let fileData = JSON.parse(data);
-					if ( isUndefined(this.configFile) ) {
-						this.setId(fileData.configService)
-							.then(this.setNpmScripts)
-							.then(this.getReadMeContent)
-							.then((configService) => {
-								fileData.configService=configService
-								this.configFile = fileData;
-								this.sendSuccess(connection, "readConfig", this.configFile)
-							})
-							.catch((e) => {
-								console.error(e)
-							});
-					}
-					else {
-						for ( let i = 0; i < fileData.configService.length; i++ ) {
-							let currentItem = fileData.configService[ i ];
-							let keyLength = Object.keys(currentItem).length;
-							let testLength = 0;
+		console.log('this.configSrc', this.configSrc)
+		this.readFile(this.configSrc).then((data) => {
+			try {
+				console.log('Reading Config from:', this.configSrc);
+				let fileData = JSON.parse(data);
+				if ( isUndefined(this.configFile) ) { //isUndefined(this.configFile)
+					console.log('isUnDefined:', this.configSrc);
+					this.setId(fileData.configService)
+						.then(this.setNpmScripts)
+						.then(this.getReadMeContent)
+						.then((configService) => {
+							fileData.configService=configService
+							this.configFile = fileData;
+							console.log({"status":200, "message": "CONN_SUCC_SEND_CONFIG", "data":fileData});
+							this.sendSuccess(connection, "readConfig", this.configFile)
 
-							for ( let key in currentItem ) {
-								if ( currentItem[ key ] === this.configFile.configService[ i ][ key ] ) {
-									testLength++;
-								}
-							}
+						})
+						.catch((e) => {
+							console.log({"status":204, "message": "CONN_ERR_READ_CONFIG", "data":e});
+							console.error(e)
+						});
+				}
+				else {
+					for ( let i = 0; i < fileData.configService.length; i++ ) {
+						let currentItem = fileData.configService[ i ];
+						let keyLength = Object.keys(currentItem).length;
+						let testLength = 0;
 
-							if ( keyLength == testLength ) {
-								currentItem.id = (Math.random() * 1e32).toString(36);
-								if ( this.configFile.length ) {
-									this.configFile.splice(i, 0, currentItem);
-								}
+						for ( let key in currentItem ) {
+							if ( currentItem[ key ] === this.configFile.configService[ i ][ key ] ) {
+								testLength++;
 							}
 						}
-						this.sendSuccess(connection, "readConfig", this.configFile)
+
+						if ( keyLength == testLength ) {
+							currentItem.id = (Math.random() * 1e32).toString(36);
+							if ( this.configFile.length ) {
+								this.configFile.splice(i, 0, currentItem);
+							}
+						}
 					}
-
+					console.log('New Config Sent', JSON.stringify(this.configFile))
+					this.sendSuccess(connection, "readConfig", this.configFile)
 				}
-				catch ( e ) {
-					throw e
-				}
-			}).catch((e) => {
-				this.sendFail(e, connection, 'readConfig')
 
-			})
-		}
+			}
+			catch ( e ) {
+				throw e
+			}
+		}).catch((e) => {
+			this.sendFail(e, connection, 'readConfig')
+
+		})
+
 	};
 	editConfig = (message, connection): void => {
 		let configItem = message.cmd;

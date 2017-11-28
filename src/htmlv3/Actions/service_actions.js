@@ -74,6 +74,7 @@ export const pingService = (obj, idx) => {
 };
 
 export const submitNewService = (formObj) => {
+
 	return (dispatch) => {
 
 		dispatch({

@@ -2,6 +2,7 @@ export interface IEnvVars {
 	[key: string]: string;
 }
 export function splitVars (str: string): IEnvVars {
+	if (!str) return null;
 	let varsObj={}
 	let envVars = str.trim().replace(/;$/,"").split(";")
 		.map(o => o.trim().split("="))

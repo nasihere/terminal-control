@@ -3,17 +3,62 @@ import {Row, Col, Jumbotron, Panel, ListGroup,ListGroupItem, Button, Glyphicon,M
 import {connect} from 'react-redux';
 import {MemoryTile} from '../../Components/MemoryTile';
 import {Tabs,ReadMe} from './../../Components/Service';
+import {submitNewService, startService, deleteService} from '../../Actions/service_actions.js';
 import {Project} from './../../Components/Dashboard';
-import { ImportProject,FileDragDrop } from './';
+import { TerminalLogs,FileDragDrop,ImportProject } from './';
+import Dropzone from 'react-dropzone'
 
 import Convert from 'ansi-to-html';
 let convert=new Convert({newline:true});
 
-
 class _HomeBody extends React.Component{
     state = {
-        show: false
+        showTerminal: false,
+        showProject: false,
+        showConfigModal: false,
+        files: [],
+        modalItem:       {},
+        accepted: [],
+        rejected: []
     }
+
+    closeConfigModal = () => {
+        this.setState({modalItem: {}, showConfigModal: false})
+    }
+    openConfigModal = (item, type) => {
+
+        switch (type) {
+            case 'delete':
+                this.setState({modalItem: item, submit: this.remove});
+                break;
+            case 'edit':
+                this.setState({modalItem: item, submit: this.edit});
+                break;
+        }
+        this.setState({showConfigModal: true, type: type})
+
+    }
+    edit = (newItem) => {
+        this.props.editService(newItem);
+        this.closeConfigModal()
+    }
+    readDirectory = (dirEntry, callback) => {
+        var dirReader = dirEntry.createReader();
+        var entries = [];
+        // Call the reader.readEntries() until no more results are returned.
+        var readEntries = function() {
+            dirReader.readEntries (function(results) {
+                if (!results.length) {
+                    callback(entries);
+                } else {
+                    entries = entries.concat(toArray(results));
+                    readEntries();
+                }
+            }, onError);
+        };
+        readEntries(); // Start reading dirs.
+    }
+
     getRandomClassHeader() {
         let rnd = Math.round(Math.random() * (3) + 0);
         switch (rnd) {
@@ -27,19 +72,35 @@ class _HomeBody extends React.Component{
                 return 'text-info'
         }
     }
-    closeModal() {
+
+    closeTerminalModal() {
         this.setState({
-            show:false
+            showTerminal:false
         })
     }
-
-    showModal(data) {
+    closeProjectModal() {
         this.setState({
-            show:true,
-            modalData: data
+            showProject:false
         })
+    }
+    showTerminalModal(data) {
+        this.setState({
+            showTerminal:true,
+            modalTerminalData: data
+        })
+    }
+    showProjectModal(data) {
+        this.setState({
+            showProject:true,
+            modalProjectData: data
+        })
+    }
+    remove(item) {
+        this.props.deleteService(item)
+
     }
     createEnv(environment){
+        if (!environment) return null;
         const env = environment.replace(/export/g,'').replace(/SET/g,'').split(';');
         return env.map((item, index) => {
             if (item)
@@ -47,7 +108,7 @@ class _HomeBody extends React.Component{
         })
     }
     createLogRow(logs){
-
+        if (!logs) return null;
         let prevTime = '';
 
         return logs.map((item,idx)=>{
@@ -64,40 +125,69 @@ class _HomeBody extends React.Component{
 
         });
     }
+    onDrop(files) {
+        console.log(files, 'files');
+        files.filter((item)=> {
+            this.props.submitNewService(
+                {
+                    "name": item.name,
+                    "group": this.props.group,
+                    "env": "",
+                    "command": "npm run start",
+                    // "cd": item.path || "~/projects/ceh/" + item.name
+                    "cd": "/Users/sayedn/projects/ceh/" + item.name
+                }
+            )
+        })
+        // this.showProjectModal(files)
+    }
     render(){
+        console.log(this.props, 'this.props')
         if (!this.props.cardData) return null;
         const  { cardData } = this.props;
+        console.log(cardData,'cardData')
         const headerClass = this.getRandomClassHeader();
 
         return(
 
-            <Row>
-                <FileDragDrop>
-                    <div className="terminal">
+            <Row className="rowDrop">
+                <Dropzone onClick="javascript:void" onDrop={this.onDrop.bind(this)}>
+
+                <div className="terminal">
                     <div className="title">
                         <h5 className={headerClass}>{this.props.group}
 
-                            <div className="pull-right"><DropdownButton
+                            <div className="pull-right">
+                                <DropdownButton
 
-                                title={<Glyphicon glyph="option-vertical"/>}
-                                bsSize="xsmall"
-                                className="btn-link">
-                                <MenuItem>
-                                    <small><Glyphicon glyph="cog"/> settings</small>
-                                </MenuItem>
-                                <MenuItem>
-                                    <small><Glyphicon glyph="refresh"/> restart</small>
-                                </MenuItem>
-                                <MenuItem>
-                                    <small><Glyphicon glyph="remove"/> delete</small>
-                                </MenuItem>
-                            </DropdownButton></div>
+                                    title={<Glyphicon glyph="option-vertical"/>}
+                                    bsSize="xsmall"
+                                    className="btn-link">
+                                    <MenuItem>
+                                        <small><Glyphicon glyph="cog"/> settings</small>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <small><Glyphicon glyph="refresh"/> restart</small>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <small><Glyphicon glyph="remove" /> delete</small>
+                                    </MenuItem>
+                                </DropdownButton>
+                            </div>
                         </h5>
                     </div>
 
                     <div className="style-flex ">
                         {
+
                             cardData.map(item => {
+                                console.log(item, 'item');
+                                if (item.data && item.data.length === 0) return null;
+                                let npmArray = [];
+                                for(let npmItem in item.npm) {
+                                    npmArray.push(npmItem);
+                                }
+                                if (item.length === 0) return null;
                                 return (
                                 <div>
                                     <div style={{'text-align':'center', 'color':"#1d8aa3"}}>|</div>
@@ -105,32 +195,43 @@ class _HomeBody extends React.Component{
 
                                             <small className="terminal-header text-muted">
 
-                                                <span>{item.serviceName}</span>
+                                                <span>{item.name}</span>
                                                 <div className="pull-right">
                                                     <DropdownButton
 
-                                                        title={<Glyphicon glyph="option-vertical"/>}
-                                                        bsSize="xsmall"
-                                                        key={item+"dropOption"}
-                                                        className="btn-link">
+                                                    title={<Glyphicon glyph="option-vertical"/>}
+                                                    bsSize="xsmall"
+                                                    key={item.name+"dropOption"}
+                                                    className="btn-link">
 
-                                                        <MenuItem>
-                                                            <small><Glyphicon glyph="cog"/> settings</small>
-                                                        </MenuItem>
-                                                        <MenuItem>
-                                                            <small><Glyphicon glyph="refresh"/> restart</small>
-                                                        </MenuItem>
-                                                        <MenuItem>
-                                                            <small><Glyphicon glyph="remove"/> delete</small>
-                                                        </MenuItem>
-                                                    </DropdownButton>
+                                                    <MenuItem onSelect={()=>this.openConfigModal.bind(this)}>
+                                                        <small><Glyphicon glyph="cog"/> settings</small>
+                                                    </MenuItem>
+                                                        {
+                                                            npmArray.map(npmItem => {
+                                                                return (
+
+                                                                    <MenuItem key={`npm-run-${item.name}-${npmItem}`} onSelect={(k,e) => {this.props.startService({id: item.id, cd: item.cd, env: item.env, command: 'npm run ' + npmItem, name: item.name})}}>{npmItem}</MenuItem>
+                                                                )
+                                                            })
+
+
+                                                        }
+                                                    <MenuItem>
+                                                        <small><Glyphicon glyph="refresh"/> restart</small>
+                                                    </MenuItem>
+                                                    <MenuItem onSelect={(k,e) => {this.remove(item)}}>
+                                                        <small><Glyphicon glyph="remove" /> delete</small>
+                                                    </MenuItem>
+
+                                                </DropdownButton>
                                                 </div>
                                             </small>
                                             <div className="terminal-prebody">
                                                 {this.createEnv(item.env)}
                                             </div>
-                                            <div className="prompt terminal-body" onClick={this.showModal.bind(this,item)}>
-                                                {this.createLogRow(item.logs)}
+                                            <div className="prompt terminal-body" onClick={this.showTerminalModal.bind(this,this.props.logs[item.id])}>
+                                                {this.createLogRow(this.props.logs[item.id])}
 
                                             </div>
 
@@ -138,6 +239,8 @@ class _HomeBody extends React.Component{
 
                                             </div>
                                         </div>
+                                    <TerminalLogs show={this.state.showTerminal} bsSize="large" close={this.closeTerminalModal.bind(this)}
+                                                  modalData={this.state.modalTerminalData}/>
                                 </div>
                                 )
                             })
@@ -147,74 +250,31 @@ class _HomeBody extends React.Component{
 
                     </div>
                 </div>
-                </FileDragDrop>
-                <ImportProject show={this.state.show} bsSize="large" close={this.closeModal.bind(this)}
-                               modalData={this.state.modalData}/>
+                </Dropzone>
+                <ImportProject show={this.state.showProject} bsSize="large" close={this.closeProjectModal.bind(this)}
+                               modalData={this.state.modalProjectData} />
+
+                <ServiceFormModal type={"edit"}
+                                  item={this.state.modalItem}
+                                  show={this.state.showConfigModal}
+                                  close={this.closeConfigModal} submit={this.edit}/>
             </Row>
+
 
 
         )
     }
 }
 
-//
-// class _HomeBody extends React.Component{
-//
-//     render(){
-//         return(
-//             <div>
-//                 <Col sm={8}  lg={12}>
-//                     <Row>
-//                         <Jumbotron>
-//                             <h1>Welcome!</h1>
-//                             <p>Thank you for using the desktop webservice, <b>Node ServiceAgent</b></p>
-//                             <p>To get Started visit the services tab and click on service!</p>
-//                         </Jumbotron>
-//                     </Row>
-//                     <Row>
-//                         <Col xs={12} md={4} lg={4}>
-//                             <Panel header="Coming Soon">
-//                                 <ListGroup>
-//                                     <ListGroupItem>
-//                                         Validation for Service Forms
-//                                     </ListGroupItem>
-//                                     <ListGroupItem>
-//                                         Enable use of package.json script commands
-//                                     </ListGroupItem>
-//                                     <ListGroupItem>
-//                                         Better Handling of the Start and Stop Services
-//                                     </ListGroupItem>
-//                                     <ListGroupItem>
-//                                         DASHBOARD!
-//                                     </ListGroupItem>
-//                                 </ListGroup>
-//                             </Panel>
-//                         </Col>
-//
-//                         <Col xs={12} md={8} lg={8}>
-//                             <Project />
-//
-//                         </Col>
-//                         <Col xs={12} md={4}  lg={4}>
-//                             <Panel header="Visit Github!">
-//                             <p>Our Content is currently stored on github however it is in a private repository. When we release the code it will be referenced here</p>
-//                             </Panel>
-//                         </Col>
-//                     </Row>
-//                 </Col>
-//             </div>
-//         )
-//     }
-// }
-
 
 let mapStateToProp = (state) => {
     return{
         services:state.websocket.services.items,
-        memory:state.memoryUsage
+        memory:state.memoryUsage,
+        logs:     state.websocket.logsHistory
     }
 }
 
-export let HomeBody = connect(mapStateToProp)(_HomeBody);
+export let HomeBody = connect(mapStateToProp,{submitNewService,startService, deleteService})(_HomeBody);
 
 

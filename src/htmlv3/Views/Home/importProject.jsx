@@ -15,7 +15,16 @@ import {connect} from 'react-redux';
 import Convert from 'ansi-to-html';
 let convert=new Convert({newline:true});
 class _ImportProjects extends React.Component{
-    state = {}
+    state = {
+    }
+    constructor(){
+        super();
+        this.setState(
+            {
+                modalData: undefined
+            }
+        )
+    }
     submitForm = (event) => {
         event.preventDefault();
         alert('submit')
@@ -23,43 +32,115 @@ class _ImportProjects extends React.Component{
 
         //console.log(event)
     }
-    createLogRow(logs){
+    clearStateModal() {
+        this.setState({
+            modalData: undefined
+        })
+        this.props.close.bind(this)();
 
-        let prevTime = '';
+    }
+    removeProject(idx) {
+        this.setState({
+            modalData: this.state.modalData.filter((_, i) => i !== idx)
+        })
+        if (this.state.modalData.length === 1) {
+            this.clearStateModal();
+        }
+    }
+    createProjectRow(item) {
 
-        return logs.map((item,idx)=>{
-            let printTime = false;
-            if (prevTime !== item.time) {
-                prevTime = item.time;
-                printTime = true;
-            }
-            return <div className="show-grid" key={"logs_inline#" + (idx + 1) + "_" + idx}>
-                {(printTime) ? <code>{item.time}</code> : ''}
-                <div dangerouslySetInnerHTML={{__html:(item) ? convert.toHtml(item.text) : ''}}/>
+            return (
+                        <table>
+                            <tr>
+                                <td>Name</td>
+                                <td>Value</td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" /></td>
+                                <td><input type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" /></td>
+                                <td><input type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" /></td>
+                                <td><input type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" /></td>
+                                <td><input type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" /></td>
+                                <td><input type="text" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" /></td>
+                                <td><input type="text" /></td>
+                            </tr>
+                        </table>
+            )
 
-            </div>
+    }
+    componentDidMount() {
 
-        });
     }
     render(){
-        if (!this.props.modalData) return null;
-        const  { modalData  } = this.props;
+        if (!this.props.modalData || !this.props.show) return null;
+
+        const  { modalData  } = this.state;
+        if (modalData === undefined ) {
+            this.setState({
+                modalData: this.props.modalData
+            })
+        }
         return(
 
             <Modal show={this.props.show}>
                 <Modal.Header>
-                    <Modal.Title>{modalData.serviceName}</Modal.Title>
+                    <Modal.Title>Projects</Modal.Title>
                 </Modal.Header>
                 <Form action="" onSubmit={this.submitForm.bind(this)}>
                     <Modal.Body>
-                        <div className="terminal-body terminal-body-details ">
-                            {this.createLogRow(modalData.logs)}
+                        <div>
+                            {
+
+                                modalData.map((item, idx) => {
+                                    return (<Table>
+                                            <tr>
+                                                <th>
+                                                    NAME
+                                                </th>
+                                                <th>
+                                                    ENV
+                                                </th>
+                                                <th>
+                                                    SOZE
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                            <td>{item.name}</td>
+                                                <td>
+                                                    <span>NODE_ENV=DIT</span>
+                                                    <Button bsSizes="xsmall"  bsStyle="warning" onClick={this.removeProject.bind(this, idx)} >...</Button>
+                                                </td>
+                                                {/*<div>{this.createProjectRow(item)}</div>*/}
+                                                <td>
+                                                    <Button bsSizes="xsmall"  bsStyle="warning" onClick={this.removeProject.bind(this, idx)} >X</Button>
+                                                </td>
+                                            </tr>
+                                    </Table>)
+                                    })
+                            }
+
+
 
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
                         <ButtonGroup>
-                            <Button bsStyle="danger" onClick={this.props.close} type="button">Close</Button>
+                            <Button bsStyle="danger" onClick={this.clearStateModal.bind(this)} type="button">Close</Button>
 
                         </ButtonGroup>
                     </Modal.Footer>

@@ -120,7 +120,9 @@ export class appCommand extends ServerConfig {
 	handleMessage = (message: IMessageIn, connection): void => {
 		switch ( message.req ) {
 			case "getConfigFile":
+				console.log('Request', 'getConfigFile')
 				this.configHandler.readConfig(connection);
+
 				break;
 			case "deleteService":
 				this.configHandler.deleteConfig(message, connection);
