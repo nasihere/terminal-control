@@ -48,7 +48,7 @@ class TerminalLogsComponent extends React.Component{
 
             <Modal show={this.props.show}>
                 <Modal.Header>
-                    <Modal.Title>{modalData.serviceName}</Modal.Title>
+                    <Modal.Title>Terminal Logs: {modalData.serviceName}</Modal.Title>
                 </Modal.Header>
                 <Form action="" onSubmit={this.submitForm.bind(this)}>
                     <Modal.Body>

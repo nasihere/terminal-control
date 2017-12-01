@@ -199,11 +199,14 @@ export class configHandler {
 		if ( this.configFile ) {
 			let _items = this.configFile.configService.map((item) => {
 				if ( item.id === configItem.id ) {
-					for ( let key in item ) {
-						if ( item[ key ] !== configItem[ key ] ) {
-							item[ key ] = configItem[ key ]
-						}
-					}
+					// for ( let key in item ) {
+					// 	if ( item[ key ] !== configItem[ key ] ) {
+					// 		item[ key ] = configItem[ key ]
+					// 	}
+					// }
+					// return item;
+					item['env'] = configItem['env'];
+					item['command'] = configItem['command'];
 					return item;
 				}
 				else {
@@ -211,6 +214,8 @@ export class configHandler {
 				}
 				;
 			})
+			console.log('editConfig');
+			console.log(_items);
 			this.configFile.configService = _items;
 			const writeJson = JSON.stringify(this.configFile, null, "\t");
 			this.writeFile(this.configSrc, writeJson).then((data) => {

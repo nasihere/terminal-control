@@ -28,10 +28,8 @@ export class AppClass extends React.Component {
         }
     }
     render () {
-        console.log("json config",JSON.stringify(this.props.services.items))
         if (this.props.services.items === []) return null;
         const groupService = this.props.services.items;
-        console.log(groupService, 'groupService')
         let group = [];
         groupService.map((item)=>{
 
@@ -44,13 +42,11 @@ export class AppClass extends React.Component {
              }
             // group[item.group] = {"data": item}
         })
-        console.log(group, 'group');
         let groupList = [];
         for (var i in group) {
             groupList.push(group[i])
 
         }
-        console.log(groupList, typeof groupList,'group map')
         return (
             <div className="container">
                 <h4>Node Service Agent</h4>

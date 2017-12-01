@@ -107,13 +107,15 @@ hr {
 
 .style-flex {
     display: flex;
+    flex-wrap: wrap-reverse;
     overflow-x: auto;
 }
 .style-flex > div
 {
     flex:1 1 auto;
-    min-width: 200px;
-    max-width: 300px;
+
+    min-width: 222px;
+    max-width: 365px;
     transition: 0.3s;
     min-height: 150px;
     display: inline-block;
@@ -157,7 +159,7 @@ hr {
 .terminal-card {
     background: #124e5b;
     margin-top: -1px;
-    box-shadow: 0 16px 16px 16px rgba(0, 0, 0, 0.2), 16px 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0 rgba(0, 0, 0, 0.19);
 }
 .terminal-card:hover {
 
@@ -178,7 +180,7 @@ hr {
     margin-top: 10px;
     word-wrap: break-word;
     cursor: pointer;
-    min-height: 100px;
+    min-height: 175px;
     overflow-y: auto;
 }
 .terminal-card > .terminal-body {
@@ -189,6 +191,10 @@ hr {
     max-height: 400px;
     cursor: default;
 
+}
+.dropdown-menu {
+    margin-left: -137px;
+    margin-top: 20px;
 }
   .terminal-body:hover {
     box-shadow: 0 16px 16px 16px rgba(0, 0, 0, 0.2), 16px 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -206,7 +212,7 @@ hr {
 }
 .container {
     border: 1px solid #1d8aa3;
-    background-color: #033844;
+    background-color: #000;
 }
 body{
     background-color: #011f26;

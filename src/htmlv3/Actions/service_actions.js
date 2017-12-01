@@ -42,7 +42,6 @@ export const startService = (obj, altCmd) => {
 }
 
 export const killService = (obj, idx) => {
-
 	return (dispatch) => {
 
 		//let msg = "lsof -t -i tcp:#PORT# | xargs kill;".replace('#PORT#',obj.Port); //*#*${obj.name} will add servicename for terminal logs

@@ -1,12 +1,13 @@
 import * as React from 'react';
-import {Row, Col, Jumbotron, Panel, ListGroup,ListGroupItem, Button, Glyphicon,MenuItem,SplitButton, DropdownButton} from 'react-bootstrap';
+import {Row, Col, Jumbotron, Panel, ListGroup,ListGroupItem, Button, Glyphicon,OverlayTrigger,Tooltip,MenuItem,SplitButton, DropdownButton} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {MemoryTile} from '../../Components/MemoryTile';
 import {Tabs,ReadMe} from './../../Components/Service';
-import {submitNewService, startService, deleteService} from '../../Actions/service_actions.js';
+import {submitNewService, startService,editService, killService, deleteService} from '../../Actions/service_actions.js';
 import {Project} from './../../Components/Dashboard';
 import { TerminalLogs,FileDragDrop,ImportProject } from './';
 import Dropzone from 'react-dropzone'
+import {ServiceFormModal} from './../../Components/Common/ServiceModal/ServiceModal.jsx';
 
 import Convert from 'ansi-to-html';
 let convert=new Convert({newline:true});
@@ -21,7 +22,16 @@ class _HomeBody extends React.Component{
         accepted: [],
         rejected: []
     }
-
+    restart (item) {
+        this.kill(item);
+        this.run(item);
+    }
+    kill = (item) => {
+        this.props.killService(item)
+    }
+    run = (item) => {
+        this.props.startService(item, item.command)
+    }
     closeConfigModal = () => {
         this.setState({modalItem: {}, showConfigModal: false})
     }
@@ -42,22 +52,7 @@ class _HomeBody extends React.Component{
         this.props.editService(newItem);
         this.closeConfigModal()
     }
-    readDirectory = (dirEntry, callback) => {
-        var dirReader = dirEntry.createReader();
-        var entries = [];
-        // Call the reader.readEntries() until no more results are returned.
-        var readEntries = function() {
-            dirReader.readEntries (function(results) {
-                if (!results.length) {
-                    callback(entries);
-                } else {
-                    entries = entries.concat(toArray(results));
-                    readEntries();
-                }
-            }, onError);
-        };
-        readEntries(); // Start reading dirs.
-    }
+
 
     getRandomClassHeader() {
         let rnd = Math.round(Math.random() * (3) + 0);
@@ -99,8 +94,9 @@ class _HomeBody extends React.Component{
         this.props.deleteService(item)
 
     }
-    createEnv(environment){
-        if (!environment) return null;
+    createEnv(item){
+        const environment = item.env;
+        if (!environment) return <small><Button type="button" bsSize="xsmall" bsStyle="success" onClick={()=>this.openConfigModal(item, 'edit')}>Set Environment Variables</Button></small>;
         const env = environment.replace(/export/g,'').replace(/SET/g,'').split(';');
         return env.map((item, index) => {
             if (item)
@@ -126,7 +122,6 @@ class _HomeBody extends React.Component{
         });
     }
     onDrop(files) {
-        console.log(files, 'files');
         files.filter((item)=> {
             this.props.submitNewService(
                 {
@@ -141,11 +136,14 @@ class _HomeBody extends React.Component{
         })
         // this.showProjectModal(files)
     }
+    startAllServices(cardData) {
+        cardData.map(item => {
+            this.restart(item);
+        })
+    }
     render(){
-        console.log(this.props, 'this.props')
         if (!this.props.cardData) return null;
         const  { cardData } = this.props;
-        console.log(cardData,'cardData')
         const headerClass = this.getRandomClassHeader();
 
         return(
@@ -163,14 +161,12 @@ class _HomeBody extends React.Component{
                                     title={<Glyphicon glyph="option-vertical"/>}
                                     bsSize="xsmall"
                                     className="btn-link">
-                                    <MenuItem>
-                                        <small><Glyphicon glyph="cog"/> settings</small>
+                                    <MenuItem onSelect={(k,e) => {this.startAllServices(cardData)}}>
+                                        <small><Glyphicon glyph="refresh"/> start all group services</small>
                                     </MenuItem>
+                                    <MenuItem divider />
                                     <MenuItem>
-                                        <small><Glyphicon glyph="refresh"/> restart</small>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <small><Glyphicon glyph="remove" /> delete</small>
+                                        <small><Glyphicon glyph="remove" /> delete all group services</small>
                                     </MenuItem>
                                 </DropdownButton>
                             </div>
@@ -181,7 +177,6 @@ class _HomeBody extends React.Component{
                         {
 
                             cardData.map(item => {
-                                console.log(item, 'item');
                                 if (item.data && item.data.length === 0) return null;
                                 let npmArray = [];
                                 for(let npmItem in item.npm) {
@@ -204,9 +199,21 @@ class _HomeBody extends React.Component{
                                                     key={item.name+"dropOption"}
                                                     className="btn-link">
 
-                                                    <MenuItem onSelect={()=>this.openConfigModal.bind(this)}>
+                                                    <MenuItem onSelect={()=>this.openConfigModal(item, 'edit')}>
                                                         <small><Glyphicon glyph="cog"/> settings</small>
                                                     </MenuItem>
+                                                    <MenuItem  key={`npm-run-${item.name}-${item.command}`}
+                                                               onSelect={(k, e) => {this.restart(item)}}>
+
+                                                        <OverlayTrigger placement="top" overlay={
+                                                            <Tooltip id="tooltip">{item.command}</Tooltip>}>
+                                                            <small><Glyphicon glyph="refresh"/> <code>{item.command.substr(0,30)}</code></small>
+                                                        </OverlayTrigger>
+                                                    </MenuItem>
+                                                    <MenuItem onSelect={(k,e) => {this.remove(item)}}>
+                                                        <small><Glyphicon glyph="remove" /> delete</small>
+                                                    </MenuItem>
+                                                    <MenuItem divider />
                                                         {
                                                             npmArray.map(npmItem => {
                                                                 return (
@@ -217,18 +224,13 @@ class _HomeBody extends React.Component{
 
 
                                                         }
-                                                    <MenuItem>
-                                                        <small><Glyphicon glyph="refresh"/> restart</small>
-                                                    </MenuItem>
-                                                    <MenuItem onSelect={(k,e) => {this.remove(item)}}>
-                                                        <small><Glyphicon glyph="remove" /> delete</small>
-                                                    </MenuItem>
+
 
                                                 </DropdownButton>
                                                 </div>
                                             </small>
                                             <div className="terminal-prebody">
-                                                {this.createEnv(item.env)}
+                                                {this.createEnv(item)}
                                             </div>
                                             <div className="prompt terminal-body" onClick={this.showTerminalModal.bind(this,this.props.logs[item.id])}>
                                                 {this.createLogRow(this.props.logs[item.id])}
@@ -257,7 +259,8 @@ class _HomeBody extends React.Component{
                 <ServiceFormModal type={"edit"}
                                   item={this.state.modalItem}
                                   show={this.state.showConfigModal}
-                                  close={this.closeConfigModal} submit={this.edit}/>
+                                  close={this.closeConfigModal}
+                                  submit={this.edit}/>
             </Row>
 
 
@@ -270,11 +273,11 @@ class _HomeBody extends React.Component{
 let mapStateToProp = (state) => {
     return{
         services:state.websocket.services.items,
-        memory:state.memoryUsage,
+        // memory:state.memoryUsage,
         logs:     state.websocket.logsHistory
     }
 }
 
-export let HomeBody = connect(mapStateToProp,{submitNewService,startService, deleteService})(_HomeBody);
+export let HomeBody = connect(mapStateToProp,{submitNewService,startService,killService,editService, deleteService})(_HomeBody);
 
 

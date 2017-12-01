@@ -118,6 +118,7 @@ export class appCommand extends ServerConfig {
 
 	};
 	handleMessage = (message: IMessageIn, connection): void => {
+		console.log('message', message)
 		switch ( message.req ) {
 			case "getConfigFile":
 				console.log('Request', 'getConfigFile')
@@ -138,6 +139,7 @@ export class appCommand extends ServerConfig {
 				break;
 			case "killService":
 				//Stop the service
+				console.log('killService', message.pid);
 				psTree(message.pid, (err, children) => {
 						childprocess
 							.spawn('kill', [ '-9' ]
