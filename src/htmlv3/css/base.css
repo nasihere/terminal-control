@@ -107,14 +107,14 @@ hr {
 
 .style-flex {
     display: flex;
-    flex-wrap: wrap-reverse;
+    flex-wrap: wrap;
     overflow-x: auto;
 }
 .style-flex > div
 {
     flex:1 1 auto;
 
-    min-width: 222px;
+    min-width: 365px;
     max-width: 365px;
     transition: 0.3s;
     min-height: 150px;
@@ -172,8 +172,7 @@ hr {
 }
 .terminal-body {
     background-color: #1D1F20;
-    color: #55ff55;
-    font-family: monospace  ;
+    color: #fff;
     font-size: 10px;
     margin-right: 0px;
     padding: 10px;
@@ -194,7 +193,6 @@ hr {
 }
 .dropdown-menu {
     margin-left: -137px;
-    margin-top: 20px;
 }
   .terminal-body:hover {
     box-shadow: 0 16px 16px 16px rgba(0, 0, 0, 0.2), 16px 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -206,9 +204,9 @@ hr {
     padding-top: 5px;
     min-width: 170px;
 }
-.terminal-prebody > small {
+small, .terminal-prebody > small {
     margin-right: 5px;
-    font-weight: normal;
+    font-weight: normal!important;
 }
 .container {
     border: 1px solid #1d8aa3;

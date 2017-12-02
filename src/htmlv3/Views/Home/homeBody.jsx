@@ -1,9 +1,11 @@
 import * as React from 'react';
+import ReactDOM from 'react-dom'
 import {Row, Col, Jumbotron, Panel, ListGroup,ListGroupItem, Button, Glyphicon,OverlayTrigger,Tooltip,MenuItem,SplitButton, DropdownButton} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {MemoryTile} from '../../Components/MemoryTile';
 import {Tabs,ReadMe} from './../../Components/Service';
-import {submitNewService, startService,editService, killService, deleteService} from '../../Actions/service_actions.js';
+import {StatusPanel} from './../../Components/Service/Sections/Terminal/Panel/Status.jsx';
+import {submitNewService, startService,editService, killService, deleteService, clearLogs} from '../../Actions/service_actions.js';
 import {Project} from './../../Components/Dashboard';
 import { TerminalLogs,FileDragDrop,ImportProject } from './';
 import Dropzone from 'react-dropzone'
@@ -13,20 +15,40 @@ import Convert from 'ansi-to-html';
 let convert=new Convert({newline:true});
 
 class _HomeBody extends React.Component{
-    state = {
-        showTerminal: false,
-        showProject: false,
-        showConfigModal: false,
-        files: [],
-        modalItem:       {},
-        accepted: [],
-        rejected: []
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            showTerminal: false,
+            showProject: false,
+            showConfigModal: false,
+            files: [],
+            modalItem:       {},
+            accepted: [],
+            rejected: []
+        }
+        this.handleShow = this.handleShow.bind(this);
+    }
+    handleShow(item) {
+        const self = this;
+        setTimeout(
+        function() {
+            const historyList     = self.refs[`historyList_${item.id}`];
+            const historyListData = self.refs[`historyListData_${item.id}`];
+            if (historyList === undefined) return;
+            const scrollTop                             = historyList.scrollTop;
+            const scrollHeight                          = historyList.scrollHeight;
+            const height                                = historyListData.clientHeight;
+            const maxScrollTop                          = scrollHeight - height;
+            ReactDOM.findDOMNode(historyList).scrollTop = height;//(scrollTop !== 0 && scrollTop > maxScrollTop) ? scrollTop : maxScrollTop;
+        },2000);
     }
     restart (item) {
         this.kill(item);
         this.run(item);
     }
     kill = (item) => {
+        this.clearLogs(item)
         this.props.killService(item)
     }
     run = (item) => {
@@ -100,7 +122,7 @@ class _HomeBody extends React.Component{
         const env = environment.replace(/export/g,'').replace(/SET/g,'').split(';');
         return env.map((item, index) => {
             if (item)
-                return <small className="label label-warning">{item}</small>
+                return <small className="label label-danger">{item}</small>
         })
     }
     createLogRow(logs){
@@ -116,10 +138,12 @@ class _HomeBody extends React.Component{
             return <div className="show-grid" key={"logs_inline#" + (idx + 1) + "_" + idx}>
                     {(printTime) ? <code>{item.time}</code> : ''}
                     <div dangerouslySetInnerHTML={{__html:(item) ? convert.toHtml(item.text) : ''}}/>
-
             </div>
 
         });
+    }
+    clearLogs(item) {
+        this.props.clearLogs(item);
     }
     onDrop(files) {
         files.filter((item)=> {
@@ -190,8 +214,9 @@ class _HomeBody extends React.Component{
 
                                             <small className="terminal-header text-muted">
 
-                                                <span>{item.name}</span>
+                                                <span>{item.name} </span>
                                                 <div className="pull-right">
+
                                                     <DropdownButton
 
                                                     title={<Glyphicon glyph="option-vertical"/>}
@@ -214,6 +239,13 @@ class _HomeBody extends React.Component{
                                                         <small><Glyphicon glyph="remove" /> delete</small>
                                                     </MenuItem>
                                                     <MenuItem divider />
+                                                    <MenuItem onSelect={()=>this.clearLogs(item)}>
+                                                        <small><Glyphicon glyph="ban-circle"/> Clear Logs</small>
+                                                    </MenuItem>
+                                                    <MenuItem onSelect={(k,e) => {this.kill(item)}}>
+                                                        <small><Glyphicon glyph="stop" /> Kill Service</small>
+                                                    </MenuItem>
+                                                    <MenuItem divider />
                                                         {
                                                             npmArray.map(npmItem => {
                                                                 return (
@@ -227,14 +259,17 @@ class _HomeBody extends React.Component{
 
 
                                                 </DropdownButton>
+                                                    <StatusPanel config={item}  />
                                                 </div>
                                             </small>
                                             <div className="terminal-prebody">
                                                 {this.createEnv(item)}
                                             </div>
-                                            <div className="prompt terminal-body" onClick={this.showTerminalModal.bind(this,this.props.logs[item.id])}>
-                                                {this.createLogRow(this.props.logs[item.id])}
-
+                                            <div ref={`historyList_${item.id}`} className="prompt terminal-body" onClick={this.showTerminalModal.bind(this,this.props.logs[item.id])}>
+                                                <div ref={`historyListData_${item.id}`}   >
+                                                    {this.createLogRow(this.props.logs[item.id])}
+                                                    {this.handleShow(item)}
+                                                </div>
                                             </div>
 
                                             <div className="terminal-footer">
@@ -278,6 +313,6 @@ let mapStateToProp = (state) => {
     }
 }
 
-export let HomeBody = connect(mapStateToProp,{submitNewService,startService,killService,editService, deleteService})(_HomeBody);
+export let HomeBody = connect(mapStateToProp,{submitNewService,startService,killService,editService, deleteService, clearLogs})(_HomeBody);
 
 

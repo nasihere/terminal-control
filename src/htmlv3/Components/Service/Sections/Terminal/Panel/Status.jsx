@@ -20,10 +20,11 @@ export class StatusPanelClass extends React.Component {
     }
     render() {
         if (this.runVisible === 'none') {
-            return (<Alert bsStyle="success" className="alert-status">&nbsp;</Alert>)
+            //<Alert bsStyle="success" className="alert-status">&nbsp;</Alert>
+            return (<small className="label label-success">Running</small>)
         }
         else {
-            return (<Alert bsStyle="danger" className="alert-status">&nbsp;</Alert>)
+            return (<small className="label label-warning">Stopped</small>)
         }
     }
 

@@ -7,7 +7,8 @@ import {
 	SERVICE_PING,
 	SERVICE_ADD_CONFIG,
 	SERVICE_DELETE_CONFIG,
-	SERVICE_EDIT_CONFIG
+	SERVICE_EDIT_CONFIG,
+    SERVICE_CLEAR_LOGS
 } from '../Actions/ActionTypes';
 export const connectWebSocket = () => {
 	return (dispatch) => {
@@ -93,6 +94,18 @@ export const deleteService = (item) => {
 			}
 		})
 	}
+}
+
+export const clearLogs = (item) => {
+    return dispatch => {
+        dispatch({
+            	type: SERVICE_CLEAR_LOGS,
+				payload: {
+					req: 'clearLogs',
+					id: item.id
+				}
+        })
+    }
 }
 export const editService = (item) => {
 
