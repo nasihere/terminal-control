@@ -165,6 +165,12 @@ class _HomeBody extends React.Component{
             this.restart(item);
         })
     }
+
+    stopAllServices(cardData) {
+        cardData.map(item => {
+            this.kill(item);
+        })
+    }
     render(){
         if (!this.props.cardData) return null;
         const  { cardData } = this.props;
@@ -187,6 +193,9 @@ class _HomeBody extends React.Component{
                                     className="btn-link">
                                     <MenuItem onSelect={(k,e) => {this.startAllServices(cardData)}}>
                                         <small><Glyphicon glyph="refresh"/> start all group services</small>
+                                    </MenuItem>
+                                    <MenuItem onSelect={(k,e) => {this.stopAllServices(cardData)}}>
+                                        <small><Glyphicon glyph="stop"/> stop all group services</small>
                                     </MenuItem>
                                     <MenuItem divider />
                                     <MenuItem>
