@@ -7,7 +7,6 @@ import { IMessage } from "websocket";
 
 let webSocketServer = websocket.server;
 // Optional. You will see this name in eg. 'ps' or 'top' command
-process.title = 'node-service-agent';
 
 
 export class wsServerClass extends appCommand {
