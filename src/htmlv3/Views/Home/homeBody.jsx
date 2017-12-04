@@ -146,6 +146,7 @@ class _HomeBody extends React.Component{
         this.props.clearLogs(item);
     }
     onDrop(files) {
+
         files.filter((item)=> {
             this.props.submitNewService(
                 {
@@ -153,8 +154,8 @@ class _HomeBody extends React.Component{
                     "group": this.props.group,
                     "env": "",
                     "command": "npm run start",
-                    // "cd": item.path || "~/projects/ceh/" + item.name
-                    "cd": "/Users/sayedn/projects/ceh/" + item.name
+                    "cd": item.path || "~/projects/ceh/" + item.name
+                    // "cd": "/Users/sayedn/projects/ceh/" + item.name
                 }
             )
         })
@@ -179,7 +180,7 @@ class _HomeBody extends React.Component{
         return(
 
             <Row className="rowDrop">
-                <Dropzone onClick="javascript:void" onDrop={this.onDrop.bind(this)}>
+                <Dropzone id={"key-"+this.props.group} onClick="javascript:void(0)" onDrop={this.onDrop.bind(this)}>
 
                 <div className="terminal">
                     <div className="title">
@@ -187,7 +188,7 @@ class _HomeBody extends React.Component{
 
                             <div className="pull-right">
                                 <DropdownButton
-
+                                    id={"key-dropdown-"+this.props.group}
                                     title={<Glyphicon glyph="option-vertical"/>}
                                     bsSize="xsmall"
                                     className="btn-link">
@@ -305,6 +306,7 @@ class _HomeBody extends React.Component{
                                   show={this.state.showConfigModal}
                                   close={this.closeConfigModal}
                                   submit={this.edit}/>
+
             </Row>
 
 

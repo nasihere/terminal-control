@@ -16,14 +16,11 @@ import Convert from 'ansi-to-html';
 let convert=new Convert({newline:true});
 class _ImportProjects extends React.Component{
     state = {
+        modalData: undefined
     }
     constructor(){
         super();
-        this.setState(
-            {
-                modalData: undefined
-            }
-        )
+
     }
     submitForm = (event) => {
         event.preventDefault();

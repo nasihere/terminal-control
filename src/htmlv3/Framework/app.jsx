@@ -1,24 +1,21 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Route, Switch} from 'react-router-dom';
 import {Glyphicon, Button} from 'react-bootstrap/lib';
 
-import {ServicesBody} from '../Views/Services';
 import {HomeBody} from '../Views/Home';
-import {NavBarInstance} from '../Components/NavBar';
 import {connectWebSocket, submitNewService} from '../Actions/service_actions.js';
-import {ReadMe} from '../Components/Service';
-import {BranchesSimple} from '../Components/Git/branches_simple.jsx';
+import {AddGroupModal} from '../Views/Home'
 
 
 export class AppClass extends React.Component {
 
-
+    state = {
+        showGroupModal: false
+    }
     componentDidMount () {
         this.props.connectWebSocket()
     }
-    newGroup () {
-        var groupName = prompt("Please enter new group name", "My Name is peggy");
+    newGroup (groupName) {
 
         if (groupName != null) {
             this.props.submitNewService({
@@ -26,6 +23,17 @@ export class AppClass extends React.Component {
                 data: []
             })
         }
+    }
+    closeGroupModal() {
+        this.setState({
+            showGroupModal: false
+        })
+    }
+
+    openGroupModal() {
+        this.setState({
+            showGroupModal: true
+        })
     }
     render () {
         if (this.props.services.items === []) return null;
@@ -54,18 +62,24 @@ export class AppClass extends React.Component {
                     groupList.map((item)=> {
 
                         return (
-                            <HomeBody key={item.name} group={item.group} cardData={item.data} />
+                            <HomeBody group={item.group} cardData={item.data} />
                         )
                     })
                 }
-                <Button type="button" bsSize="xsmall" onClick={this.newGroup.bind(this)} bsStyle="success">
+                <Button type="button" bsSize="xsmall" onClick={this.openGroupModal.bind(this)} bsStyle="success">
                     <Glyphicon glyph="play-circle"/>New Group
                 </Button>
+                <AddGroupModal
 
+                               show={this.state.showGroupModal}
+                               close={this.closeGroupModal.bind(this)}
+                               submit={this.newGroup.bind(this)}
+                />
             </div>
         );
     }
 }
+
 
 let mapStateToProps = (state) => {
     return {
