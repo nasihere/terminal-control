@@ -1,6 +1,7 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
     entry:   {
         app:      './src/htmlv3/app.js',
@@ -12,7 +13,7 @@ module.exports = {
     output:  {
         filename:   '[name].bundle.js',
         path:       path.resolve(__dirname, "build/htmlv3"),
-        publicPath: "/"
+        publicPath: ""
     },
     module:  {
         rules: [
@@ -29,7 +30,9 @@ module.exports = {
                 loader:  'url-loader',
                 options: {
                     limit: 10000,
-                    name:  "css/fonts/[name].[hash].[ext]"
+                    name (file) {
+                        return 'fonts/[name].[hash].[ext]'
+                    }
                 }
             },
             {
@@ -55,8 +58,8 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('./css/base.css'),
-        new ExtractTextPlugin('./css/bootstrap.darkly.min.css'),
+        new ExtractTextPlugin('./base.css'),
+        new ExtractTextPlugin('./bootstrap.darkly.min.css'),
         new HtmlWebpackPlugin({title: 'Tree-Shaking', template: "./src/htmlv3/index.html"})
     ],
     devtool: "inline-source-map",

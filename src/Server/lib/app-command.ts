@@ -98,6 +98,7 @@ export class appCommand extends ServerConfig {
 				f.on('message',(msg)=>{
 					//neseccary for log history
 					msg.payload.id = message.id;
+
 					switch ( msg.type ) {
 						case 'data':
 							let log=self.writeToHistory(msg.payload);

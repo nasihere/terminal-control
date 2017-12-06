@@ -121,7 +121,7 @@ class _HomeBody extends React.Component{
         if (!environment) return <small><Button type="button" bsSize="xsmall" bsStyle="success" onClick={()=>this.openConfigModal(item, 'edit')}>Set Environment Variables</Button></small>;
         const env = environment.replace(/export/g,'').replace(/SET/g,'').split(';');
         return env.map((item, index) => {
-            if (item)
+            if (item.indexOf("PATH=") === -1)
                 return <small className="label label-danger">{item}</small>
         })
     }
@@ -234,9 +234,6 @@ class _HomeBody extends React.Component{
                                                     key={item.name+"dropOption"}
                                                     className="btn-link">
 
-                                                    <MenuItem onSelect={()=>this.openConfigModal(item, 'edit')}>
-                                                        <small><Glyphicon glyph="cog"/> settings</small>
-                                                    </MenuItem>
                                                     <MenuItem  key={`npm-run-${item.name}-${item.command}`}
                                                                onSelect={(k, e) => {this.restart(item)}}>
 
@@ -244,6 +241,10 @@ class _HomeBody extends React.Component{
                                                             <Tooltip id="tooltip">{item.command}</Tooltip>}>
                                                             <small><Glyphicon glyph="refresh"/> <code>{item.command.substr(0,30)}</code></small>
                                                         </OverlayTrigger>
+                                                    </MenuItem>
+
+                                                    <MenuItem onSelect={()=>this.openConfigModal(item, 'edit')}>
+                                                        <small><Glyphicon glyph="cog"/> settings</small>
                                                     </MenuItem>
                                                     <MenuItem onSelect={(k,e) => {this.remove(item)}}>
                                                         <small><Glyphicon glyph="remove" /> delete</small>

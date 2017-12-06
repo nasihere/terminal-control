@@ -1,11 +1,13 @@
 import * as childprocess from 'child_process';
 import * as path from "path";
+
 let exec     = childprocess.exec,
 	fork     = childprocess.fork;
 
 export function createFork (refpath,args,Broadcast,configHandler, message){
 	let _p = fork(path.resolve(refpath,"spawnChild"), args),
 		memInterval;
+	console.log(_p)
 	_p.on('disconnect', () => {
 		console.info(`DISCONNECT : ChildProcess, PID=${_p.pid}, SPAWNARGS=${JSON.stringify(_p.spawnargs)}`)
 	})
