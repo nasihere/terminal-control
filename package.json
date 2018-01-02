@@ -13,7 +13,7 @@
     "clean": "node ./npm-node-os.js clean",
     "build": "tsc && webpack  && cp -r src/assets build/ && cp package.json build",
     "dev": "npm run build && node build/index.js",
-    "start": "npm run build && node_modules/.bin/electron build/. --icns=build/assets/icons/mac/icon.icns",
+    "start": "npm run build && electron build/. --icns=build/assets/icons/mac/icon.icns",
     "package:mac": "npm run build && npm install --only=production && electron-packager . --overwrite --platform=darwin --arch=x64 --out=out --icon=assets/icons/mac/icon.icns"
   },
   "bin": {
