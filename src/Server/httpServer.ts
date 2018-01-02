@@ -53,7 +53,6 @@ export class HttpServer extends ServerConfig{
 		}
 		fs.readFile(requestConfig.filePath, function (error, content) {
 			if (error) {
-				console.log(`error on ${request.url}`,error)
 				if (error.code === 'ENOENT') {
 					fs.readFile('./404.html', function (error, content) {
 						response.writeHead(200, {'Content-Type': requestConfig.contentType});
