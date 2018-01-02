@@ -42,7 +42,6 @@ export class wsServerClass extends appCommand {
 	private setConnectionListeners=(connection:websocket.connection)=>{
 		this.clients.push(connection);
 		let index:number = this.clients.length;
-		console.log((new Date()) + ' Connection accepted.', index);
 		let userColor = this.colors[ index ];
 		// send back logs history
 

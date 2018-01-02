@@ -6,7 +6,6 @@ export interface IUsage extends NodeJS.MemoryUsage{
 	timeRunning?:number;
 }
 function spawnChild(){
-	console.log('spawnChild',process)
 	let userColor=process.argv[2],
 		message=JSON.parse(process.argv[3]),
 		env = Object.create( process.env ),

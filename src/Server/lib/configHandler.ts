@@ -52,8 +52,6 @@ export class configHandler {
 	private async pullNpmScripts (item: any): Promise<Array<any>> {
 		let npm = await getNpmScripts(item.cd)
 		item.npm = npm;
-		console.log('pull npm script')
-		console.log(JSON.stringify(item))
 		return item;
 	}
 
@@ -120,9 +118,6 @@ export class configHandler {
 		if ( true ) {
 			newConfig = await this.pullNpmScripts(newConfig.cmd)
 			newConfig.id  = (Math.random() * 1e32).toString(36);
-			console.log('SaveConfig');
-			console.log('-'.repeat(100));
-			console.log(JSON.stringify(newConfig))
 
 			this.configFile.configService.push(newConfig);
 			// console.log('--'.repeat(200), JSON.stringify(this.configFile.configService), '-'.repeat(200));
@@ -138,25 +133,20 @@ export class configHandler {
 	};
 	readConfig = (connection): void => {
 		// TODO : add validator to json strings and keys
-		console.log('this.configSrc', this.configSrc)
 		this.readFile(this.configSrc).then((data) => {
 			try {
-				console.log('Reading Config from:', this.configSrc);
 				let fileData = JSON.parse(data);
 				if ( isUndefined(this.configFile) ) { //isUndefined(this.configFile)
-					console.log('isUnDefined:', this.configSrc);
 					this.setId(fileData.configService)
 						.then(this.setNpmScripts)
 						.then(this.getReadMeContent)
 						.then((configService) => {
 							fileData.configService=configService
 							this.configFile = fileData;
-							console.log({"status":200, "message": "CONN_SUCC_SEND_CONFIG", "data":fileData});
 							this.sendSuccess(connection, "readConfig", this.configFile)
 
 						})
 						.catch((e) => {
-							console.log({"status":204, "message": "CONN_ERR_READ_CONFIG", "data":e});
 							console.error(e)
 						});
 				}
@@ -179,7 +169,6 @@ export class configHandler {
 							}
 						}
 					}
-					console.log('New Config Sent', JSON.stringify(this.configFile))
 					this.sendSuccess(connection, "readConfig", this.configFile)
 				}
 
@@ -214,8 +203,6 @@ export class configHandler {
 				}
 				;
 			})
-			console.log('editConfig');
-			console.log(_items);
 			this.configFile.configService = _items;
 			const writeJson = JSON.stringify(this.configFile, null, "\t");
 			this.writeFile(this.configSrc, writeJson).then((data) => {

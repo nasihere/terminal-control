@@ -7,7 +7,6 @@ let exec     = childprocess.exec,
 export function createFork (refpath,args,Broadcast,configHandler, message){
 	let _p = fork(path.resolve(refpath,"spawnChild"), args),
 		memInterval;
-	console.log(_p)
 	_p.on('disconnect', () => {
 		console.info(`DISCONNECT : ChildProcess, PID=${_p.pid}, SPAWNARGS=${JSON.stringify(_p.spawnargs)}`)
 	})

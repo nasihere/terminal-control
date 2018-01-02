@@ -16,7 +16,6 @@ var FileDragAndDrop = require('react-file-drag-and-drop');
 class _FileDragDrop extends React.Component{
     handleDrop(dataTransfer) {
         var files = dataTransfer.files;
-        console.log(files);
         // Do something with dropped files...
     }
     render() {
