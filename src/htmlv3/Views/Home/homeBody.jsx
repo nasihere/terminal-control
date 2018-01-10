@@ -111,6 +111,7 @@ class _HomeBody extends React.Component{
         })
     }
     remove(item) {
+        this.kill(item)
         this.props.deleteService(item)
 
     }
@@ -163,10 +164,19 @@ class _HomeBody extends React.Component{
             this.restart(item);
         })
     }
-
+    deleteAllServices(cardData) {
+        cardData.map(item => {
+            this.remove(item);
+        })
+    }
     stopAllServices(cardData) {
         cardData.map(item => {
             this.kill(item);
+        })
+    }
+    clearAllServices(cardData) {
+        cardData.map(item => {
+            this.clearLogs(item);
         })
     }
     render(){
@@ -196,7 +206,11 @@ class _HomeBody extends React.Component{
                                         <small><Glyphicon glyph="stop"/> stop all group services</small>
                                     </MenuItem>
                                     <MenuItem divider />
-                                    <MenuItem>
+                                    <MenuItem onSelect={(k,e) => {this.clearAllServices(cardData)}}>
+                                        <small><Glyphicon glyph="ban-circle" /> clear all logs</small>
+                                    </MenuItem>
+                                    <MenuItem divider />
+                                    <MenuItem onSelect={(k,e) => {this.deleteAllServices(cardData)}}>
                                         <small><Glyphicon glyph="remove" /> delete all group services</small>
                                     </MenuItem>
                                 </DropdownButton>
