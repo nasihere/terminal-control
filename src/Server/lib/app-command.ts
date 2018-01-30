@@ -91,30 +91,30 @@ export class appCommand extends ServerConfig {
 		//let oscmd = platform === "win32" ? msg[ 0 ].replace(/;/g, "&") : msg[ 0 ];
 		let f=createFork(
 			__dirname,
-			[ userColor, JSON.stringify(message) ],
+			[ message.group, JSON.stringify(message) ],
 			Broadcast,
 			self.configHandler, message);
 
-				f.on('message',(msg)=>{
-					//neseccary for log history
-					msg.payload.id = message.id;
+			f.on('message',(msg)=>{
+				//neseccary for log history
+				msg.payload.id = message.id;
 
-					switch ( msg.type ) {
-						case 'data':
-							let log=self.writeToHistory(msg.payload);
-							log ? Broadcast('message', log):null;
-							break;
-						case 'close':
-							f.kill();
-							break;
-						case 'memory_usage':
-							Broadcast('memory_usage', msg.payload);
-							break;
-					}
-				});
+				switch ( msg.type ) {
+					case 'data':
+						let log=self.writeToHistory(msg.payload);
+						log ? Broadcast('message', log):null;
+						break;
+					case 'close':
+						f.kill();
+						break;
+					case 'memory_usage':
+						Broadcast('memory_usage', msg.payload);
+						break;
+				}
+			});
 
-				f.emit('startUsage');
-				f.emit('connected',self.configHandler)
+			f.emit('startUsage');
+			f.emit('connected',self.configHandler)
 
 
 	};
@@ -123,6 +123,42 @@ export class appCommand extends ServerConfig {
 			case "getConfigFile":
 				this.configHandler.readConfig(connection);
 
+				break;
+			case "killServiceAll":
+				//ps -aef | grep 90558 | awk '{print $2}' | xargs kill -9
+				const groupPid = message.groupPid.split(" ");
+				console.log(groupPid,'groupPid')
+
+
+
+				groupPid.filter(item => {
+					if (item) {
+						exec("lsof | grep " + item + " | awk '{print $2}' | xargs kill -9", (err, stdout, stderr) => {
+							if (err) {
+								console.error(`exec error: ${err}`);
+								return;
+							}
+
+						});
+					}
+				});
+
+				groupPid.filter(item => {
+					if (item) {
+						psTree(item, (err, children) => {
+								childprocess
+                                    .spawn('kill', [ '-9' ]
+                                        .concat(
+											children.map(p => item)
+										)
+									);
+							}
+						);
+					}
+				});
+
+				// var proc = childprocess.spawn('ps', ['-aef', '|', 'grep', '"nodeagent-v3-Fusion"']);
+				// proc.kill('SIGINT');
 				break;
 			case "deleteService":
 				this.configHandler.deleteConfig(message, connection);
@@ -138,6 +174,14 @@ export class appCommand extends ServerConfig {
 				break;
 			case "killService":
 				//Stop the service
+				exec("lsof | grep " + message.cd + " | awk '{print $2}' | xargs kill -9", (err, stdout, stderr) => {
+					if (err) {
+						console.error(`exec error: ${err}`);
+						return;
+					}
+
+				});
+
 				psTree(message.pid, (err, children) => {
 						childprocess
 							.spawn('kill', [ '-9' ]
@@ -168,6 +212,7 @@ export type requestTypes =
 	| 'editService'
 	| 'readme'
 	| 'git'
+	| "killServiceAll"
 export type GitRequestTypes=
 	'IsWorkingTree' |
 	'getBranches' |
@@ -177,8 +222,11 @@ export type GitRequestTypes=
 export interface IMessageIn {
 	cmd: string;
 	req: requestTypes
+	group?: string;
 	id: string;
-	pid?: number
+	pid?: number;
+	cd?: string;
+	groupPid?: string;
 	gitreq: GitRequestTypes
 }
 

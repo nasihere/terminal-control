@@ -9,6 +9,7 @@ import {
 	GIT_GET_STATUS,
 	SERVICE_START,
 	SERVICE_KILL,
+    SERVICE_KILL_ALL,
 	SERVICE_ADD_CONFIG,
 	SERVICE_DELETE_CONFIG,
 	SERVICE_EDIT_CONFIG,
@@ -37,6 +38,7 @@ export const socketConnect = (function () {
 				connection.onmessage = onMessage(connection, store);
 				break;
 			case SERVICE_KILL:
+            case SERVICE_KILL_ALL:
 			case SERVICE_START:
 			case SERVICE_ADD_CONFIG:
 			case SERVICE_DELETE_CONFIG:

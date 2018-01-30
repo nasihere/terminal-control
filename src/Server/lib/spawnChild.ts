@@ -16,7 +16,6 @@ function spawnChild(){
 			env:Object.assign(env, envVars),
 			cwd:message.cmd.pwd
 		});
-
 	setInterval(()=>{++timeUp},1000);
 	let returnObj=(text)=>{
 		return {

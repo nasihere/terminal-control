@@ -4,6 +4,7 @@ import {
 	WEBSOCKET_CONNECT,
 	SERVICE_START,
 	SERVICE_KILL,
+	SERVICE_KILL_ALL,
 	SERVICE_PING,
 	SERVICE_ADD_CONFIG,
 	SERVICE_DELETE_CONFIG,
@@ -23,7 +24,6 @@ export const setWebSocketState = (status) => {
 	}
 };
 export const startService = (obj, altCmd) => {
-
 	return (dispatch) => {
 
 		dispatch({
@@ -31,6 +31,7 @@ export const startService = (obj, altCmd) => {
 			payload: {
 				id:   obj.id,
 				req:  "startService",
+				group: "nodeagent-v3-" + obj.group,
 				port: obj.Port,
 				cmd:  {
 					pwd: obj.cd,
@@ -53,11 +54,27 @@ export const killService = (obj, idx) => {
 			type:    SERVICE_KILL,
 			payload: {
 				id:  obj.id,
+                cd: obj.cd,
+                group: "nodeagent-v3-" + obj.group,
 				req: "killService",
 				pid: obj.pid
 			}
 		})
 	}
+}
+export const killAllService = (group, groupPid) => {
+    return (dispatch) => {
+
+
+        dispatch({
+            type:    SERVICE_KILL_ALL,
+            payload: {
+                group: "nodeagent-v3-" + group,
+                groupPid: groupPid,
+                req: "killServiceAll"
+            }
+        })
+    }
 }
 
 export const pingService = (obj, idx) => {

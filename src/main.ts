@@ -9,7 +9,13 @@ import { tempwsServer } from './Server/wsserver';
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
- 
+const dialog = electron.dialog;
+
+// Disable error dialogs by overriding
+dialog.showErrorBox = function(title, content) {
+    console.log(`${title}\n${content}`);
+};
+
 const path = require('path')
 const url = require('url')
 

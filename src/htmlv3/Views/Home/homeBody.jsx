@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import {Row, Button, Glyphicon,OverlayTrigger,Tooltip,MenuItem, DropdownButton} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {StatusPanel} from './../../Components/Service/Sections/Terminal/Panel/Status.jsx';
-import {submitNewService, startService,editService, killService, deleteService, clearLogs} from '../../Actions/service_actions.js';
+import {submitNewService, startService,editService, killService, deleteService, clearLogs, killAllService} from '../../Actions/service_actions.js';
 
 import { TerminalLogs } from './';
 import Dropzone from 'react-dropzone'
@@ -174,10 +174,14 @@ class _HomeBody extends React.Component{
             this.kill(item);
         })
     }
-    clearAllServices(cardData) {
+    clearAllServices(group, cardData) {
+        let groupPid = '';
         cardData.map(item => {
-            this.clearLogs(item);
+            this.props.clearLogs(item);
+            groupPid += (item.cd !== null) ? item.cd + " " : "";
         })
+        // alert(groupPid)
+        this.props.killAllService(group, groupPid)
     }
     render(){
         if (!this.props.cardData) return null;
@@ -202,17 +206,17 @@ class _HomeBody extends React.Component{
                                     <MenuItem onSelect={(k,e) => {this.startAllServices(cardData)}}>
                                         <small><Glyphicon glyph="refresh"/> start all group services</small>
                                     </MenuItem>
-                                    <MenuItem onSelect={(k,e) => {this.stopAllServices(cardData)}}>
-                                        <small><Glyphicon glyph="stop"/> stop all group services</small>
+                                    <MenuItem onSelect={(k,e) => {this.clearAllServices(this.props.group, cardData)}}>
+                                        <small><Glyphicon glyph="stop"/> kill all group services</small>
                                     </MenuItem>
                                     <MenuItem divider />
-                                    <MenuItem onSelect={(k,e) => {this.clearAllServices(cardData)}}>
+                                    <MenuItem onSelect={(k,e) => {this.stopAllServices(cardData)}}>
                                         <small><Glyphicon glyph="ban-circle" /> clear all logs</small>
                                     </MenuItem>
-                                    <MenuItem divider />
-                                    <MenuItem onSelect={(k,e) => {this.deleteAllServices(cardData)}}>
-                                        <small><Glyphicon glyph="remove" /> delete all group services</small>
-                                    </MenuItem>
+                                    {/*<MenuItem divider />*/}
+                                    {/*<MenuItem onSelect={(k,e) => {this.deleteAllServices(cardData)}}>*/}
+                                        {/*<small><Glyphicon glyph="remove" /> delete all group services</small>*/}
+                                    {/*</MenuItem>*/}
                                 </DropdownButton>
                             </div>
                         </h5>
@@ -334,6 +338,6 @@ let mapStateToProp = (state) => {
     }
 }
 
-export let HomeBody = connect(mapStateToProp,{submitNewService,startService,killService,editService, deleteService, clearLogs})(_HomeBody);
+export let HomeBody = connect(mapStateToProp,{submitNewService,startService,killService,killAllService, editService, deleteService, clearLogs})(_HomeBody);
 
 
