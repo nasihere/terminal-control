@@ -68,58 +68,26 @@ export class ServiceFormModal extends React.Component {
                     <h4>{desc}</h4>
 
                         <FormGroup id="newForm">
-                            <ControlLabel>Service Name</ControlLabel>
-                            <FormControl
-                                id="name"
-                                type="text"
-                                value={this.state.name}
-                                placeholder=""
-                                readOnly={ReadOnly}
-                                onChange={this.handleChange}
-                            />
-                            <HelpBlock className={"small"}>e.g: User App</HelpBlock>
-                            {/*<ControlLabel>PORT</ControlLabel>*/}
-                            {/*<FormControl*/}
-                                {/*id="Port"*/}
-                                {/*type="text"*/}
-                                {/*value={this.state.Port}*/}
-                                {/*placeholder=""*/}
-                                {/*readOnly={ReadOnly}*/}
-                                {/*onChange={this.handleChange}*/}
-                            {/*/>*/}
-                            {/*<HelpBlock className={"small"}>e.g: 3080</HelpBlock>*/}
-                            <ControlLabel>Startup Variables <span>*</span></ControlLabel>
+
+                            <ControlLabel>Set Environment Variables <span>*</span></ControlLabel>
                             <FormControl
                                 id="env"
-                                type="text"
+                                style={{"height":"80px"}}
+                                componentClass="textarea"
                                 value={this.state.env}
-                                placeholder=""
-                                readOnly={ReadOnly}
+                                placeholder="NODE_ENV=LOCAL;NODE_ENC=SXXX2334X22Z"
                                 onChange={this.handleChange}
                             />
-                            <HelpBlock className={"small"}>e.g: NODE_ENV=LOCAL;NODE_ENC=SXXX2334X22Z</HelpBlock>
-                            <ControlLabel>Command to Run</ControlLabel>
+                            <ControlLabel>Terminal Command:</ControlLabel>
                             <FormControl
+                                style={{"height":"80px"}}
                                 id="command"
-                                type="text"
+                                componentClass="textarea"
                                 value={this.state.command}
-                                placeholder=""
-                                readOnly={ReadOnly}
+                                placeholder="npm run start:local / node build/proxy.js"
                                 onChange={this.handleChange}
                             />
-                            <HelpBlock className={"small"}>e.g 1: npm run start:local</HelpBlock>
-                            <HelpBlock className={"small"}>e.g 2: node build/proxy.js</HelpBlock>
-                            <ControlLabel>Project Directory</ControlLabel>
-                            <FormControl
-                                id="cd"
-                                type="text"
-                                value={this.state.cd}
-                                placeholder=""
-                                readOnly={ReadOnly}
-                                onChange={this.handleChange}
-                            />
-                            <HelpBlock className={"small"}>Root directory of your project (absolute)</HelpBlock>
-                            <HelpBlock className={"small"}>e.g: /user/john/jokerapp</HelpBlock>
+
                         </FormGroup>
 
                 </Modal.Body>

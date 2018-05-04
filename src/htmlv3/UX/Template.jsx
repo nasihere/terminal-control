@@ -72,7 +72,7 @@ const wellInstance = (
     <div>
         <Col xs={12} md={12}>
             <code>{'10:00 AM'}</code>
-            <Well bsSize="small">Connection from origin http://localhost:8080!</Well>
+            <Well bsSize="small">Connection from origin ${`ws://127.0.0.1:${currentWindow.wssPort}`}</Well>
             <hr />
         </Col>
     </div>

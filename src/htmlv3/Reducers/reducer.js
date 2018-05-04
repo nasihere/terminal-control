@@ -8,7 +8,8 @@ import {
 	SERVICE_SET_SERVICE_STATE,
 	SERVICE_START,
 	SERVICE_PING_RECEIVED,
-    SERVICE_LOG_HISTORY
+    SERVICE_LOG_HISTORY,
+    SERVICE_CLEAR_LOGS
 } from '../Actions/ActionTypes/index';
 import {mergeSingleObj} from '../Utils';
 import {parseAvailableServices} from'./Helpers/parseAvailableServices.js'
@@ -40,6 +41,12 @@ export const ApplicationReducer = (state = initialState, action) => {
             return Object.assign({}, state, {status: 'closed'});
         case SERVICES_SET_AVAILABLE:
             return parseAvailableServices(state,action)
+
+        case SERVICE_CLEAR_LOGS:
+            const clearMerge = state.logsHistory[action.payload.id] ? [...state.logsHistory[action.payload.id],action.payload] : [action.payload];
+            let clearLogsMerge={...state.logsHistory,[action.payload.id]:clearMerge};
+            clearLogsMerge[action.payload.id]  = [];
+            return Object.assign({...state, logsHistory:clearLogsMerge});
         case SERVICES_SET_AVAILABLEERROR:
             let items=state.services.items.map((item)=>{
                 if(item.id===action.payload.item.id){

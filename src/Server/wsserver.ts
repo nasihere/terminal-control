@@ -7,7 +7,6 @@ import { IMessage } from "websocket";
 
 let webSocketServer = websocket.server;
 // Optional. You will see this name in eg. 'ps' or 'top' command
-process.title = 'node-service-agent';
 
 
 export class wsServerClass extends appCommand {
@@ -43,7 +42,6 @@ export class wsServerClass extends appCommand {
 	private setConnectionListeners=(connection:websocket.connection)=>{
 		this.clients.push(connection);
 		let index:number = this.clients.length;
-		console.log((new Date()) + ' Connection accepted.', index);
 		let userColor = this.colors[ index ];
 		// send back logs history
 

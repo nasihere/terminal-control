@@ -17,6 +17,7 @@
   "include": [
     "./src/Server",
     "./src/index.ts",
+    "./src/main.ts",
     "./src/bin"
   ],
   "exclude":[

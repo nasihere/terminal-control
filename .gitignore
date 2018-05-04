@@ -6,3 +6,4 @@ node_modules
 build
 src/*.js
 src/Server/**/*.js
+out

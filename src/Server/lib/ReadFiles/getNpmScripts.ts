@@ -3,6 +3,7 @@ import * as path from "path";
 
 
 export function getNpmScripts (filePath) {
+	if (filePath === undefined) return {};
 	let filePathStr = path.resolve(filePath ,'package.json');
 	return new Promise((resolve, reject) => {
 		fs.readFile(filePathStr, (err, data) => {

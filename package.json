@@ -2,19 +2,20 @@
   "name": "nodeserviceagent",
   "version": "0.1.12",
   "description": "NodeServices Agent is a terminal on browser to start/stop all the node application by one click. It has feature to view NODE Application console.logs directly on webview. Ability to search logs and append new node service application. It easy to manage all running instance in one single interface. It easy and fast for development purpose. To get all information of your apps in one place.",
-  "main": "./build/index.js",
+  "main": "main.js",
   "publishConfig": {
     "registry": "http://ct-avs-web.es.ad.adp.com:4873"
   },
   "scripts": {
+
+    "postinstall": "node ./npm-node-os.js postinstall",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "tsc",
     "copy": "node ./npm-node-os.js copy",
-    "html": "cp -R ./src/html  ./build",
-    "prebuild": "node ./npm-node-os.js clean",
-    "build": "npm run compile && webpack",
-    "start": "node build/index.js",
-    "dev": "npm run build && npm run start"
+    "clean": "node ./npm-node-os.js clean",
+    "build": "tsc && webpack  && node ./npm-node-os.js build",
+    "dev": "npm run build && node build/index.js",
+    "start": "npm run build && node_modules/.bin/electron build/. --icns=build/assets/icons/mac/icon.icns",
+    "package:mac": "npm run build && npm install --only=production && electron-packager . --overwrite --platform=darwin --arch=x64 --out=out --icon=assets/icons/mac/icon.icns"
   },
   "bin": {
     "nsa": "./build/bin/module.js"
@@ -41,6 +42,7 @@
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
+    "copy-webpack-plugin": "^4.2.3",
     "css-loader": "^0.27.3",
     "d3": "^3.5.17",
     "d3-array": "^0.8.1",
@@ -56,8 +58,11 @@
     "react-addons-transition-group": "^15.4.2",
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.4.2",
+    "react-dropzone": "^4.2.1",
     "react-easy-chart": "^0.1.13",
     "react-faux-dom": "^2.5.0",
+    "react-file-drag-and-drop": "^0.1.6",
+    "react-markdown": "^2.5.0",
     "react-redux": "^5.0.3",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
@@ -78,7 +83,6 @@
     "deepmerge": "^1.3.2",
     "ps-tree": "^1.1.0",
     "rc": "^1.1.7",
-    "react-markdown": "^2.5.0",
     "websocket": "^1.0.24"
   }
 }

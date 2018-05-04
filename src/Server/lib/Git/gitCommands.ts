@@ -10,13 +10,13 @@ class GitRequest {
 			cwd:   this.message.cmd.pwd
 		});
 		child.on('error', (err) => {
-			console.log(err);
+			// console.log(err);
 		});
 		child.on('close', (code, signal) => {
 			//console.log(code,signal)
 		});
 		child.stderr.on('data', (e) => {
-			console.log(e);
+			// console.log(e);
 		});
 		return child;
 	};
