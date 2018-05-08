@@ -4,7 +4,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
     entry:   {
-        app:      './src/htmlv3/app.js',
+        app:      './src/html/app.js',
         vendor: [
             'react',
             'react-dom'
@@ -12,7 +12,7 @@ module.exports = {
     },
     output:  {
         filename:   '[name].bundle.js',
-        path:       path.resolve(__dirname, "build/htmlv3"),
+        path:       path.resolve(__dirname, "build/html"),
         publicPath: ""
     },
     module:  {
@@ -60,7 +60,7 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('./base.css'),
         new ExtractTextPlugin('./bootstrap.darkly.min.css'),
-        new HtmlWebpackPlugin({title: 'Tree-Shaking', template: "./src/htmlv3/index.html"})
+        new HtmlWebpackPlugin({title: 'Tree-Shaking', template: "./src/html/index.html"})
     ],
     devtool: "inline-source-map",
     stats:   {// Add asset Information

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AppRouter} from './Router.jsx';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware, compose} from 'redux';
 import {RootReducer} from './RootReducers.js';
@@ -8,6 +7,7 @@ import Thunk from 'redux-thunk';
 import {socketConnect} from './Middleware/websocket_handler.js'
 import styles from "./css/bootstrap.darkly.min.css";
 import base from "./css/base.css";
+import {App} from './Framework/app.jsx';
 
 let composables = [];
 let middlewares = [Thunk,socketConnect];
@@ -23,7 +23,7 @@ let store = createStore(
 );
 ReactDOM.render(
     <Provider store={store}>
-        <AppRouter/>
+        <App/>
     </Provider>,
     document.getElementById("app")
 );

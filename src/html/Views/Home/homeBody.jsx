@@ -2,12 +2,12 @@ import * as React from 'react';
 import ReactDOM from 'react-dom'
 import {Row, Button, Glyphicon,OverlayTrigger,Tooltip,MenuItem, DropdownButton} from 'react-bootstrap';
 import {connect} from 'react-redux';
-import {StatusPanel} from './../../Components/Service/Sections/Terminal/Panel/Status.jsx';
+import {StatusPanel} from './Status.jsx';
 import {submitNewService, startService,editService, killService, deleteService, clearLogs, killAllService} from '../../Actions/service_actions.js';
 
 import { TerminalLogs } from './';
 import Dropzone from 'react-dropzone'
-import {ServiceFormModal} from './../../Components/Common/ServiceModal/ServiceModal.jsx';
+import {ServiceFormModal} from './ServiceModal.jsx';
 
 import Convert from 'ansi-to-html';
 let convert=new Convert({newline:true});

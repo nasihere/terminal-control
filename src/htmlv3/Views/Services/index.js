@@ -1,1 +1,0 @@
-export {ServicesBody} from './serviceBody.jsx'
