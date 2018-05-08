@@ -26,7 +26,7 @@ Step 4: Set Environment e.g: `NODE_ENV=DIT;NODE_ENC=e42*********383`
 
 Step 5: Set list of command to run e.g: `npm run start` or `node app.js` or `git pull origin master; tsc; npm run start;` & click update.
 
-Step 5: run the service from menu. 
+Step 6: run the service from menu. 
 
 
 
