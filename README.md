@@ -9,12 +9,12 @@ It easy and fast for development purpose. To get all information of your apps in
 ---------
 You can install this package with npm.
 
- `npm install` Install
+`yarn install --production` Install
 
-`npm run start` to run the application.
+`yarn run start` to run the application.
 
 
-#### How to use with `npm run start`
+#### How to use with `yarn run start`
 
 Step 1: Create Group
 
@@ -22,9 +22,11 @@ Step 2: Drag and drop single/multiple nodejs project in the group section
 
 Step 3: Click on service settings from menu
 
-Step 4: Set Environment e.g: `NODE_ENV=DIT`
+Step 4: Set Environment e.g: `NODE_ENV=DIT;NODE_ENC=e42*********383`
 
-Step 5: Select `npm run start` or `{YOUR CUSTOM COMMAND}` from service menu
+Step 5: Set list of command to run e.g: `npm run start` or `node app.js` or `git pull origin master; tsc; npm run start;` & click update.
+
+Step 5: run the service from menu. 
 
 
 
