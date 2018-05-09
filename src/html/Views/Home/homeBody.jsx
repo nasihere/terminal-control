@@ -334,7 +334,7 @@ class _HomeBody extends React.Component{
                 </div>
                 </Dropzone>
 
-                <ServiceFormModal type={"edit"}
+                <ServiceFormModal type={this.state.type}
                                   item={this.state.modalItem}
                                   show={this.state.showConfigModal}
                                   close={this.closeConfigModal}

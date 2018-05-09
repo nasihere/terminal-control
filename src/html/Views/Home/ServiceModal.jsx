@@ -57,11 +57,13 @@ export class ServiceFormModal extends React.Component {
                     titleText=this.props.item.name;
                     buttonText="UPDATE";
                     desc=`You are now editing ${this.props.item.name}`
+                    break;
                 case 'editGroup':
                     titleText="Setting";
                     buttonText="UPDATE ALL";
                     terminalCommand=false;
                     desc=`You are now editing ${this.props.item.length} services`
+                    break;
             }
         const terminalInput = terminalCommand && (
             <div>
