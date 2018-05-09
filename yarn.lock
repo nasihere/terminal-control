@@ -176,10 +176,6 @@ async-each@^1.0.0:
   version "1.0.1"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/async-each/-/async-each-1.0.1.tgz#19d386a1d9edc6e7c1c85d388aedbcc56d33602d"
 
-async@0.1.x:
-  version "0.1.22"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/async/-/async-0.1.22.tgz#0fc1aaa088a0e3ef0ebe2d8831bab0dcf8845061"
-
 async@^2.1.2:
   version "2.5.0"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/async/-/async-2.5.0.tgz#843190fd6b7357a0b9e1c956edddd5ec8462b54d"
@@ -1247,10 +1243,6 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-coffee-script@1.4.x:
-  version "1.4.0"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/coffee-script/-/coffee-script-1.4.0.tgz#5e3bc8aac26c01a8e27bf107722c5655f5ad7d36"
-
 color-convert@^1.3.0, color-convert@^1.9.0:
   version "1.9.0"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/color-convert/-/color-convert-1.9.0.tgz#1accf97dd739b983bf994d56fec8f95853641b7a"
@@ -1283,10 +1275,6 @@ colormin@^1.0.5:
     css-color-names "0.0.4"
     has "^1.0.1"
 
-colors@0.x.x:
-  version "0.6.2"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/colors/-/colors-0.6.2.tgz#2423fe6678ac0c5dae8852e5d0e5be08c997abcc"
-
 colors@~1.1.2:
   version "1.1.2"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/colors/-/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
@@ -1296,12 +1284,6 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/combined-stream/-/combined-stream-1.0.5.tgz#938370a57b4a51dea2c77c15d5c5fdf895164009"
   dependencies:
     delayed-stream "~1.0.0"
-
-commander@1.1.1:
-  version "1.1.1"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/commander/-/commander-1.1.1.tgz#50d1651868ae60eccff0a2d9f34595376bc6b041"
-  dependencies:
-    keypress "0.1.x"
 
 commander@2.11.x, commander@~2.11.0:
   version "2.11.0"
@@ -1625,12 +1607,6 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
-debug@*:
-  version "3.1.0"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
-  dependencies:
-    ms "2.0.0"
-
 debug@^2.2.0, debug@^2.6.8:
   version "2.6.9"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -1640,10 +1616,6 @@ debug@^2.2.0, debug@^2.6.8:
 decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
-
-deep-equal@*:
-  version "1.0.1"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
 
 deep-extend@~0.4.0:
   version "0.4.2"
@@ -1993,10 +1965,6 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
-fresh@0.1.0:
-  version "0.1.0"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/fresh/-/fresh-0.1.0.tgz#03e4b0178424e4c2d5d19a54d8814cdc97934850"
-
 from2@^2.1.0:
   version "2.3.0"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/from2/-/from2-2.3.0.tgz#8bfb5502bde4a4d36cfdeea007fcca21d7e382af"
@@ -2257,15 +2225,6 @@ htmlparser2@~3.3.0:
     domutils "1.1"
     readable-stream "1.0"
 
-http-proxy@0.10.0:
-  version "0.10.0"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/http-proxy/-/http-proxy-0.10.0.tgz#a20b718d05ec40427ae61644dabdcc427ba62508"
-  dependencies:
-    colors "0.x.x"
-    optimist "0.3.x"
-    pkginfo "0.2.x"
-    utile "~0.1.7"
-
 http-signature@~1.1.0:
   version "1.1.1"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/http-signature/-/http-signature-1.1.1.tgz#df72e267066cd0ac67fb76adf8e134a8fbcf91bf"
@@ -2281,10 +2240,6 @@ https-browserify@0.0.1:
 hyphenate-style-name@^1.0.1:
   version "1.0.2"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/hyphenate-style-name/-/hyphenate-style-name-1.0.2.tgz#31160a36930adaf1fc04c6074f7eb41465d4ec4b"
-
-i@0.3.x:
-  version "0.3.6"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/i/-/i-0.3.6.tgz#d96c92732076f072711b6b10fd7d4f65ad8ee23d"
 
 iconv-lite@~0.4.13:
   version "0.4.19"
@@ -2569,10 +2524,6 @@ keycode@^2.1.2:
   version "2.1.9"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/keycode/-/keycode-2.1.9.tgz#964a23c54e4889405b4861a5c9f0480d45141dfa"
 
-keypress@0.1.x:
-  version "0.1.0"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/keypress/-/keypress-0.1.0.tgz#4a3188d4291b66b4f65edb99f806aa9ae293592a"
-
 kind-of@^3.0.2:
   version "3.2.2"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -2769,10 +2720,6 @@ mime-types@^2.1.12, mime-types@~2.1.7:
   dependencies:
     mime-db "~1.30.0"
 
-mime@1.2.6:
-  version "1.2.6"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/mime/-/mime-1.2.6.tgz#b1f86c768c025fa87b48075f1709f28aeaf20365"
-
 mime@1.3.x:
   version "1.3.6"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/mime/-/mime-1.3.6.tgz#591d84d3653a6b0b4a3b9df8de5aa8108e72e5e0"
@@ -2814,7 +2761,7 @@ mississippi@^1.3.0:
     stream-each "^1.1.0"
     through2 "^2.0.0"
 
-mkdirp@0.x.x, "mkdirp@>=0.5 0", mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
+"mkdirp@>=0.5 0", mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   version "0.5.1"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
@@ -2844,10 +2791,6 @@ ncname@1.0.x:
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/ncname/-/ncname-1.0.0.tgz#5b57ad18b1ca092864ef62b0b1ed8194f383b71c"
   dependencies:
     xml-char-classes "^1.0.0"
-
-ncp@0.2.x:
-  version "0.2.7"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/ncp/-/ncp-0.2.7.tgz#46fac2b7dda2560a4cb7e628677bd5f64eac5be1"
 
 no-case@^2.2.0:
   version "2.3.2"
@@ -2987,12 +2930,6 @@ once@^1.3.0, once@^1.3.1, once@^1.3.3, once@^1.4.0:
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
   dependencies:
     wrappy "1"
-
-optimist@0.3.x:
-  version "0.3.7"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/optimist/-/optimist-0.3.7.tgz#c90941ad59e4273328923074d2cf2e7cbc6ec0d9"
-  dependencies:
-    wordwrap "~0.0.2"
 
 os-browserify@^0.2.0:
   version "0.2.1"
@@ -3157,10 +3094,6 @@ pkg-dir@^2.0.0:
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/pkg-dir/-/pkg-dir-2.0.0.tgz#f6d5d1109e19d63edf428e0bd57e12777615334b"
   dependencies:
     find-up "^2.1.0"
-
-pkginfo@0.2.x:
-  version "0.2.3"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/pkginfo/-/pkginfo-0.2.3.tgz#7239c42a5ef6c30b8f328439d9b9ff71042490f8"
 
 postcss-calc@^5.2.0:
   version "5.3.1"
@@ -3556,10 +3489,6 @@ randombytes@^2.0.0, randombytes@^2.0.1:
   dependencies:
     safe-buffer "^5.1.0"
 
-range-parser@0.0.4:
-  version "0.0.4"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/range-parser/-/range-parser-0.0.4.tgz#c0427ffef51c10acba0782a46c9602e744ff620b"
-
 rc@^1.1.7:
   version "1.2.1"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/rc/-/rc-1.2.1.tgz#2e03e8e42ee450b8cb3dce65be1bf8974e1dfd95"
@@ -3850,16 +3779,6 @@ relateurl@0.2.x:
   version "0.2.7"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
 
-remote@^0.2.6:
-  version "0.2.6"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/remote/-/remote-0.2.6.tgz#96842b427bb19d404793867cce402cee42dcd364"
-  dependencies:
-    coffee-script "1.4.x"
-    commander "1.1.1"
-    http-proxy "0.10.0"
-    send "0.1.0"
-    underscore "1.4.x"
-
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
@@ -3933,10 +3852,6 @@ right-align@^0.1.1:
   dependencies:
     align-text "^0.1.1"
 
-rimraf@1.x.x:
-  version "1.0.9"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/rimraf/-/rimraf-1.0.9.tgz#be4801ff76c2ba6f1c50c78e9700eb1d21f239f1"
-
 rimraf@2, rimraf@^2.5.1, rimraf@^2.5.4, rimraf@^2.6.1:
   version "2.6.2"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/rimraf/-/rimraf-2.6.2.tgz#2ed8150d24a16ea8651e6d6ef0f47c4158ce7a36"
@@ -3973,15 +3888,6 @@ schema-utils@^0.3.0:
 "semver@2 || 3 || 4 || 5", semver@^5.0.1, semver@^5.3.0:
   version "5.4.1"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/semver/-/semver-5.4.1.tgz#e059c09d8571f0540823733433505d3a2f00b18e"
-
-send@0.1.0:
-  version "0.1.0"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/send/-/send-0.1.0.tgz#cfb08ebd3cec9b7fc1a37d9ff9e875a971cf4640"
-  dependencies:
-    debug "*"
-    fresh "0.1.0"
-    mime "1.2.6"
-    range-parser "0.0.4"
 
 serialize-javascript@^1.4.0:
   version "1.4.0"
@@ -4352,10 +4258,6 @@ uncontrollable@^4.0.1:
   dependencies:
     invariant "^2.1.0"
 
-underscore@1.4.x:
-  version "1.4.4"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/underscore/-/underscore-1.4.4.tgz#61a6a32010622afa07963bf325203cf12239d604"
-
 uniq@^1.0.1:
   version "1.0.1"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/uniq/-/uniq-1.0.1.tgz#b31c5ae8254844a3a8281541ce2b04b865a734ff"
@@ -4417,17 +4319,6 @@ utila@~0.3:
 utila@~0.4:
   version "0.4.0"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/utila/-/utila-0.4.0.tgz#8a16a05d445657a3aea5eecc5b12a4fa5379772c"
-
-utile@~0.1.7:
-  version "0.1.7"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/utile/-/utile-0.1.7.tgz#55db180d54475339fd6dd9e2d14a4c0b52624b69"
-  dependencies:
-    async "0.1.x"
-    deep-equal "*"
-    i "0.3.x"
-    mkdirp "0.x.x"
-    ncp "0.2.x"
-    rimraf "1.x.x"
 
 uuid@^3.0.0:
   version "3.1.0"
@@ -4543,10 +4434,6 @@ window-size@0.1.0:
 wordwrap@0.0.2:
   version "0.0.2"
   resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/wordwrap/-/wordwrap-0.0.2.tgz#b79669bb42ecb409f83d583cad52ca17eaa1643f"
-
-wordwrap@~0.0.2:
-  version "0.0.3"
-  resolved "https://artifactoryprod.es.ad.adp.com/artifactory/api/npm/caet-npm/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
 
 wrap-ansi@^2.0.0:
   version "2.1.0"

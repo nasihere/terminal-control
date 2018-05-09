@@ -11,10 +11,10 @@ You can install this package with npm.
 
 `yarn install --production` Install
 
-`yarn run start` to run the application.
+`yarn start` to run the application.
 
 
-#### How to use with `yarn run start`
+#### How to use with `yarn start`
 
 Step 1: Create Group
 

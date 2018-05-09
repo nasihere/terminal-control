@@ -64,12 +64,27 @@ class _HomeBody extends React.Component{
             case 'edit':
                 this.setState({modalItem: item, submit: this.edit});
                 break;
+            case "editGroup": 
+                this.setState({modalItem: item, submit: this.editGroup});
+                break;
         }
         this.setState({showConfigModal: true, type: type})
 
     }
     edit = (newItem) => {
         this.props.editService(newItem);
+        this.closeConfigModal()
+    }
+    editGroup = (newItem) => {
+        this.state.modalItem.map(service => {
+            if (service.hasOwnProperty('env')) {
+                service.env = newItem.env;
+                this.props.editService(service);
+                console.log(service)
+            }
+            
+        })
+        // this.props.editService(newItem);
         this.closeConfigModal()
     }
 
@@ -169,9 +184,9 @@ class _HomeBody extends React.Component{
             this.remove(item);
         })
     }
-    stopAllServices(cardData) {
+    clearLogsAllServices(cardData) {
         cardData.map(item => {
-            this.kill(item);
+            this.props.clearLogs(item);
         })
     }
     clearAllServices(group, cardData) {
@@ -206,12 +221,16 @@ class _HomeBody extends React.Component{
                                     <MenuItem onSelect={(k,e) => {this.startAllServices(cardData)}}>
                                         <small><Glyphicon glyph="refresh"/> start all group services</small>
                                     </MenuItem>
-                                    <MenuItem onSelect={(k,e) => {this.clearAllServices(this.props.group, cardData)}}>
-                                        <small><Glyphicon glyph="stop"/> kill all group services</small>
+                                    <MenuItem onSelect={(k,e) => {this.clearLogsAllServices(cardData)}}>
+                                        <small><Glyphicon glyph="ban-circle" /> clear all logs</small>
+                                    </MenuItem>
+                                    <MenuItem  onSelect={()=>this.openConfigModal(cardData, 'editGroup')}>
+                                        <small><Glyphicon glyph="cog" /> Environment Variables</small>
                                     </MenuItem>
                                     <MenuItem divider />
-                                    <MenuItem onSelect={(k,e) => {this.stopAllServices(cardData)}}>
-                                        <small><Glyphicon glyph="ban-circle" /> clear all logs</small>
+                                    
+                                    <MenuItem onSelect={(k,e) => {this.clearAllServices(this.props.group, cardData)}}>
+                                        <small><Glyphicon glyph="stop"/> kill all group services</small>
                                     </MenuItem>
                                     {/*<MenuItem divider />*/}
                                     {/*<MenuItem onSelect={(k,e) => {this.deleteAllServices(cardData)}}>*/}
@@ -319,7 +338,7 @@ class _HomeBody extends React.Component{
                                   item={this.state.modalItem}
                                   show={this.state.showConfigModal}
                                   close={this.closeConfigModal}
-                                  submit={this.edit}/>
+                                  submit={this.state.submit}/>
 
             </Row>
 

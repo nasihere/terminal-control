@@ -38,6 +38,7 @@ export class ServiceFormModal extends React.Component {
     render () {
         let ReadOnly=this.props.type === 'delete';
         let titleText="";
+        let terminalCommand=true;
         let buttonText="";
         let desc="";
 
@@ -56,8 +57,25 @@ export class ServiceFormModal extends React.Component {
                     titleText=this.props.item.name;
                     buttonText="UPDATE";
                     desc=`You are now editing ${this.props.item.name}`
+                case 'editGroup':
+                    titleText="Setting";
+                    buttonText="UPDATE ALL";
+                    terminalCommand=false;
+                    desc=`You are now editing ${this.props.item.length} services`
             }
-
+        const terminalInput = terminalCommand && (
+            <div>
+                <ControlLabel>Terminal Command:</ControlLabel>
+                <FormControl
+                    style={{"height":"80px"}}
+                    id="command"
+                    componentClass="textarea"
+                    value={this.state.command}
+                    placeholder="npm run start:local / node build/proxy.js"
+                    onChange={this.handleChange}
+                />
+            </div>
+        );
         return (
             <Modal show={this.props.show}>
                 <Modal.Header>
@@ -69,7 +87,7 @@ export class ServiceFormModal extends React.Component {
 
                         <FormGroup id="newForm">
 
-                            <ControlLabel>Set Environment Variables <span>*</span></ControlLabel>
+                            <ControlLabel>Set Environment Var <span>*</span></ControlLabel>
                             <FormControl
                                 id="env"
                                 style={{"height":"80px"}}
@@ -78,16 +96,7 @@ export class ServiceFormModal extends React.Component {
                                 placeholder="NODE_ENV=LOCAL;NODE_ENC=SXXX2334X22Z"
                                 onChange={this.handleChange}
                             />
-                            <ControlLabel>Terminal Command:</ControlLabel>
-                            <FormControl
-                                style={{"height":"80px"}}
-                                id="command"
-                                componentClass="textarea"
-                                value={this.state.command}
-                                placeholder="npm run start:local / node build/proxy.js"
-                                onChange={this.handleChange}
-                            />
-
+                            <terminalInput />
                         </FormGroup>
 
                 </Modal.Body>
