@@ -107,9 +107,9 @@ export class appCommand extends ServerConfig {
 					case 'close':
 						f.kill();
 						break;
-					case 'memory_usage':
-						Broadcast('memory_usage', msg.payload);
-						break;
+					// case 'memory_usage':
+					// 	Broadcast('memory_usage', msg.payload);
+					// 	break;
 				}
 			});
 

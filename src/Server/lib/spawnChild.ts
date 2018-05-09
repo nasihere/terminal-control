@@ -28,15 +28,15 @@ function spawnChild(){
 		};
 	}
 	process.on('message',(msg)=>{
-		switch(msg){
-			case "get_usage":
-				let usage:IUsage=process.memoryUsage();
-				usage.timeRunning=timeUp;
-				process.send({type:'memory_usage',payload:usage});
-				break;
-			default:
-				return;
-		}
+		// switch(msg){
+		// 	case "get_usage":
+		// 		let usage:IUsage=process.memoryUsage();
+		// 		usage.timeRunning=timeUp;
+		// 		process.send({type:'memory_usage',payload:usage});
+		// 		break;
+		// 	default:
+		// 		return;
+		// }
 	})
 
 	child.stdout.on('data', (data) => {

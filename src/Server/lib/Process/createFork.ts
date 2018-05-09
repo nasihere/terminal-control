@@ -9,6 +9,14 @@ export function createFork (refpath,args,Broadcast,configHandler, message){
 		memInterval;
 	_p.on('disconnect', () => {
 		console.info(`DISCONNECT : ChildProcess, PID=${_p.pid}, SPAWNARGS=${JSON.stringify(_p.spawnargs)}`)
+		let obj = {
+			connected:   false,
+			pid:         null,
+			id: message.id
+		};
+
+		configHandler.extraConfig(obj);
+		Broadcast('status', obj);
 	})
 	.on('error', (err) => {
 		console.error('Error on fork:', err)
@@ -16,14 +24,14 @@ export function createFork (refpath,args,Broadcast,configHandler, message){
 	.on('edit', (_) => {
 		console.info('Edit on fork:',_)
 	})
-	.on('startUsage',()=>{
-		memInterval=setInterval(() => {
-			_p.send("get_usage")
-		}, 2000)
-	})
-	.on('stopUsage',()=>{
-		clearInterval(memInterval)
-	})
+	// .on('startUsage',()=>{
+	// 	// memInterval=setInterval(() => {
+	// 	// 	_p.send("get_usage")
+	// 	// }, 2000)
+	// })
+	// .on('stopUsage',()=>{
+	// 	clearInterval(memInterval)
+	// })
 	.on('close', (data,signal) => {
 		_p.emit('stopUsage');
 			let obj = {

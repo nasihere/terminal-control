@@ -1,10 +1,9 @@
 const electron = require('electron');
-// Module to control application life.
-// var electron = require('electron-connect').server.create();
 const { Menu } = require('electron')
 
 import { httpServer } from './Server/httpServer';
 import { tempwsServer } from './Server/wsserver';
+
 
 const app = electron.app
 // Module to create native browser window.
@@ -29,6 +28,7 @@ function createWindow () {
 
   mainWindow = new BrowserWindow({width, height,icon: path.join(__dirname, '/assets/icons')})
   mainWindow.wssPort = tempwsServer.httpserver.address().port
+  // mainWindow.webContents.openDevTools();
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, `html/index.html`),
@@ -90,6 +90,7 @@ app.on('activate', function () {
   }
 })
 
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
@@ -98,39 +99,10 @@ import * as websocket from 'websocket';
 let webSocketServer = websocket.server;
 
  function runService() {
-  // httpServer.server.listen(httpServer.config.port, () => {
-	// 	console.log('Server running at http://localhost:'+httpServer.config.port+'/');
-      
-  // });
-  // tempwsServer.httpserver.listen(tempwsServer.config.wsport, function () {
-	// 	console.log((new Date()) + " Server is listening on port " + 1337);
-  // });
+  
   tempwsServer.httpserver.listen(0, function() {
     console.log((new Date()) + " Server is listening on port " + tempwsServer.httpserver.address().port);
   });
   
-  // let server = new wsServerClass(httpServer.server);
-  // server.init();
-  // tempwsServer.init(httpServer.server);
-  // let server =new webSocketServer({
-	// 		// WebSocket server is tied to a HTTP server. WebSocket request is just
-	// 		// an enhanced HTTP request. For more info http://tools.ietf.org/html/rfc6455#page-6
-	// 		httpServer:  httpServer.server
-  //   });
-  //   server.on('request',(request:websocket.request) =>{
-  //     console.log('im here setRequesTlistner')
-  //     request.on('requestResolved', ():void => {
-  //       console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
-  //     });
-  //     request.on('requestRejected', ():void => {
-  //       console.log((new Date()) + ' Rejected from origin ' + request.origin + '.');
-  //     });
-  //     request.on('requestAccepted',this.setConnectionListeners);
-  //     request.accept(null, request.origin);
-	// });
-		
-  // tempwsServer.httpserver.listen(tempwsServer.config.wsport, function () {
-	// 	console.log((new Date()) + " Server is listening on port " + 1337);
-	// });
 }
 runService();

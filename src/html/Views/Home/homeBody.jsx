@@ -285,7 +285,7 @@ class _HomeBody extends React.Component{
 
 
                                                 </DropdownButton>
-                                                    <StatusPanel config={item}  />
+                                                <StatusPanel config={item}  />
                                                 </div>
                                             </small>
                                             <div className="terminal-prebody">
