@@ -65,7 +65,8 @@ export class ServiceFormModal extends React.Component {
                     desc=`You are now editing ${this.props.item.length} services`
                     break;
             }
-        const terminalStyle = !terminalCommand ? {display:"none"} : {height:"80px"}
+        const terminalStyleForm = !terminalCommand ? {display:"none"} : {height:"80px"}
+        const terminalStyleLabel = !terminalCommand ? {display:"none"} : {display:"block"}
         return (
             <Modal show={this.props.show}>
                 <Modal.Header>
@@ -86,10 +87,10 @@ export class ServiceFormModal extends React.Component {
                                 placeholder="NODE_ENV=LOCAL;NODE_ENC=SXXX2334X22Z"
                                 onChange={this.handleChange}
                             />
-                            <ControlLabel style={{terminalStyle}} >Terminal Command:</ControlLabel>
+                            <ControlLabel style={terminalStyleLabel} >Terminal Command:</ControlLabel>
                             <FormControl
 
-                                style={ {terminalStyle}}
+                                style= {terminalStyleForm} 
                                 id="command"
                                 componentClass="textarea"
                                 value={this.state.command}
