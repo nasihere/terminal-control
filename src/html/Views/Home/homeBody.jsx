@@ -175,14 +175,18 @@ class _HomeBody extends React.Component{
         // this.showProjectModal(files)
     }
     startAllServices(cardData) {
-        cardData.map(item => {
-            this.restart(item);
-        })
+        setTimeout(() => {
+            cardData.map(item => {
+                this.restart(item);
+            }) 
+        },1000);
     }
     deleteAllServices(cardData) {
-        cardData.map(item => {
-            this.remove(item);
-        })
+        setTimeout(() => {
+            cardData.map(item => {
+                this.remove(item);
+            })
+        },1000);
     }
     clearLogsAllServices(cardData) {
         cardData.map(item => {
