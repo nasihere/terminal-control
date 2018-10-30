@@ -4,7 +4,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
     entry:   {
-        app:      './src/html/app.js',
+        app:      './src/app/app.js',
         vendor: [
             'react',
             'react-dom'
@@ -12,8 +12,15 @@ module.exports = {
     },
     output:  {
         filename:   '[name].bundle.js',
-        path:       path.resolve(__dirname, "build/html"),
+        path:       path.resolve(__dirname, "build/app"),
         publicPath: ""
+    },
+    devServer: {
+        contentBase: [
+          path.join(__dirname, 'build'),
+          path.join(__dirname, 'build/app'),
+          // and so on...
+        ],
     },
     module:  {
         rules: [
@@ -37,10 +44,10 @@ module.exports = {
             },
             {
                 test:    /\.(png|jpeg|jpg|gnf|ico)$/,
-                loader:  'url-loader',
+                loader:  'url-loader?name=images/[name].[ext]',
                 options: {
                     limit: 10000,
-                    name:  "./images/[name].[hash].[ext]"
+                    name:  "./images/[name].[ext]"
                 }
             },
             {
@@ -60,7 +67,7 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('./base.css'),
         new ExtractTextPlugin('./bootstrap.darkly.min.css'),
-        new HtmlWebpackPlugin({title: 'Tree-Shaking', template: "./src/html/index.html"})
+        new HtmlWebpackPlugin({title: 'Tree-Shaking', template: "./src/app/index.html"})
     ],
     devtool: "inline-source-map",
     stats:   {// Add asset Information

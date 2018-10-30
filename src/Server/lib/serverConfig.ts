@@ -1,4 +1,3 @@
-import * as rc from "rc";
 import * as path from 'path';
 
 
@@ -17,7 +16,7 @@ export class ServerConfig {
 
 	constructor () {
 
-		let config = rc('nodeagents', this.defaults)
+		let config = this.defaults
 		// cmd line config
 		if ( process.argv.length > 2 ) {
 			process.argv.slice(2).forEach(x => {

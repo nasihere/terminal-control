@@ -26,6 +26,6 @@
     "sandbox",
     "**/*.js",
     "*.js",
-    "./src/html*"
+    "./src/app*"
   ]
 }

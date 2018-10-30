@@ -1,1 +1,0 @@
-export {MemoryTile} from './memoryTile.jsx'
